@@ -2,8 +2,6 @@ package compilador.analizadorLexicografico;
 
 import java.io.IOException;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
-
 import compilador.semantica.CaracterDesconocido;
 import compilador.semantica.ContinuarAsignacion;
 import compilador.semantica.ContinuarConstante;
