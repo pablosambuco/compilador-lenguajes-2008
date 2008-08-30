@@ -2,6 +2,8 @@ package compilador.analizadorLexicografico;
 
 import java.io.IOException;
 
+import com.sun.org.apache.bcel.internal.generic.NEW;
+
 import compilador.semantica.CaracterDesconocido;
 import compilador.semantica.ContinuarAsignacion;
 import compilador.semantica.ContinuarConstante;
@@ -65,23 +67,48 @@ public class Automata {
 		{ERR,ERR,ERR,ERR,ERR,ERR,ERR,ERR,ERR,ERR, ERR, ERR} // Esta fila no deberia usarse
 	};
 
-	//Matriz de 14(Cantidad de estados) X 11(Tipos de Caracteres) 
+	private static IniciarId iniciarId = new IniciarId();
+	private static ContinuarId continuarId = new ContinuarId();
+	private static FinalizarId finalizarId = new FinalizarId(); 
+	
+	private static IniciarConstante iniciarConstante = new IniciarConstante();
+	private static ContinuarConstante continuarConstante = new ContinuarConstante();
+	private static FinalizarConstante finalizarConstante = new FinalizarConstante();
+	
+	private static IniciarAsignacion iniciarAsignacion = new IniciarAsignacion();
+	private static ContinuarAsignacion continuarAsignacion = new ContinuarAsignacion();
+	private static FinalizarAsignacion finalizarAsignacion = new FinalizarAsignacion();
+	
+	private static OperadorSuma operadorSuma = new OperadorSuma();
+	private static OperadorResta operadorResta = new OperadorResta();
+	private static OperadorDivision operadorDivision = new OperadorDivision();
+	private static OperadorMultiplicacion operadorMultiplicacion = new OperadorMultiplicacion();
+	
+	private static ParentesisAbre parentesisAbre = new ParentesisAbre();
+	private static ParentesisCierra parentesisCierra = new ParentesisCierra();
+	
+	private static Ignorar ignorar = new Ignorar();
+	private static Error error = new Error();
+	private static CaracterDesconocido caracterDesconocido = new CaracterDesconocido();
+	
+	
+	//Matriz de 14(Cantidad de estados) X 12(Tipos de Caracteres) 
 	public static IRutinaSemantica [][]rutinaSemantica = {
-		//letra						digito						+							-							*								/							(							)							.							=							ign							desconocido
-/* 0 */	{new IniciarId(),  			new IniciarConstante(),		new OperadorSuma(),  		new OperadorResta(), 		new OperadorMultiplicacion(),	new Ignorar(), 				new ParentesisAbre(),  		new ParentesisCierra(),  	new IniciarAsignacion(), 	new Error(),	 			new Ignorar(),				new CaracterDesconocido()}, 
-/* 1 */	{new ContinuarId(), 		new ContinuarId(),  		new FinalizarId(), 			new FinalizarId(), 			new FinalizarId(), 				new FinalizarId(), 			new FinalizarId(), 			new FinalizarId(), 			new FinalizarId(),			new FinalizarId(),			new FinalizarId(),			new FinalizarId()},
-/* 2 */	{new FinalizarConstante(), 	new ContinuarConstante(), 	new FinalizarConstante(), 	new FinalizarConstante(),	new FinalizarConstante(), 		new FinalizarConstante(), 	new FinalizarConstante(), 	new FinalizarConstante(), 	new FinalizarConstante(), 	new FinalizarConstante(),	new FinalizarConstante(),	new FinalizarConstante()},
-/* 3 */	{new Ignorar(), 			new Ignorar(), 				new Ignorar(), 				new Ignorar(), 				new Ignorar(), 					new Ignorar(), 				new Ignorar(), 				new Ignorar(), 				new Ignorar(), 				new Ignorar(),  			new Ignorar(),				new Ignorar()},
-/* 4 */	{new Ignorar(), 			new Ignorar(), 				new Ignorar(),				new Ignorar(), 				new Ignorar(), 					new Ignorar(), 				new Ignorar(), 				new Ignorar(), 				new Ignorar(), 				new Ignorar(),				new Ignorar(),				new Ignorar()},
-/* 5 */	{new Ignorar(), 			new Ignorar(), 				new Ignorar(), 				new Ignorar(), 				new Ignorar(), 					new Ignorar(), 				new Ignorar(), 				new Ignorar(), 				new Ignorar(), 				new Ignorar(),				new Ignorar(),				new Ignorar()},
-/* 6 */	{new OperadorDivision(), 	new OperadorDivision(), 	new OperadorDivision(),		new OperadorDivision(), 	new Ignorar(), 					new OperadorDivision(),		new OperadorDivision(), 	new OperadorDivision(), 	new OperadorDivision(), 	new OperadorDivision(),		new OperadorDivision(),		new OperadorDivision()},
-/* 7 */	{new Ignorar(), 			new Ignorar(), 				new Ignorar(), 				new Ignorar(), 				new Ignorar(), 					new Ignorar(), 				new Ignorar(), 				new Ignorar(), 				new Ignorar(), 				new Ignorar(),				new Ignorar(),				new Ignorar()},
-/* 8 */	{new Ignorar(), 			new Ignorar(), 				new Ignorar(), 				new Ignorar(), 				new Ignorar(), 					new Ignorar(), 				new Ignorar(), 				new Ignorar(), 				new Ignorar(), 				new Ignorar(),				new Ignorar(),				new Ignorar()},
-/* 9 */	{new Error(),				new Error(),				new Error(),				new Error(),				new Error(),					new Error(),				new Error(),				new Error(),				new Error(),				new ContinuarAsignacion(),	new Error(),				new Error()},
-/* 10 */{new FinalizarAsignacion(), new FinalizarAsignacion(), 	new FinalizarAsignacion(), 	new FinalizarAsignacion(),	new FinalizarAsignacion(),		new FinalizarAsignacion(), 	new FinalizarAsignacion(), 	new FinalizarAsignacion(),	new FinalizarAsignacion(), 	new FinalizarAsignacion(),  new FinalizarAsignacion(),	new FinalizarAsignacion()},
-/* 11 */{new Ignorar(), 			new Ignorar(), 				new Ignorar(), 				new Ignorar(), 				new Ignorar(),					new Ignorar(), 				new Ignorar(), 				new Ignorar(), 				new Ignorar(), 				new Ignorar(),  			new Ignorar(),				new Ignorar()},
-/* 12 */{new Ignorar(), 			new Ignorar(), 				new Ignorar(), 				new Ignorar(), 				new Ignorar(),					new Ignorar(), 				new Ignorar(), 				new Ignorar(), 				new Ignorar(), 				new Ignorar(),  			new Ignorar(),				new Ignorar()},
-/* 13 */{new Error(),				new Error(),				new Error(),				new Error(),				new Error(),					new Error(),				new Error(),				new Error(),				new Error(),				new Error(), 				new Error(),				new Error()}, // Esta fila no deberia usarse
+		//letra					digito					+						-						*							/						(						)						.						=						ign						desconocido
+/* 0 */	{iniciarId,  			iniciarConstante,		operadorSuma,  			operadorResta, 			operadorMultiplicacion,		ignorar, 				parentesisAbre,		  	parentesisCierra,  		iniciarAsignacion, 		error,	 				ignorar,				caracterDesconocido}, 
+/* 1 */	{continuarId, 			continuarId,  			finalizarId, 			finalizarId, 			finalizarId, 				finalizarId, 			finalizarId, 			finalizarId, 			finalizarId,			finalizarId,			finalizarId,			finalizarId},
+/* 2 */	{finalizarConstante, 	continuarConstante, 	finalizarConstante, 	finalizarConstante,		finalizarConstante, 		finalizarConstante, 	finalizarConstante, 	finalizarConstante, 	finalizarConstante, 	finalizarConstante,		finalizarConstante,		finalizarConstante},
+/* 3 */	{ignorar, 				ignorar,	 			ignorar, 				ignorar, 				ignorar, 					ignorar, 				ignorar, 				ignorar, 				ignorar, 				ignorar,  				ignorar,				ignorar},
+/* 4 */	{ignorar, 				ignorar, 				ignorar,				ignorar, 				ignorar, 					ignorar, 				ignorar, 				ignorar, 				ignorar, 				ignorar,				ignorar,				ignorar},
+/* 5 */	{ignorar, 				ignorar, 				ignorar, 				ignorar, 				ignorar, 					ignorar, 				ignorar, 				ignorar, 				ignorar, 				ignorar,				ignorar,				ignorar},
+/* 6 */	{operadorDivision, 		operadorDivision, 		operadorDivision,		operadorDivision, 		ignorar, 					operadorDivision,		operadorDivision, 		operadorDivision, 		operadorDivision, 		operadorDivision,		operadorDivision,		operadorDivision},
+/* 7 */	{ignorar, 				ignorar, 				ignorar, 				ignorar, 				ignorar, 					ignorar, 				ignorar, 				ignorar, 				ignorar, 				ignorar,				ignorar,				ignorar},
+/* 8 */	{ignorar, 				ignorar, 				ignorar, 				ignorar, 				ignorar, 					ignorar, 				ignorar, 				ignorar, 				ignorar, 				ignorar,				ignorar,				ignorar},
+/* 9 */	{error,					error,					error,					error,					error,						error,					error,					error,					error,					continuarAsignacion,	error,					error},
+/* 10 */{finalizarAsignacion, 	finalizarAsignacion, 	finalizarAsignacion, 	finalizarAsignacion,	finalizarAsignacion,		finalizarAsignacion, 	finalizarAsignacion, 	finalizarAsignacion,	finalizarAsignacion,	finalizarAsignacion,  	finalizarAsignacion,	finalizarAsignacion},
+/* 11 */{ignorar, 				ignorar, 				ignorar, 				ignorar, 				ignorar,					ignorar, 				ignorar, 				ignorar, 				ignorar, 				ignorar,  				ignorar,				ignorar},
+/* 12 */{ignorar, 				ignorar, 				ignorar, 				ignorar, 				ignorar,					ignorar, 				ignorar, 				ignorar, 				ignorar, 				ignorar,  				ignorar,				ignorar},
+/* 13 */{error,					error,					error,					error,					error,						error,					error,					error,					error,					error, 					error,					error}, // Esta fila no deberia usarse
 		};
 	
 	
