@@ -2,13 +2,10 @@ package compilador.semantica;
 
 import compilador.util.TipoToken;
 
-public class IniciarConstante implements IRutinaSemantica {
+public class IniciarConstanteString implements IRutinaSemantica {
 
 	public int execute(char c, StringBuffer token) {
-		if(c == '.') {
-			token.append("0");
-		}
-		token.append(c);
+		//me llegó una comilla, la cual ignoramos
 		return TipoToken.INCOMPLETO;
 	}
 

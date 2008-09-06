@@ -1,6 +1,26 @@
-/*¿Anda@@rá esto? *//* Veamos*/
-carlos .=   begin666 + 123
-car@los+ .= carlos
-123/23 /*ahhhh*/123asdasd3123sad32
-8a./hola!(3.14)
-)¿a
+#% Esto es una prueba && Esperemos que ande ||  Me van a matarrr %# 
+
+BEGIN
+
+String out;
+Float vaca = 3.14;
+String perro = "Pi";
+
+if(vaca == perro ) [
+	out = "\Algo está muy mal/"; 
+] else [
+	out = "Era de esperarse: vaca != perro";
+]
+
+display(out);
+
+END
+
+NEW BEGINNING
+
+!= == ; , : ! < > >= <= && || + - / * "#%%#%#" 33
+
+!#%romper%#= &#%romper%#&
+
+
+¡T¡H¡E !E!N!D .
