@@ -19,6 +19,10 @@ public class EntradaTS {
 		this.longitud = longitud;
 	}
 
+	public EntradaTS(String nombre) {
+		this.nombre = nombre;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int PRIME = 31;

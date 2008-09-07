@@ -1,26 +1,39 @@
-#% Esto es una prueba && Esperemos que ande ||  Me van a matarrr %# 
-
-BEGIN
-
-String out;
-Float vaca = 3.14;
-String perro = "Pi";
-
-if(vaca == perro ) [
-	out = "\Algo está muy mal/"; 
-] else [
-	out = "Era de esperarse: vaca != perro";
+#% 
+ % Este es un programa de prueba.
+ % La idea de este programa es mostrar todas las palabras reservadas y alguno simbolos
+ % admitidos por el lenguaje.
+ % No deberia contener ningun error lexico.
+ %#
+ 
+TYPE frutas AS ("manzana","naranja","cualquiera...")
+DEFVAR
+	jose: FLOAT #% Todos los numericos son FLOAT %#
+	roberto, julian: STRING #% El tamaÃ±o maximo para las cadenas es 30 caracteres %#
+	otraVariable: POINTER
+	tipoExtra frutas #% Tenemos que hacerlo case sensitive?? %#
+ENDDEF
+BEGIN [ #% aca hay que poner los corchetes? no me gustan los corchetes... %#
+	jose = 5;
+	IF (jose != 2 && jose > 4) [
+		hacerAlgo;
+	] ELSE [
+		hacerOtraCosa;
+	]
+	ENDIF
+	REPEAT [
+		hacerAlgoMas;
+		tipoExtra = "naranja";
+		tipoExtra = "uva"; #% Algun dia nos deberia dar error esto %#
+		jose = jose - 1;
+	] UNTIL (jose < 2)
+	
 ]
-
-display(out);
-
 END
-
-NEW BEGINNING
-
-!= == ; , : ! < > >= <= && || + - / * "#%%#%#" 33
-
-!#%romper%#= &#%romper%#&
-
-
-¡T¡H¡E !E!N!D .
+#% Aca el programa ya termino, ahora vienen las pruebas de comentarios anidados
+	#% Este es un comentario anidado
+		#% Este NO es un comentario anidado... asi que ni lo cierro
+	%# Aca termino el comentario
+	#% Empieza otro y termina %#
+	y a continuacion termina el grande, en teoria
+%#
+				
