@@ -1,0 +1,68 @@
+Definiciones en el autómata:
+
+LETRA ::= a | b | c | d | e | f | g | h | i | j | k | l | m |
+ Cosas definidas en el autómata:
+
+<LETRA>     ::= a | b | c | d | e | f | g | h | i | j | k | l | m |
+                n | o | p | q | r | s | t | u | v | w | x | y | z |
+                A | B | C | D | E | F | G | H | I | J | K | L | M | 
+                N | O | P | Q | R | S | T | U | V | W | X | Y | Z 
+
+<DIGITO>    ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 
+
+<IGNORADO>  ::= '\n' | '\t' |  '\r' |  ' '
+
+<ID>        ::= <LETRA> | <ID><LETRA> | <ID><DIGITO>
+           
+<CTE_NUM>   ::= <ENTERO> | <DECIMAL> | <ENTERO><DECIMAL>
+<ENTERO     ::= <DIGITO> | <ENTERO><DIGITO>
+<DECIMAL    ::= .<ENTERO>
+          
+<CTE_STR>   ::= "<TEXTO>" | ""
+<TEXTO>     ::= <cualquier secuencia de caracteres sin ">
+          
+<OP_ARIT>   ::= + | - | * | / 
+<OP_COMP>   ::= < | > | == | != | <= | >=
+<OP_LOGI>   ::= && | ||
+<OP_ASIG>   ::= =
+
+<COMENTARIO>::= SE LOS DEBO!! :P
+
+Definiciones del lenguaje (fijense si están bien...!!)
+
+<PROGRAMA>  ::= <TIPOS><VARIABLES><EJECUCION>
+<TIPOS>     ::= <TIPO> | <TIPOS><TIPO>
+<TIPO>      ::= TYPE <ID> AS <LISTA>;
+
+<LISTA>     ::= <LISTA_NUM> | <LISTA_STR>
+
+<LISTA_NUM> ::= [<LIS_NUM_C>]
+<LIS_NUM_C> ::= <CTE_NUM> | <LIS_NUM_C>,<CTE_NUM>
+
+<LISTA_STR> ::= [<LIS_STR_C>]
+<LIS_STR_C> ::= <CTE_STR> | <LIS_STR_C>,<CTE_STR>
+
+<VARIABLES> ::= DEFVAR <LISTA_VAR> ENDDEF
+<LISTA_VAR> ::= <LISTA_IDS>: <ID>; | <LISTA_VAR> <LISTA_IDS>: <ID>;
+<LISTA_IDS> ::= <ID> | <LISTA_IDS>, <ID>
+
+<EJECUCION> ::= BEGIN <SENTENCIAS> END
+
+<SENTENCIAS>::=<SENTENCIA> | <SENTENCIAS> <SENTENCIA>
+<SENTENCIA> ::=<ASIGNACION> | <CONDIC> | <BUCLE> | <FUNCION>
+
+<ASIGNACION>::= <ID><OP_ASIG><EXPRESION>
+<EXPRESION> ::= <DATO> | <EXPRESION><OP_ARIT><DATO>
+
+<DATO>      ::= <ID> | <CTE_NUM>
+
+<CONDICI>   ::= IF (<CONDICION>) <SENTENCIAS> ENDIF |
+                IF (<CONDICION>) <SENTENCIAS> ELSE <SENTENCIAS> ENDIF
+
+<CONDICION> ::= <EXPRESION><OP_COMP><EXPRESION> |
+                 <EXPRESION><OP_COMP><EXPRESION><OP_LOGI><EXPRESION><OP_COMP><EXPRESION>
+                 
+<BUCLE>     ::= REPEAT <SENTENCIAS> UNTIL (<CONDICION>)
+
+<FUNCION>   ::= AVG (<LISTA_NUM>); |
+                DISPLAY (<EXPRESION>) | DISPLAY (<CTE_STR>)

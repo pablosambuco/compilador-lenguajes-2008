@@ -11,6 +11,7 @@ public class Main {
 		
 		ArchivoReader archivo = ArchivoReader.getInstance();
 		archivo.abrirArhivo("src//test/pruebas//programa.txt");
+		@SuppressWarnings("unused")
 		int tipoToken;
 		
 		try {
