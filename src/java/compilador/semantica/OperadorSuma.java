@@ -6,7 +6,7 @@ public class OperadorSuma implements IRutinaSemantica {
 
 	public int execute(char c, StringBuffer token) {
 		token.append("< + >");
-		return TipoToken.OP_MAS;
+		return TipoToken.OP_SUMA;
 	}
 
 }

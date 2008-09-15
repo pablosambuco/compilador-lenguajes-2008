@@ -1,14 +1,15 @@
 package compilador.beans;
 
 import java.util.Hashtable;
-
 import compilador.util.TipoToken;
 
 public class PalabrasReservadas {
 
 	private static java.util.Hashtable<String, Integer> palabras;
 	private static PalabrasReservadas instance;
-	private static int palabra = 200; //Arrancan en 200
+
+	//Las PR son consecutivas, el inicio se configura en TipoToken
+	private static int palabra = TipoToken.PR;
 	
 	public static PalabrasReservadas getInstance() {
 		if(instance == null)

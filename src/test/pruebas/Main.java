@@ -11,14 +11,13 @@ public class Main {
 		
 		ArchivoReader archivo = ArchivoReader.getInstance();
 		archivo.abrirArhivo("src//test/pruebas//programa.txt");
-		@SuppressWarnings("unused")
 		int tipoToken;
 		
 		try {
 			while(!archivo.esFinDeArchivo()) {
 				Automata automata = new Automata();
 				tipoToken = automata.yylex();
-				//System.out.println(tipoToken);
+				System.out.println("Tipo:" + tipoToken + " En TS:" + Automata.yylval);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

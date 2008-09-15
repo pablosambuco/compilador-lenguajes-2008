@@ -6,7 +6,7 @@ public class OperadorResta implements IRutinaSemantica {
 
 	public int execute(char c, StringBuffer token) {
 		token.append("< - >");
-		return TipoToken.OP_MENOS;
+		return TipoToken.OP_RESTA;
 	}
 
 }

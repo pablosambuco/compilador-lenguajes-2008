@@ -6,7 +6,7 @@ public class OperadorComparacion implements IRutinaSemantica {
 
 	public int execute(char c, StringBuffer token) {
 		token.append("< == >");
-		return TipoToken.OP_COMPARACION;
+		return TipoToken.OP_IGUAL;
 	}
 
 }

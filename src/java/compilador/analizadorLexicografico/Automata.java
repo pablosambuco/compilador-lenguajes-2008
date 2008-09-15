@@ -203,6 +203,8 @@ public class Automata {
 	
 	private StringBuffer token = new StringBuffer();
 	
+	public static int yylval;
+		
 	public int yylex () throws IOException {
 
 			ArchivoReader archivo = ArchivoReader.getInstance();
@@ -252,7 +254,8 @@ public class Automata {
 		    return tipoToken;
 		}
 	
-	int clasificarCaracter(char c) {
+	
+	private int clasificarCaracter(char c) {
 
 		/* Caracteres numericos */    
 		if( c >= '0' && c <= '9' )
