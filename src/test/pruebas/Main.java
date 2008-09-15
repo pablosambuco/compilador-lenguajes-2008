@@ -11,7 +11,7 @@ public class Main {
 	public static void main(String [] args)	{
 		
 		ArchivoReader archivo = ArchivoReader.getInstance();
-		archivo.abrirArhivo("src//test/pruebas//programa.txt");
+		archivo.abrirArhivo(args[0]);
 		int tipoToken;
 		
 		try {
