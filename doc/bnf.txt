@@ -1,34 +1,44 @@
-Definiciones del lenguaje :
-
 <!-- Start Symbol -->
 <START_SYM> ::= <PROGRAMA> $
 
-<PROGRAMA>  ::= <DEF_TIPOS> <DEF_VARIABLES> <EJECUCION> |
-                <VARIABLES> <EJECUCION> |
+<PROGRAMA>  ::= <DEF_TIPOS> <DEF_VAR> <EJECUCION> |
+                <DEF_VAR> <EJECUCION> |
                 <EJECUCION>
 
-<DEF_TIPOS> ::= <DEF_TIPO> | <DEF_TIPOS> <DEF_TIPO>
+<DEF_TIPOS> ::= <DEF_TIPO> | 
+                <DEF_TIPOS> <DEF_TIPO>
 <DEF_TIPO>  ::= <TYPE> <ID> <AS> <LISTA> <PUNTO_Y_COMA>
 
-<LISTA>     ::= <LISTA_NUM> | <LISTA_STR>
+<LISTA>     ::= <LISTA_NUM> | 
+                <LISTA_STR>
 
-<LISTA_NUM> ::= <CORCHETE_ABRE> <LIS_NUM_C> <CORCHETE_CIERRA>
-<LIS_NUM_C> ::= <CTE_NUM> | <LIS_NUM_C> <COMA> <CTE_NUM>
+<LISTA_NUM> ::= <COR_ABRE> <LIS_NUM_C> <COR_CIERRA>
+<LIS_NUM_C> ::= <CTE_NUM> | 
+                <LIS_NUM_C> <COMA> <CTE_NUM>
 
-<LISTA_STR> ::= <CORCHETE_ABRE> <LIS_STR_C> <CORCHETE_CIERRA>
-<LIS_STR_C> ::= <CTE_STR> | <LIS_STR_C> <COMA> <CTE_STR>
+<LISTA_STR> ::= <COR_ABRE> <LIS_STR_C> <COR_CIERRA>
+<LIS_STR_C> ::= <CTE_STR> | 
+                <LIS_STR_C> <COMA> <CTE_STR>
 
-<DEF_VARIABLES> ::= <DEFVAR> <LISTA_VAR> <ENDDEF>
+<DEF_VAR>   ::= <DEFVAR> <LISTA_VAR> <ENDDEF>
 <LISTA_VAR> ::= <LISTA_IDS> <DOS_PUNTOS> <TIPO> <PUNTO_Y_COMA> |
                 <LISTA_VAR> <LISTA_IDS> <DOS_PUNTOS> <TIPO> <PUNTO_Y_COMA>
-<LISTA_IDS> ::= <ID> | <LISTA_IDS> <COMA> <ID>
+<LISTA_IDS> ::= <ID> | 
+                <LISTA_IDS> <COMA> <ID>
 
-<TIPO>      ::= <FLOAT> | <STRING> | <POINTER> | <ID>
+<TIPO>      ::= <FLOAT> | 
+                <STRING> | 
+                <POINTER> | 
+                <ID>
 
-<EJECUCION> ::= <BEGIN> <SENTENCIAS> <END> | <BEGIN> <END>
+<EJECUCION> ::= <BEGIN> <SENTENCIAS> <END> | 
+                <BEGIN> <END>
 
-<SENTENCIAS>::= <SENTENCIA> | <SENTENCIAS> <SENTENCIA>
-<SENTENCIA> ::= <ASIGNACION> | <CONDICIONAL> | <BUCLE> | <DISPLAY>
+<SENTENCIAS>::= <SENTENCIA> | 
+                <SENTENCIAS> <SENTENCIA>
+<SENTENCIA> ::= <ASIGNACION> | 
+                <CONDICIONAL> | <BUCLE> | 
+                <DISPLAY>
 
 <ASIGNACION>::= <ID> <OP_ASIG> <EXPRESION> <PUNTO_Y_COMA>
 
@@ -40,12 +50,16 @@ Definiciones del lenguaje :
                 <TERMINO> <OP_MUL> <FACTOR> |
                 <TERMINO> <OP_DIV> <FACTOR>
 
-<FACTOR>    ::= <ID> | <CTE_NUM> | <PARENTESIS_ABRE> <EXPRESION> <PARENTESIS_CIERRA> | <AVG>
+<FACTOR>    ::= <ID> |
+                <CTE_NUM> |
+                <PAR_ABRE> <EXPRESION> <PAR_CIERRA> |
+                <AVG>
 
-<CONDICIONAL>   ::= <IF> <PARENTESIS_ABRE> <CONDICION> <PARENTESIS_CIERRA> <SENTENCIAS> <ENDIF> |
-                    <IF> <PARENTESIS_ABRE> <CONDICION> <PARENTESIS_CIERRA> <SENTENCIAS> <ELSE> <SENTENCIAS> <ENDIF>
+<CONDICIONAL>::= <IF> <PAR_ABRE> <CONDICION> <PAR_CIERRA> <SENTENCIAS> <ENDIF> |
+                 <IF> <PAR_ABRE> <CONDICION> <PAR_CIERRA> <SENTENCIAS> <ELSE> <SENTENCIAS> <ENDIF>
 
-<CONDICION> ::= <COMPARACION> | <OP_NEGACION> <COMPARACION> |
+<CONDICION> ::= <COMPARACION> |
+                <OP_NEGACION> <COMPARACION> |
                 <COMPARACION> <AND> <COMPARACION> |
                 <COMPARACION> <OR> <COMPARACION>
 
@@ -56,21 +70,22 @@ Definiciones del lenguaje :
                   <EXPRESION> <OP_MAYOR_IGUAL> <EXPRESION>
                   <EXPRESION> <OP_MENOR_IGUAL> <EXPRESION>
 
-<BUCLE>     ::= <REPEAT> <SENTENCIAS> <UNTIL> <PARENTESIS_ABRE> <CONDICION> <PARENTESIS_CIERRA> <PUNTO_Y_COMA>
+<BUCLE>     ::= <REPEAT> <SENTENCIAS> <UNTIL> <PAR_ABRE> <CONDICION> <PAR_CIERRA> <PUNTO_Y_COMA>
 
-<DISPLAY>   ::= <DISPLAY> <PARENTESIS_ABRE> <CTE_STR> <PARENTESIS_CIERRA> <PUNTO_Y_COMA>
+<DISPLAY>   ::= <DISPLAY> <PAR_ABRE> <CTE_STR> <PAR_CIERRA> <PUNTO_Y_COMA>
 
-<AVG>       ::= <AVG> <PARENTESIS_ABRE> <LISTA_NUM> <PARENTESIS_CIERRA> <PUNTO_Y_COMA>
-
-
-----------------------------------------------------------------------------
-Definiciones en el autómata:
+<AVG>       ::= <AVG> <PAR_ABRE> <LISTA_NUM> <PAR_CIERRA> <PUNTO_Y_COMA>
 
 <!-- Símbolos Terminales del Analizador Sintáctico -->
 
-<ID>            ::= <LETRA> | <ID> <LETRA> | <ID> <DIGITO>
-<CTE_NUM>       ::= <ENTERO> | <DECIMAL> | <ENTERO> <DECIMAL>
-<CTE_STR>       ::= "<TEXTO>" | ""
+<ID>            ::= <LETRA> |
+                    <ID> <LETRA> |
+                    <ID> <DIGITO>
+<CTE_NUM>       ::= <ENTERO> |
+                    <DECIMAL> |
+                    <ENTERO> <DECIMAL>
+<CTE_STR>       ::= "<TEXTO>" |
+                    ""
 <OP_SUMA>       ::= +
 <OP_RESTA>      ::= -
 <OP_MUL>        ::= *
@@ -83,12 +98,12 @@ Definiciones en el autómata:
 <OP_DISTINTO>   ::= !=
 <OP_MAYOR>      ::= >
 <OP_MENOR>      ::= <
-<OP_MAYOR_IGUAL>    ::= >=
-<OP_MENOR_IGUAL>    ::= <=
-<PARENTESIS_ABRE>   ::= (
-<PARENTESIS_CIERRA> ::= )
-<CORCHETE_ABRE>     ::= [
-<CORCHETE_CIERRA>   ::= ]
+<OP_MAYOR_IGUAL>::= >=
+<OP_MENOR_IGUAL>::= <=
+<PAR_ABRE>      ::= (
+<PAR_CIERRA>    ::= )
+<COR_ABRE>      ::= [
+<COR_CIERRA>    ::= ]
 <COMA>          ::= ,
 <DOS_PUNTOS>    ::= :
 <PUNTO_Y_COMA>  ::= ;
@@ -113,14 +128,15 @@ Definiciones en el autómata:
 
 <LETRA>     ::= a | b | c | d | e | f | g | h | i | j | k | l | m |
                 n | o | p | q | r | s | t | u | v | w | x | y | z |
-                A | B | C | D | E | F | G | H | I | J | K | L | M | 
-                N | O | P | Q | R | S | T | U | V | W | X | Y | Z 
+                A | B | C | D | E | F | G | H | I | J | K | L | M |
+                N | O | P | Q | R | S | T | U | V | W | X | Y | Z
 
-<DIGITO>    ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 
+<DIGITO>    ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 
-<ENTERO>    ::= <DIGITO> | <ENTERO> <DIGITO>
+<ENTERO>    ::= <DIGITO> | 
+                <ENTERO> <DIGITO>
 <DECIMAL>   ::= .<ENTERO>
-          
+
 <TEXTO>     ::= <cualquier secuencia de caracteres sin " ni EOF>
 
 <IGNORADO>  ::= '\n' | '\t' |  '\r' |  ' '
