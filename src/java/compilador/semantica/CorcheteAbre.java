@@ -6,7 +6,7 @@ public class CorcheteAbre implements IRutinaSemantica {
 
 	public int execute(char c, StringBuffer token) {
 		token.append("< [ >");
-		return TipoToken.CORCHETE_ABRE;
+		return TipoToken.COR_ABRE;
 	}
 
 }

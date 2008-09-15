@@ -6,7 +6,7 @@ public class ParentesisCierra implements IRutinaSemantica {
 
 	public int execute(char c, StringBuffer token) {
 		token.append("< ) >");
-		return TipoToken.PARENTESIS_CIERRA;
+		return TipoToken.PAR_CIERRA;
 	}
 
 }
