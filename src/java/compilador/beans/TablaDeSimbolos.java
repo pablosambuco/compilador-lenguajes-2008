@@ -1,11 +1,13 @@
 package compilador.beans;
 
-import java.util.Hashtable;
+import java.util.ArrayList;
 
 public class TablaDeSimbolos {
 
-	private java.util.Hashtable<Integer, EntradaTS> simbolos;
+	//private java.util.Collection<EntradaTS> simbolos2;
+	private java.util.ArrayList<EntradaTS> simbolos;
 
+	private static int cantidad = 0;
 	private static TablaDeSimbolos instance;
 
 	public static TablaDeSimbolos getInstance() {
@@ -15,20 +17,36 @@ public class TablaDeSimbolos {
 	}
 
 	private TablaDeSimbolos() {
-		simbolos = new Hashtable<Integer, EntradaTS>();
+		simbolos = new ArrayList<EntradaTS>();
 	}
 
-	public EntradaTS agregar(StringBuffer token) {
+	public int agregar(StringBuffer token) {
 
+		int posicion = cantidad;
 		EntradaTS aux = new EntradaTS(token.toString());
-		Integer hash = aux.hashCode();
 
-		if (!simbolos.containsKey(hash))
-			simbolos.put(hash, aux);
-		else
-			// Por si la queremos usar para algo, recupero la entrada
-			aux = (EntradaTS) simbolos.get(hash); 
-		return aux;
+		// TODO Aca habria que ver bien si es el mismo, en teoria el hash se
+		// puede repetir
+		if (!simbolos.contains(aux)) {
+			simbolos.add(posicion, aux);
+			cantidad++;
+		} else {
+			posicion = simbolos.indexOf(aux);
+		}
+
+		return posicion;
 	}
 
+	@Override
+	public String toString() {
+		String out = new String();
+		int posicion;
+		for (posicion = 0; posicion < cantidad; posicion++) {
+			EntradaTS actual = simbolos.get(posicion);
+			
+			out = out + "Posicion: " + posicion + "\tNombre: "
+					+ actual.getNombre() + "\n";
+		}
+		return out;
+	}
 }

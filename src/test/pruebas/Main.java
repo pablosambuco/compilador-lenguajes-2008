@@ -3,6 +3,7 @@ package pruebas;
 import java.io.IOException;
 
 import compilador.analizadorLexicografico.Automata;
+import compilador.beans.TablaDeSimbolos;
 import compilador.util.ArchivoReader;
 import compilador.util.TipoToken;
 
@@ -25,7 +26,17 @@ public class Main {
 				 * es un token, por eso no se ignora.
 				 */
 				if(tipoToken != TipoToken.INCOMPLETO) {
-					System.out.println("Tipo:" + tipoToken + " En TS:" + Automata.yylval);
+					
+					switch (tipoToken) {
+					case TipoToken.ID:
+					case TipoToken.CTE_NUM:
+					case TipoToken.CTE_STR:
+						System.out.println("Tipo:" + tipoToken + " En TS:" + Automata.yylval);						
+						break;
+					default:
+						System.out.println("Tipo:" + tipoToken);
+						break;
+					}  
 				}
 			}
 		} catch (IOException e) {
@@ -33,6 +44,9 @@ public class Main {
 		} finally {
 			archivo.cerrarArhivo();
 		}
+		
+		System.out.println(TablaDeSimbolos.getInstance().toString());
+		
 	}
 
 }

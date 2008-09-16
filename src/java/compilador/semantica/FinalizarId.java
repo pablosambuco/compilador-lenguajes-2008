@@ -12,7 +12,7 @@ public class FinalizarId implements IRutinaSemantica {
 		
 		// Se va a devolver como tipo de token el numero de palabra reservada
 		if (pr == TipoToken.ID) {
-			Automata.yylval = TablaDeSimbolos.getInstance().agregar(token).hashCode();
+			Automata.yylval = TablaDeSimbolos.getInstance().agregar(token);
 			token.insert(0, "<ID: ");
 			token.append(">");
 			

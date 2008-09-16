@@ -24,6 +24,7 @@ BEGIN
 	REPEAT
 		hacerAlgoMas;
 		tipoExtra = "naranja";
+		saraza = "cadenalarga23456789012345678901234567890Este texto no sale seguro";
 		tipoExtra = "uva"; #% Algun dia nos deberia dar error esto %#
 		jose = jose - 1;
 	UNTIL (jose < 2)
@@ -36,4 +37,5 @@ END
 	#% Empieza otro y termina %#
 	y a continuacion termina el grande, en teoria
 %#
+"Esta cadena esta afuera, eso es error sintactico, pero no cerrar la comilla ahora es el error lexico!
 				

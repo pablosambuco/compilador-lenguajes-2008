@@ -7,7 +7,7 @@ import compilador.util.TipoToken;
 public class FinalizarConstante implements IRutinaSemantica {
 
 	public int execute(char c, StringBuffer token) {
-		Automata.yylval = TablaDeSimbolos.getInstance().agregar(token).hashCode();
+		Automata.yylval = TablaDeSimbolos.getInstance().agregar(token);
 		
 		//llevamos la cadena a la forma <CTE: token>
 		token.insert(0, "<CTE_NUM: ");
