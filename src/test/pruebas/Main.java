@@ -39,14 +39,14 @@ public class Main {
 					}  
 				}
 			}
+			
+			System.out.println("\nTabla de Simbolos:");
+			System.out.println(TablaDeSimbolos.getInstance().toString());
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
 			archivo.cerrarArhivo();
 		}
-		
-		System.out.println(TablaDeSimbolos.getInstance().toString());
-		
 	}
-
 }
