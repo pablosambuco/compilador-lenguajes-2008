@@ -208,50 +208,58 @@ public class Automata {
 	public int yylex () throws IOException {
 
 			ArchivoReader archivo = ArchivoReader.getInstance();
-		
-			char caracter;
-			int estado = ESTADO_INICIAL; 			// Estado dentro del AF (inicializado en con el primer estado) 
-		    int tipoCaracter;  			 			// Tipo del caracter leido
-		    int tipoToken = TipoToken.INCOMPLETO;   // Tipo de Token
-		    int tipoTokenAux;            
-		    
-		    do {
+			
+			if(!archivo.esFinDeArchivo()) {
 				
-		    	caracter = archivo.getChar(); //levantamos el caracter
-				tipoCaracter = clasificarCaracter(caracter); //lo clasificamos
-
-				IRutinaSemantica rutina = rutinaSemantica[estado][tipoCaracter];
-				tipoTokenAux = rutina.execute(caracter, token);
+				char caracter;
+				int estado = ESTADO_INICIAL; 			// Estado dentro del AF (inicializado en con el primer estado) 
+				int tipoCaracter;  			 			// Tipo del caracter leido
+				int tipoToken = TipoToken.INCOMPLETO;   // Tipo de Token
+				int tipoTokenAux;            
 				
-				/*
-				 * Algunos casos devuelven TipoToken.INCOMPLETO porque se llama a Ignorar antes de pasar
-				 * al último estado, cuando en verdad el Tipo de Token correcto ya lo tenemos guardado de
-				 *  una llamada a rutina anterior. En esos casos, no guardamos el valor tipoToken sino que
-				 *  lo ignoramos. 
-				 */ 
-				if(tipoTokenAux != TipoToken.INCOMPLETO) {
-					tipoToken = tipoTokenAux;
+				do {
+					
+					caracter = archivo.getChar(); //levantamos el caracter
+					tipoCaracter = clasificarCaracter(caracter); //lo clasificamos
+					
+					IRutinaSemantica rutina = rutinaSemantica[estado][tipoCaracter];
+					tipoTokenAux = rutina.execute(caracter, token);
+					
+					/*
+					 * Algunos casos devuelven TipoToken.INCOMPLETO porque se llama a Ignorar antes de pasar
+					 * al último estado, cuando en verdad el Tipo de Token correcto ya lo tenemos guardado de
+					 *  una llamada a rutina anterior. En esos casos, no guardamos el valor tipoToken sino que
+					 *  lo ignoramos. 
+					 */ 
+					if(tipoTokenAux != TipoToken.INCOMPLETO) {
+						tipoToken = tipoTokenAux;
+					}
+					
+					// Se pasa al proximo estado
+					estado = nuevoEstado[estado][tipoCaracter];
+					
+				} while ((estado != ESTADO_FINAL) && (tipoTokenAux != TipoToken.ERROR_LEXICO) && (!archivo.esFinDeArchivo()));
+				
+				if((estado == ESTADO_FINAL)) {
+					archivo.unGet();
 				}
 				
-				// Se pasa al proximo estado
-				estado = nuevoEstado[estado][tipoCaracter];
-
-		    } while ((estado != ESTADO_FINAL) && (tipoTokenAux != TipoToken.ERROR_LEXICO) && (!archivo.esFinDeArchivo()));
-
-		    if((estado == ESTADO_FINAL)) {
-		    	archivo.unGet();
-		    }
-		    
-			//Considerar que si se hizo unGet() nunca va a ser fin de archivo
-		    if(archivo.esFinDeArchivo()) {
-				IRutinaSemantica rutina = rutinaSemantica[estado][C_FIN_DE_ARCHIVO];
-				tipoToken = rutina.execute(caracter, token);
+				//Considerar que si se hizo unGet() nunca va a ser fin de archivo
+				if(archivo.esFinDeArchivo()) {
+					IRutinaSemantica rutina = rutinaSemantica[estado][C_FIN_DE_ARCHIVO];
+					tipoToken = rutina.execute(caracter, token);
+				}
+				
+				
+				System.out.print(token + new String("                                                 ").substring(token.length()));
+				
+				return tipoToken;
+			
+			} else {
+				//si es fin de archivo devolvemos -1 para que yyparse() pueda terminar
+				return -1;
 			}
-		    
-		    
-		    System.out.print(token + new String("                                                 ").substring(token.length()));
-		    
-		    return tipoToken;
+			
 		}
 	
 	

@@ -16,9 +16,11 @@ public class Main {
 		int tipoToken;
 		
 		try {
-			while(!archivo.esFinDeArchivo()) {
-				Automata automata = new Automata();
-				tipoToken = automata.yylex();
+			
+			Automata automata = new Automata();
+			tipoToken = automata.yylex();
+			
+			while(tipoToken != -1) {
 				
 				/* En el caso de que lo último que haya en el archivo sea un comentario o
 				 * algun caracter ignorado (ENTER, ESPACIO, etc), la funcion yylex retorna
@@ -38,6 +40,9 @@ public class Main {
 						break;
 					}  
 				}
+				
+				automata = new Automata(); //FIXME croto, muy croto...
+				tipoToken = automata.yylex();
 			}
 			
 			System.out.println("\nTabla de Simbolos:");
