@@ -214,7 +214,7 @@ public class Automata {
 				char caracter;
 				int estado = ESTADO_INICIAL; 			// Estado dentro del AF (inicializado en con el primer estado) 
 				int tipoCaracter;  			 			// Tipo del caracter leido
-				int tipoToken = TipoToken.INCOMPLETO;   // Tipo de Token
+				int tipoToken = TipoToken.INCOMPLETO;  	// Tipo de Token es Incompleto por default, para que yyparse() no pida mas tokens si ya no se estan devolviendo a pesar de que no se haya llegado a fin de archivo (esto se da en los casos en que el archivo termina con caracteres ignorados o con comentarios)
 				int tipoTokenAux;            
 				
 				do {
@@ -256,8 +256,8 @@ public class Automata {
 				return tipoToken;
 			
 			} else {
-				//si es fin de archivo devolvemos -1 para que yyparse() pueda terminar
-				return -1;
+				//si es fin de archivo devolvemos 0 (Incompleto) para que yyparse() pueda terminar
+				return TipoToken.INCOMPLETO;
 			}
 			
 		}

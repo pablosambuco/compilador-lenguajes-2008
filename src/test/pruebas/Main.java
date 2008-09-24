@@ -20,28 +20,20 @@ public class Main {
 			Automata automata = new Automata();
 			tipoToken = automata.yylex();
 			
-			while(tipoToken != -1) {
-				
-				/* En el caso de que lo último que haya en el archivo sea un comentario o
-				 * algun caracter ignorado (ENTER, ESPACIO, etc), la funcion yylex retorna
-				 * TipoToken.INCOMPLETO; esto indica que el archivo termina con algo que NO
-				 * es un token, por eso no se ignora.
-				 */
-				if(tipoToken != TipoToken.INCOMPLETO) {
+			while(tipoToken != TipoToken.INCOMPLETO) {
 					
-					switch (tipoToken) {
-					case TipoToken.ID:
-					case TipoToken.CTE_NUM:
-					case TipoToken.CTE_STR:
-						System.out.println("Tipo:" + tipoToken + " En TS:" + Automata.yylval);						
-						break;
-					default:
-						System.out.println("Tipo:" + tipoToken);
-						break;
-					}  
-				}
+				switch (tipoToken) {
+				case TipoToken.ID:
+				case TipoToken.CTE_NUM:
+				case TipoToken.CTE_STR:
+					System.out.println("Tipo:" + tipoToken + " En TS:" + Automata.yylval);						
+					break;
+				default:
+					System.out.println("Tipo:" + tipoToken);
+					break;
+				}  
 				
-				automata = new Automata(); //FIXME croto, muy croto...
+				automata = new Automata();
 				tipoToken = automata.yylex();
 			}
 			

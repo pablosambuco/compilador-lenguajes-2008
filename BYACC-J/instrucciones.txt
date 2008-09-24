@@ -1,0 +1,6 @@
+Cada vez que se haga un cambio en el analizador sintáctico se deberán seguir los siguientes pasos:
+
+1) Descomprimir el YACC en un directorio fuera del proyecto
+2) Copiar en ese directorio el archivo "inputYacc.txt"
+3) Ejecutar por línea de comando "yacc -J inputYacc.txt"
+4) Tomar la clase Parser.java que se genera en ese mismo directorio y reemplazar la que se encuentra en el paquete "compilador.parser"
