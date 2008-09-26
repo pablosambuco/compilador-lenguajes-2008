@@ -2,6 +2,7 @@ package compilador.analizadorLexicografico;
 
 import java.io.IOException;
 
+import compilador.beans.TablaDeSimbolos;
 import compilador.semantica.And;
 import compilador.semantica.CaracterDesconocido;
 import compilador.semantica.Coma;
@@ -250,9 +251,17 @@ public class Automata {
 					tipoToken = rutina.execute(caracter, token);
 				}
 				
-				
-				System.out.print(token + new String("                                                 ").substring(token.length()));
-				
+				System.out.print("Tipo:" + tipoToken + " ");
+				System.out.print(token);
+				if(tipoToken == 257 || tipoToken == 258 || tipoToken == 259)
+				{  String posicion = "(Pos " + yylval + ")"; 
+					 System.out.print("                   ".substring(token.length()));
+				   System.out.print(posicion);
+				   System.out.print("          ".substring(posicion.length()));
+				   System.out.print(TablaDeSimbolos.getInstance().getPos(yylval)); 
+				}
+				System.out.print("\n");
+        
 				return tipoToken;
 			
 			} else {

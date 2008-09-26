@@ -12,9 +12,8 @@ public class FinalizarConstanteString implements IRutinaSemantica {
 			token.setLength(30);
 		}
 		Automata.yylval = TablaDeSimbolos.getInstance().agregar(token);
-		// llevamos la cadena a la forma <CTE: token>
-		token.insert(0, "<CTE_STR: \"");
-		token.append("\" >");
+		token.delete(0,token.length());
+		token.append("CTE_STR");
 		return TipoToken.CTE_STR;
 	}
 
