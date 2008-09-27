@@ -1,6 +1,8 @@
-Cada vez que se haga un cambio en el analizador sintáctico se deberán seguir los siguientes pasos:
+Para generar el parser:
+yacc.exe -J -Jpackage=compilador.parser input.y
 
-1) Descomprimir el YACC en un directorio fuera del proyecto
-2) Copiar en ese directorio el archivo "inputYacc.txt"
-3) Ejecutar por línea de comando "yacc -J inputYacc.txt"
-4) Tomar la clase Parser.java que se genera en ese mismo directorio y reemplazar la que se encuentra en el paquete "compilador.parser"
+Los archivos generados, tirarlos en /src/java/compilador/parser
+
+
+Modificando el input.y se puede hacer que ejecute alguna sentencia (semantica) 
+Por ahora sólo comenta más o menos qué es lo que estamos haciendo
