@@ -1,10 +1,11 @@
 package compilador.semantica;
 
+import compilador.parser.ParserVal;
 import compilador.util.TipoToken;
 
 public class ContinuarConstante implements IRutinaSemantica {
 
-	public int execute(char c, StringBuffer token) {
+	public int execute(char c, StringBuffer token, ParserVal yylval) {
 		
 		//TODO - Revisar. Si tomamos numeros negativos conviene guardar el módulo.
 		float num = Float.parseFloat((token.toString()));

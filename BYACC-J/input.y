@@ -1,7 +1,6 @@
-package compilador.analizadorLexicografico;
-
+/* Imports */
+%{
 import java.io.IOException;
-
 import compilador.beans.TablaDeSimbolos;
 import compilador.semantica.And;
 import compilador.semantica.CaracterDesconocido;
@@ -39,10 +38,101 @@ import compilador.semantica.ParentesisCierra;
 import compilador.semantica.PuntoYComa;
 import compilador.util.ArchivoReader;
 import compilador.util.TipoToken;
+%}
 
+/* Definiciones */
+%token ID CTE_NUM CTE_STR OP_SUMA OP_RESTA OP_MUL OP_DIV OP_ASIG AND OR OP_NEGACION OP_IGUAL OP_DISTINTO OP_MAYOR OP_MENOR	OP_MAYOR_IGUAL OP_MENOR_IGUAL PAR_ABRE PAR_CIERRA COR_ABRE COR_CIERRA COMA DOS_PUNTOS PUNTO_Y_COMA BEGIN END STRING FLOAT POINTER DEFVAR ENDDEF IF ELSE ENDIF REPEAT UNTIL TYPE AS DISPLAY AVG
 
-public class Automata {
-	
+/* Gramatica */
+%%
+programa: def_tipos def_var ejecucion {System.out.println("Compila OK!");}
+programa: def_var ejecucion {System.out.println("Compila OK!");}
+programa: ejecucion {System.out.println("Compila OK!");}
+;                
+def_tipos: def_tipo								
+def_tipos: def_tipos def_tipo					
+;
+def_tipo: TYPE ID AS lista PUNTO_Y_COMA {System.out.println("Definicion de Tipo");}
+;
+lista: lista_num
+lista: lista_str
+;                
+lista_num: COR_ABRE lis_num_c COR_CIERRA
+;
+lis_num_c: CTE_NUM
+lis_num_c: lis_num_c COMA CTE_NUM
+;                
+lista_str: COR_ABRE lis_str_c COR_CIERRA
+;
+lis_str_c: CTE_STR
+lis_str_c: lis_str_c COMA CTE_STR
+;                
+def_var: DEFVAR lista_var ENDDEF
+;
+lista_var: lista_ids DOS_PUNTOS tipo PUNTO_Y_COMA {System.out.println("Definicion variables");}
+lista_var: lista_var lista_ids DOS_PUNTOS tipo PUNTO_Y_COMA {System.out.println("Definicion variables");}
+;
+lista_ids: ID
+lista_ids: lista_ids COMA ID
+;                
+tipo: FLOAT
+tipo: STRING
+tipo: POINTER
+tipo: ID
+;                
+ejecucion: BEGIN sentencias END
+ejecucion: BEGIN END
+;                
+sentencias: sentencia
+sentencias: sentencias sentencia
+;                
+sentencia: asignacion							
+sentencia: condicional							
+sentencia: bucle								
+sentencia: display_command						
+;                
+asignacion: ID OP_ASIG expresion PUNTO_Y_COMA {System.out.println("Asignacion");}
+;
+expresion: termino
+expresion: expresion OP_SUMA termino
+expresion: expresion OP_RESTA termino
+;                
+termino: factor
+termino: termino OP_MUL factor
+termino: termino OP_DIV factor
+;                
+factor: ID
+factor: CTE_NUM
+factor: PAR_ABRE expresion PAR_CIERRA
+factor: average
+;                
+condicional: IF PAR_ABRE condicion PAR_CIERRA sentencias ENDIF
+condicional: IF PAR_ABRE condicion PAR_CIERRA sentencias ELSE sentencias ENDIF
+;                 
+condicion: comparacion
+condicion: OP_NEGACION comparacion
+condicion: comparacion AND comparacion
+condicion: comparacion OR comparacion
+;                
+comparacion: expresion OP_IGUAL expresion
+comparacion: expresion OP_DISTINTO expresion
+comparacion: expresion OP_MAYOR expresion
+comparacion: expresion OP_MENOR expresion
+comparacion: expresion OP_MAYOR_IGUAL expresion
+comparacion: expresion OP_MENOR_IGUAL expresion 
+;
+bucle: REPEAT sentencias UNTIL PAR_ABRE condicion PAR_CIERRA PUNTO_Y_COMA
+;
+display_command: DISPLAY PAR_ABRE CTE_STR PAR_CIERRA PUNTO_Y_COMA {System.out.println("Display");}
+;
+average: AVG PAR_ABRE lista_num PAR_CIERRA {System.out.println("Average");}
+;
+
+/* Codigo del autómata */
+%%
+	void yyerror(String mensaje) {
+		System.out.println("Error: " + mensaje);
+	}
 	public static final int ESTADO_INICIAL = 0;
 	public static final int ESTADO_FINAL = 36;
 	
@@ -198,34 +288,33 @@ public class Automata {
 /* 34 */{ignorar,  					ignorar,					ignorar,  					ignorar, 					ignorar,					ignorar, 					ignorar,		  			ignorar,  					ignorar, 					ignorar,	 				ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					error},
 /* 35 */{ignorar,  					ignorar,					ignorar,  					ignorar, 					ignorar,					ignorar, 					ignorar,		  			ignorar,  					ignorar, 					ignorar,	 				ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					error},
 /* 36 */{error,  					error,						error,  					error, 						error,						error, 						error,		  				error,  					error, 						error,	 					error,						error,						error,						error,						error,						error,						error,						error,						error,						error,						error,						error,						error,						error,						error,						error},
-		};
-	
-	
-	
-	private StringBuffer token = new StringBuffer();
-	
-	public static int yylval;
-		
-	public int yylex () throws IOException {
+	};
 
+	private StringBuffer token = new StringBuffer();
+	private boolean imprimir = false;
+	public int yylex () {
+
+			token.delete(0, token.length()); //Reseteo el buffer
 			ArchivoReader archivo = ArchivoReader.getInstance();
 			
-			if(!archivo.esFinDeArchivo()) {
-				
-				char caracter;
-				int estado = ESTADO_INICIAL; 			// Estado dentro del AF (inicializado en con el primer estado) 
-				int tipoCaracter;  			 			// Tipo del caracter leido
-				int tipoToken = TipoToken.INCOMPLETO;  	// Tipo de Token es Incompleto por default, para que yyparse() no pida mas tokens si ya no se estan devolviendo a pesar de que no se haya llegado a fin de archivo (esto se da en los casos en que el archivo termina con caracteres ignorados o con comentarios)
-				int tipoTokenAux;            
-				
-				do {
+			if(archivo.esFinDeArchivo()) {
+				return TipoToken.INCOMPLETO;
+			}		
 					
+			char caracter;
+			int estado = ESTADO_INICIAL; 			// Estado dentro del AF (inicializado en con el primer estado) 
+			int tipoCaracter;  			 			// Tipo del caracter leido
+			int tipoToken = TipoToken.INCOMPLETO;  	// Tipo de Token es Incompleto por default, para que yyparse() no pida mas tokens si ya no se estan devolviendo a pesar de que no se haya llegado a fin de archivo (esto se da en los casos en que el archivo termina con caracteres ignorados o con comentarios)
+			int tipoTokenAux;            
+			try {		
+				do {
+
 					caracter = archivo.getChar(); //levantamos el caracter
 					tipoCaracter = clasificarCaracter(caracter); //lo clasificamos
-					
+				
 					IRutinaSemantica rutina = rutinaSemantica[estado][tipoCaracter];
-					tipoTokenAux = rutina.execute(caracter, token);
-					
+					tipoTokenAux = rutina.execute(caracter, token, yylval);
+				
 					/*
 					 * Algunos casos devuelven TipoToken.INCOMPLETO porque se llama a Ignorar antes de pasar
 					 * al último estado, cuando en verdad el Tipo de Token correcto ya lo tenemos guardado de
@@ -235,40 +324,36 @@ public class Automata {
 					if(tipoTokenAux != TipoToken.INCOMPLETO) {
 						tipoToken = tipoTokenAux;
 					}
-					
+				
 					// Se pasa al proximo estado
 					estado = nuevoEstado[estado][tipoCaracter];
-					
 				} while ((estado != ESTADO_FINAL) && (tipoTokenAux != TipoToken.ERROR_LEXICO) && (!archivo.esFinDeArchivo()));
-				
+			
 				if((estado == ESTADO_FINAL)) {
 					archivo.unGet();
 				}
-				
-				//Considerar que si se hizo unGet() nunca va a ser fin de archivo
-				if(archivo.esFinDeArchivo()) {
+				else if(archivo.esFinDeArchivo()) {
 					IRutinaSemantica rutina = rutinaSemantica[estado][C_FIN_DE_ARCHIVO];
-					tipoToken = rutina.execute(caracter, token);
+					tipoToken = rutina.execute(caracter, token, yylval);
 				}
-				
-				System.out.print("Tipo:" + tipoToken + " ");
-				System.out.print(token);
-				if(tipoToken == 257 || tipoToken == 258 || tipoToken == 259)
-				{  String posicion = "(Pos " + yylval + ")"; 
-					 System.out.print("                   ".substring(token.length()));
-				   System.out.print(posicion);
-				   System.out.print("          ".substring(posicion.length()));
-				   System.out.print(TablaDeSimbolos.getInstance().getPos(yylval)); 
+			
+				if(imprimir) {
+					System.out.print("Tipo:" + tipoToken + " ");
+					System.out.print(token);
+					if(tipoToken == 257 || tipoToken == 258 || tipoToken == 259)
+					{	String posicion = "(Pos " + yylval.ival + ")"; 
+						System.out.print("                   ".substring(token.length()));
+					 	System.out.print(posicion);
+				   		System.out.print("          ".substring(posicion.length()));
+				   		System.out.print(TablaDeSimbolos.getInstance().getPos(yylval.ival)); 
+					}
+					System.out.print("\n");
 				}
-				System.out.print("\n");
-        
+       
 				return tipoToken;
-			
-			} else {
-				//si es fin de archivo devolvemos 0 (Incompleto) para que yyparse() pueda terminar
-				return TipoToken.INCOMPLETO;
+			} catch (IOException e) {
+				return TipoToken.INCOMPLETO; 
 			}
-			
 		}
 	
 	
@@ -317,4 +402,10 @@ public class Automata {
 	    return C_DESCONOCIDO;
 	}
 
-}
+	public static void main(String args[]) {
+		Parser par = new Parser(false);
+		ArchivoReader archivo = ArchivoReader.getInstance();
+		archivo.abrirArhivo(args[0]);
+		par.yyparse();
+		archivo.cerrarArhivo();
+	}
