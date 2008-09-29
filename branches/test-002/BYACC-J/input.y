@@ -45,81 +45,83 @@ import compilador.util.TipoToken;
 
 /* Gramatica */
 %%
-programa: def_tipos def_var ejecucion {System.out.println("Compila OK!");}
-programa: def_var ejecucion {System.out.println("Compila OK!");}
-programa: ejecucion {System.out.println("Compila OK!");}
+programax: programa {System.out.println("Compila OK!");}
+;
+programa: def_tipos def_var ejecucion 
+        | def_var ejecucion
+        | ejecucion
 ;                
 def_tipos: def_tipo								
-def_tipos: def_tipos def_tipo					
+         | def_tipos def_tipo					
 ;
 def_tipo: TYPE ID AS lista PUNTO_Y_COMA {System.out.println("Definicion de Tipo");}
 ;
 lista: lista_num
-lista: lista_str
+     | lista_str
 ;                
 lista_num: COR_ABRE lis_num_c COR_CIERRA
 ;
 lis_num_c: CTE_NUM
-lis_num_c: lis_num_c COMA CTE_NUM
+         | lis_num_c COMA CTE_NUM
 ;                
 lista_str: COR_ABRE lis_str_c COR_CIERRA
 ;
 lis_str_c: CTE_STR
-lis_str_c: lis_str_c COMA CTE_STR
+         | lis_str_c COMA CTE_STR
 ;                
 def_var: DEFVAR lista_var ENDDEF
 ;
 lista_var: lista_ids DOS_PUNTOS tipo PUNTO_Y_COMA {System.out.println("Definicion variables");}
-lista_var: lista_var lista_ids DOS_PUNTOS tipo PUNTO_Y_COMA {System.out.println("Definicion variables");}
+         | lista_var lista_ids DOS_PUNTOS tipo PUNTO_Y_COMA {System.out.println("Definicion variables");}
 ;
 lista_ids: ID
-lista_ids: lista_ids COMA ID
+         | lista_ids COMA ID
 ;                
 tipo: FLOAT
-tipo: STRING
-tipo: POINTER
-tipo: ID
+    | STRING
+    | POINTER
+    | ID
 ;                
 ejecucion: BEGIN sentencias END
-ejecucion: BEGIN END
+         | BEGIN END
 ;                
 sentencias: sentencia
-sentencias: sentencias sentencia
+          | sentencias sentencia
 ;                
 sentencia: asignacion							
-sentencia: condicional							
-sentencia: bucle								
-sentencia: display_command						
+         | condicional							
+         | bucle								
+         | display_command						
 ;                
 asignacion: ID OP_ASIG expresion PUNTO_Y_COMA {System.out.println("Asignacion");}
 ;
 expresion: termino
-expresion: expresion OP_SUMA termino
-expresion: expresion OP_RESTA termino
+         | expresion OP_SUMA termino
+         | expresion OP_RESTA termino
 ;                
 termino: factor
-termino: termino OP_MUL factor
-termino: termino OP_DIV factor
+       | termino OP_MUL factor
+       | termino OP_DIV factor
 ;                
 factor: ID
-factor: CTE_NUM
-factor: PAR_ABRE expresion PAR_CIERRA
-factor: average
+      | CTE_NUM
+      | PAR_ABRE expresion PAR_CIERRA
+      | average
 ;                
 condicional: IF PAR_ABRE condicion PAR_CIERRA sentencias ENDIF
-condicional: IF PAR_ABRE condicion PAR_CIERRA sentencias ELSE sentencias ENDIF
+           | IF PAR_ABRE condicion PAR_CIERRA sentencias ELSE sentencias ENDIF
 ;                 
 condicion: comparacion
-condicion: OP_NEGACION comparacion
-condicion: comparacion AND comparacion
-condicion: comparacion OR comparacion
+         | OP_NEGACION comparacion
+         | comparacion AND comparacion
+         | comparacion OR comparacion
 ;                
 comparacion: expresion OP_IGUAL expresion
-comparacion: expresion OP_DISTINTO expresion
-comparacion: expresion OP_MAYOR expresion
-comparacion: expresion OP_MENOR expresion
-comparacion: expresion OP_MAYOR_IGUAL expresion
-comparacion: expresion OP_MENOR_IGUAL expresion 
+           | expresion OP_DISTINTO expresion
+           | expresion OP_MAYOR expresion
+           | expresion OP_MENOR expresion
+           | expresion OP_MAYOR_IGUAL expresion
+           | expresion OP_MENOR_IGUAL expresion 
 ;
 bucle: REPEAT sentencias UNTIL PAR_ABRE condicion PAR_CIERRA PUNTO_Y_COMA
 ;
