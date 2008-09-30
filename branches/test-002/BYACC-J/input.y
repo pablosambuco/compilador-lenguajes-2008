@@ -37,7 +37,7 @@ import compilador.semantica.ParentesisAbre;
 import compilador.semantica.ParentesisCierra;
 import compilador.semantica.PuntoYComa;
 import compilador.util.ArchivoReader;
-import compilador.util.TipoToken;
+
 %}
 
 /* Definiciones */
@@ -45,16 +45,16 @@ import compilador.util.TipoToken;
 
 /* Gramatica */
 %%
-programax: programa {System.out.println("Compila OK!");}
+start: programa {System.out.println("Compila OK!");}
 ;
-programa: def_tipos def_var ejecucion 
+programa: def_tipos def_var ejecucion
         | def_var ejecucion
         | ejecucion
 ;                
-def_tipos: def_tipo								
+def_tipos: def_tipo 
          | def_tipos def_tipo					
 ;
-def_tipo: TYPE ID AS lista PUNTO_Y_COMA {System.out.println("Definicion de Tipo");}
+def_tipo: TYPE ID AS lista PUNTO_Y_COMA
 ;
 lista: lista_num
      | lista_str
@@ -71,8 +71,8 @@ lis_str_c: CTE_STR
 ;                
 def_var: DEFVAR lista_var ENDDEF
 ;
-lista_var: lista_ids DOS_PUNTOS tipo PUNTO_Y_COMA {System.out.println("Definicion variables");}
-         | lista_var lista_ids DOS_PUNTOS tipo PUNTO_Y_COMA {System.out.println("Definicion variables");}
+lista_var: lista_ids DOS_PUNTOS tipo PUNTO_Y_COMA
+         | lista_var lista_ids DOS_PUNTOS tipo PUNTO_Y_COMA 
 ;
 lista_ids: ID
          | lista_ids COMA ID
@@ -88,46 +88,46 @@ ejecucion: BEGIN sentencias END
 sentencias: sentencia
           | sentencias sentencia
 ;                
-sentencia: asignacion							
+sentencia: asignacion {System.out.println("=");}							
          | condicional							
          | bucle								
          | display_command						
 ;                
-asignacion: ID OP_ASIG expresion PUNTO_Y_COMA {System.out.println("Asignacion");}
+asignacion: ID OP_ASIG expresion PUNTO_Y_COMA
 ;
 expresion: termino
-         | expresion OP_SUMA termino
-         | expresion OP_RESTA termino
+         | expresion OP_SUMA termino {System.out.println("+");}
+         | expresion OP_RESTA termino {System.out.println("-");}
 ;                
 termino: factor
-       | termino OP_MUL factor
-       | termino OP_DIV factor
+       | termino OP_MUL factor {System.out.println("*");}
+       | termino OP_DIV factor {System.out.println("/");}
 ;                
-factor: ID
-      | CTE_NUM
+factor: ID {System.out.println(TablaDeSimbolos.getInstance().getPos(yylval.ival));}
+      | CTE_NUM {System.out.println(TablaDeSimbolos.getInstance().getPos(yylval.ival));}
       | PAR_ABRE expresion PAR_CIERRA
-      | average
+      | average {System.out.println("AVG()");}
 ;                
-condicional: IF PAR_ABRE condicion PAR_CIERRA sentencias ENDIF
+condicional: IF PAR_ABRE condicion PAR_CIERRA sentencias ENDIF 
            | IF PAR_ABRE condicion PAR_CIERRA sentencias ELSE sentencias ENDIF
 ;                 
 condicion: comparacion
-         | OP_NEGACION comparacion
-         | comparacion AND comparacion
-         | comparacion OR comparacion
+         | OP_NEGACION comparacion {System.out.println("!");}
+         | comparacion AND comparacion {System.out.println("&&");}
+         | comparacion OR comparacion {System.out.println("||");}
 ;                
-comparacion: expresion OP_IGUAL expresion
-           | expresion OP_DISTINTO expresion
-           | expresion OP_MAYOR expresion
-           | expresion OP_MENOR expresion
-           | expresion OP_MAYOR_IGUAL expresion
-           | expresion OP_MENOR_IGUAL expresion 
+comparacion: expresion OP_IGUAL expresion {System.out.println("==");}
+           | expresion OP_DISTINTO expresion {System.out.println("!=");}
+           | expresion OP_MAYOR expresion {System.out.println(">");}
+           | expresion OP_MENOR expresion {System.out.println("<");}
+           | expresion OP_MAYOR_IGUAL expresion {System.out.println(">=");}
+           | expresion OP_MENOR_IGUAL expresion  {System.out.println("<=");}
 ;
 bucle: REPEAT sentencias UNTIL PAR_ABRE condicion PAR_CIERRA PUNTO_Y_COMA
 ;
-display_command: DISPLAY PAR_ABRE CTE_STR PAR_CIERRA PUNTO_Y_COMA {System.out.println("Display");}
+display_command: DISPLAY PAR_ABRE CTE_STR PAR_CIERRA PUNTO_Y_COMA
 ;
-average: AVG PAR_ABRE lista_num PAR_CIERRA {System.out.println("Average");}
+average: AVG PAR_ABRE lista_num PAR_CIERRA
 ;
 
 /* Codigo del autómata */
@@ -137,6 +137,10 @@ average: AVG PAR_ABRE lista_num PAR_CIERRA {System.out.println("Average");}
 	}
 	public static final int ESTADO_INICIAL = 0;
 	public static final int ESTADO_FINAL = 36;
+
+    //Manejo de errores lexicos
+    public static int INCOMPLETO=0;
+    public static int ERROR_LEXICO=-1;
 	
     //Tipos de caracter
 	public static final int C_LETRA = 0;
@@ -300,13 +304,13 @@ average: AVG PAR_ABRE lista_num PAR_CIERRA {System.out.println("Average");}
 			ArchivoReader archivo = ArchivoReader.getInstance();
 			
 			if(archivo.esFinDeArchivo()) {
-				return TipoToken.INCOMPLETO;
+				return INCOMPLETO;
 			}		
 					
 			char caracter;
 			int estado = ESTADO_INICIAL; 			// Estado dentro del AF (inicializado en con el primer estado) 
 			int tipoCaracter;  			 			// Tipo del caracter leido
-			int tipoToken = TipoToken.INCOMPLETO;  	// Tipo de Token es Incompleto por default, para que yyparse() no pida mas tokens si ya no se estan devolviendo a pesar de que no se haya llegado a fin de archivo (esto se da en los casos en que el archivo termina con caracteres ignorados o con comentarios)
+			int tipoToken = INCOMPLETO;  	// Tipo de Token es Incompleto por default, para que yyparse() no pida mas tokens si ya no se estan devolviendo a pesar de que no se haya llegado a fin de archivo (esto se da en los casos en que el archivo termina con caracteres ignorados o con comentarios)
 			int tipoTokenAux;            
 			try {		
 				do {
@@ -318,18 +322,18 @@ average: AVG PAR_ABRE lista_num PAR_CIERRA {System.out.println("Average");}
 					tipoTokenAux = rutina.execute(caracter, token, yylval);
 				
 					/*
-					 * Algunos casos devuelven TipoToken.INCOMPLETO porque se llama a Ignorar antes de pasar
+					 * Algunos casos devuelven INCOMPLETO porque se llama a Ignorar antes de pasar
 					 * al último estado, cuando en verdad el Tipo de Token correcto ya lo tenemos guardado de
 					 *  una llamada a rutina anterior. En esos casos, no guardamos el valor tipoToken sino que
 					 *  lo ignoramos. 
 					 */ 
-					if(tipoTokenAux != TipoToken.INCOMPLETO) {
+					if(tipoTokenAux != INCOMPLETO) {
 						tipoToken = tipoTokenAux;
 					}
 				
 					// Se pasa al proximo estado
 					estado = nuevoEstado[estado][tipoCaracter];
-				} while ((estado != ESTADO_FINAL) && (tipoTokenAux != TipoToken.ERROR_LEXICO) && (!archivo.esFinDeArchivo()));
+				} while ((estado != ESTADO_FINAL) && (tipoTokenAux != ERROR_LEXICO) && (!archivo.esFinDeArchivo()));
 			
 				if((estado == ESTADO_FINAL)) {
 					archivo.unGet();
@@ -354,7 +358,7 @@ average: AVG PAR_ABRE lista_num PAR_CIERRA {System.out.println("Average");}
        
 				return tipoToken;
 			} catch (IOException e) {
-				return TipoToken.INCOMPLETO; 
+				return INCOMPLETO; 
 			}
 		}
 	
@@ -405,9 +409,10 @@ average: AVG PAR_ABRE lista_num PAR_CIERRA {System.out.println("Average");}
 	}
 
 	public static void main(String args[]) {
-		Parser par = new Parser(false);
+		Parser par = new Parser();
 		ArchivoReader archivo = ArchivoReader.getInstance();
 		archivo.abrirArhivo(args[0]);
 		par.yyparse();
 		archivo.cerrarArhivo();
+		//System.out.println(TablaDeSimbolos.getInstance().toString());
 	}

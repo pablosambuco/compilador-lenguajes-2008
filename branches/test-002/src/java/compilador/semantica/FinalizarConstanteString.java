@@ -1,8 +1,8 @@
 package compilador.semantica;
 
 import compilador.parser.ParserVal;
+import compilador.parser.Parser;
 import compilador.beans.TablaDeSimbolos;
-import compilador.util.TipoToken;
 
 public class FinalizarConstanteString implements IRutinaSemantica {
 
@@ -14,7 +14,7 @@ public class FinalizarConstanteString implements IRutinaSemantica {
 		yylval.ival = TablaDeSimbolos.getInstance().agregar(token);
 		token.delete(0,token.length());
 		token.append("CTE_STR");
-		return TipoToken.CTE_STR;
+		return Parser.CTE_STR;
 	}
 
 }

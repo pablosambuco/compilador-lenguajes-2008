@@ -55,7 +55,7 @@ import compilador.semantica.ParentesisAbre;
 import compilador.semantica.ParentesisCierra;
 import compilador.semantica.PuntoYComa;
 import compilador.util.ArchivoReader;
-import compilador.util.TipoToken;
+
 //#line 56 "Parser.java"
 
 
@@ -375,8 +375,8 @@ null,null,null,"ID","CTE_NUM","CTE_STR","OP_SUMA","OP_RESTA","OP_MUL","OP_DIV",
 "DISPLAY","AVG",
 };
 final static String yyrule[] = {
-"$accept : programax",
-"programax : programa",
+"$accept : start",
+"start : programa",
 "programa : def_tipos def_var ejecucion",
 "programa : def_var ejecucion",
 "programa : ejecucion",
@@ -442,6 +442,10 @@ final static String yyrule[] = {
 	}
 	public static final int ESTADO_INICIAL = 0;
 	public static final int ESTADO_FINAL = 36;
+
+    //Manejo de errores lexicos
+    public static int INCOMPLETO=0;
+    public static int ERROR_LEXICO=-1;
 	
     //Tipos de caracter
 	public static final int C_LETRA = 0;
@@ -605,13 +609,13 @@ final static String yyrule[] = {
 			ArchivoReader archivo = ArchivoReader.getInstance();
 			
 			if(archivo.esFinDeArchivo()) {
-				return TipoToken.INCOMPLETO;
+				return INCOMPLETO;
 			}		
 					
 			char caracter;
 			int estado = ESTADO_INICIAL; 			// Estado dentro del AF (inicializado en con el primer estado) 
 			int tipoCaracter;  			 			// Tipo del caracter leido
-			int tipoToken = TipoToken.INCOMPLETO;  	// Tipo de Token es Incompleto por default, para que yyparse() no pida mas tokens si ya no se estan devolviendo a pesar de que no se haya llegado a fin de archivo (esto se da en los casos en que el archivo termina con caracteres ignorados o con comentarios)
+			int tipoToken = INCOMPLETO;  	// Tipo de Token es Incompleto por default, para que yyparse() no pida mas tokens si ya no se estan devolviendo a pesar de que no se haya llegado a fin de archivo (esto se da en los casos en que el archivo termina con caracteres ignorados o con comentarios)
 			int tipoTokenAux;            
 			try {		
 				do {
@@ -623,18 +627,18 @@ final static String yyrule[] = {
 					tipoTokenAux = rutina.execute(caracter, token, yylval);
 				
 					/*
-					 * Algunos casos devuelven TipoToken.INCOMPLETO porque se llama a Ignorar antes de pasar
+					 * Algunos casos devuelven INCOMPLETO porque se llama a Ignorar antes de pasar
 					 * al último estado, cuando en verdad el Tipo de Token correcto ya lo tenemos guardado de
 					 *  una llamada a rutina anterior. En esos casos, no guardamos el valor tipoToken sino que
 					 *  lo ignoramos. 
 					 */ 
-					if(tipoTokenAux != TipoToken.INCOMPLETO) {
+					if(tipoTokenAux != INCOMPLETO) {
 						tipoToken = tipoTokenAux;
 					}
 				
 					// Se pasa al proximo estado
 					estado = nuevoEstado[estado][tipoCaracter];
-				} while ((estado != ESTADO_FINAL) && (tipoTokenAux != TipoToken.ERROR_LEXICO) && (!archivo.esFinDeArchivo()));
+				} while ((estado != ESTADO_FINAL) && (tipoTokenAux != ERROR_LEXICO) && (!archivo.esFinDeArchivo()));
 			
 				if((estado == ESTADO_FINAL)) {
 					archivo.unGet();
@@ -659,7 +663,7 @@ final static String yyrule[] = {
        
 				return tipoToken;
 			} catch (IOException e) {
-				return TipoToken.INCOMPLETO; 
+				return INCOMPLETO; 
 			}
 		}
 	
@@ -710,13 +714,14 @@ final static String yyrule[] = {
 	}
 
 	public static void main(String args[]) {
-		Parser par = new Parser(false);
+		Parser par = new Parser();
 		ArchivoReader archivo = ArchivoReader.getInstance();
 		archivo.abrirArhivo(args[0]);
 		par.yyparse();
 		archivo.cerrarArhivo();
+		//System.out.println(TablaDeSimbolos.getInstance().toString());
 	}
-//#line 656 "Parser.java"
+//#line 661 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -873,31 +878,79 @@ case 1:
 //#line 48 "input.y"
 {System.out.println("Compila OK!");}
 break;
-case 7:
-//#line 57 "input.y"
-{System.out.println("Definicion de Tipo");}
-break;
-case 17:
-//#line 74 "input.y"
-{System.out.println("Definicion variables");}
-break;
-case 18:
-//#line 75 "input.y"
-{System.out.println("Definicion variables");}
+case 29:
+//#line 91 "input.y"
+{System.out.println("=");}
 break;
 case 33:
 //#line 96 "input.y"
-{System.out.println("Asignacion");}
+{System.out.println("ID...");}
 break;
-case 57:
-//#line 128 "input.y"
-{System.out.println("Display");}
+case 35:
+//#line 99 "input.y"
+{System.out.println("+");}
 break;
-case 58:
-//#line 130 "input.y"
-{System.out.println("Average");}
+case 36:
+//#line 100 "input.y"
+{System.out.println("-");}
 break;
-//#line 832 "Parser.java"
+case 38:
+//#line 103 "input.y"
+{System.out.println("*");}
+break;
+case 39:
+//#line 104 "input.y"
+{System.out.println("/");}
+break;
+case 40:
+//#line 106 "input.y"
+{System.out.println(TablaDeSimbolos.getInstance().getPos(yylval.ival));}
+break;
+case 41:
+//#line 107 "input.y"
+{System.out.println(TablaDeSimbolos.getInstance().getPos(yylval.ival));}
+break;
+case 43:
+//#line 109 "input.y"
+{System.out.println("AVG()");}
+break;
+case 47:
+//#line 115 "input.y"
+{System.out.println("!");}
+break;
+case 48:
+//#line 116 "input.y"
+{System.out.println("&&");}
+break;
+case 49:
+//#line 117 "input.y"
+{System.out.println("||");}
+break;
+case 50:
+//#line 119 "input.y"
+{System.out.println("==");}
+break;
+case 51:
+//#line 120 "input.y"
+{System.out.println("!=");}
+break;
+case 52:
+//#line 121 "input.y"
+{System.out.println(">");}
+break;
+case 53:
+//#line 122 "input.y"
+{System.out.println("<");}
+break;
+case 54:
+//#line 123 "input.y"
+{System.out.println(">=");}
+break;
+case 55:
+//#line 124 "input.y"
+{System.out.println("<=");}
+break;
+//#line 885 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

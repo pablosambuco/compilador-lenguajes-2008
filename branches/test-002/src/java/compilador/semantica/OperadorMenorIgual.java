@@ -1,13 +1,13 @@
 package compilador.semantica;
 
 import compilador.parser.ParserVal;
-import compilador.util.TipoToken;
+import compilador.parser.Parser;
 
 public class OperadorMenorIgual implements IRutinaSemantica {
 
 	public int execute(char c, StringBuffer token, ParserVal yylval) {
 		token.append("<=");
-		return TipoToken.OP_MENOR_IGUAL;
+		return Parser.OP_MENOR_IGUAL;
 	}
 
 }

@@ -1,13 +1,13 @@
 package compilador.semantica;
 
 import compilador.parser.ParserVal;
-import compilador.util.TipoToken;
+import compilador.parser.Parser;
 
 public class And implements IRutinaSemantica {
 
 	public int execute(char c, StringBuffer token, ParserVal yylval) {
 		token.append("&&");
-		return TipoToken.AND;
+		return Parser.AND;
 	}
 
 }

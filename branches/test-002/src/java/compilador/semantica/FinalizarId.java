@@ -1,9 +1,9 @@
 package compilador.semantica;
 
 import compilador.parser.ParserVal;
+import compilador.parser.Parser;
 import compilador.beans.PalabrasReservadas;
 import compilador.beans.TablaDeSimbolos;
-import compilador.util.TipoToken;
 
 public class FinalizarId implements IRutinaSemantica {
 
@@ -11,7 +11,7 @@ public class FinalizarId implements IRutinaSemantica {
 		int pr = PalabrasReservadas.getInstance().contiene(token);
 		
 		// Se va a devolver como tipo de token el numero de palabra reservada
-		if (pr == TipoToken.ID) {
+		if (pr == Parser.ID) {
 			yylval.ival = TablaDeSimbolos.getInstance().agregar(token);
 			token.delete(0,token.length());
 			token.append("ID");
