@@ -8,6 +8,7 @@
 
 TYPE frutas AS ["manzana","naranja","cualquiera..."];
 TYPE valores AS [12.3, 14.2, 55, .64];
+TYPE otroOtro AS [12.3, 14.2, 55, .64];
 DEFVAR
 	jose, esteban: FLOAT; #% Todos los numericos son FLOAT %#
 	roberto, julian: STRING; #% El tamaño maximo para las cadenas es 30 caracteres %#
@@ -16,6 +17,8 @@ DEFVAR
 	otraMas: valores;
 ENDDEF
 BEGIN 
+jose = 26 + 9 / 8 * (7 + 2) / vagancia * 3 + x + 98;
+
 	jose = 5;
 	IF (jose != 2 && jose > 4) 
 		jose = 26 + 9 / 8 * (7 + 2) / vagancia * 3 + AVG([234,443.1,22,768]) + 98;

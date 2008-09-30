@@ -1,7 +1,7 @@
 package compilador.semantica;
 
 import compilador.parser.ParserVal;
-import compilador.util.TipoToken;
+import compilador.parser.Parser;
 
 public class ContinuarId implements IRutinaSemantica {
 
@@ -12,7 +12,7 @@ public class ContinuarId implements IRutinaSemantica {
 		} else {
 			token.append(c);
 		}
-		return TipoToken.INCOMPLETO;
+		return Parser.INCOMPLETO;
 
 	}
 

@@ -1,7 +1,7 @@
 package compilador.semantica;
 
 import compilador.parser.ParserVal;
-import compilador.util.TipoToken;
+import compilador.parser.Parser;
 
 public class IniciarConstante implements IRutinaSemantica {
 
@@ -10,7 +10,7 @@ public class IniciarConstante implements IRutinaSemantica {
 			token.append("0");
 		}
 		token.append(c);
-		return TipoToken.INCOMPLETO;
+		return Parser.INCOMPLETO;
 	}
 
 }

@@ -1,7 +1,7 @@
 package compilador.semantica;
 
 import compilador.parser.ParserVal;
-import compilador.util.TipoToken;
+import compilador.parser.Parser;
 
 public class Error implements IRutinaSemantica {
 
@@ -9,7 +9,7 @@ public class Error implements IRutinaSemantica {
 		
 		token.delete(0, token.length()); //borramos lo que haya hasta ahora en el token 
 		token.append("¡ERROR_LEXICO!"); //seteamos el error
-		return TipoToken.ERROR_LEXICO;
+		return Parser.ERROR_LEXICO;
 	}
 
 }

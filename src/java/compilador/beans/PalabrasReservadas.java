@@ -1,16 +1,14 @@
 package compilador.beans;
 
 import java.util.Hashtable;
-import compilador.util.TipoToken;
+
+import compilador.parser.Parser;
 
 public class PalabrasReservadas {
 
 	private static java.util.Hashtable<String, Integer> palabras;
 	private static PalabrasReservadas instance;
 
-	//Las PR son consecutivas, el inicio se configura en TipoToken
-	private static int palabra = TipoToken.PR;
-	
 	public static PalabrasReservadas getInstance() {
 		if(instance == null)
 			instance = new PalabrasReservadas();
@@ -21,34 +19,34 @@ public class PalabrasReservadas {
 	{
 		palabras = new Hashtable<String, Integer>();
 		
-		agregar("BEGIN");
-		agregar("END");		
-		agregar("STRING");
-		agregar("FLOAT");
-		agregar("POINTER");
-		agregar("DEFVAR");
-		agregar("ENDDEF");
-		agregar("IF");
-		agregar("ELSE");
-		agregar("ENDIF");
-		agregar("REPEAT");
-		agregar("UNTIL");
-		agregar("TYPE");
-		agregar("AS");
-		agregar("DISPLAY");
-		agregar("AVG");
+		agregar("BEGIN",Parser.BEGIN);
+		agregar("END",Parser.END);		
+		agregar("STRING",Parser.STRING);
+		agregar("FLOAT",Parser.FLOAT);
+		agregar("POINTER",Parser.POINTER);
+		agregar("DEFVAR",Parser.DEFVAR);
+		agregar("ENDDEF",Parser.ENDDEF);
+		agregar("IF",Parser.IF);
+		agregar("ELSE",Parser.ELSE);
+		agregar("ENDIF",Parser.ENDIF);
+		agregar("REPEAT",Parser.REPEAT);
+		agregar("UNTIL",Parser.UNTIL);
+		agregar("TYPE",Parser.TYPE);
+		agregar("AS",Parser.AS);
+		agregar("DISPLAY",Parser.DISPLAY);
+		agregar("AVG",Parser.AVG);
 	}
 	
 	public int contiene(StringBuffer token) {
 		Integer valor = (Integer) palabras.get(token.toString());
 		if(valor == null)
-			return TipoToken.ID;
+			return Parser.ID;
 		else
 			return valor.intValue();
 	}
 	
-	private void agregar(String key)
+	private void agregar(String key, int numero)
 	{
-		palabras.put(key, new Integer(palabra++));		
+		palabras.put(key, new Integer(numero));		
 	}
 }
