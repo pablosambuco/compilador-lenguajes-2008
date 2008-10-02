@@ -16,83 +16,89 @@ programa: def_tipos def_var ejecucion
         | def_var ejecucion
         | ejecucion
 ;                
-def_tipos: def_tipo 
-         | def_tipos def_tipo					
+def_tipos: def_tipo {System.out.println($$.sval);}
+         | def_tipos def_tipo {System.out.println($$.sval);}
 ;
-def_tipo: TYPE ID AS lista PUNTO_Y_COMA
+def_tipo: TYPE ID AS lista PUNTO_Y_COMA {$$.sval = "TYPE " + "XXXXXXXXXX" + " AS " + $1.sval + ";"; }
 ;
-lista: lista_num
-     | lista_str
+lista: lista_num {$$.sval = $1.sval;}
+     | lista_str {$$.sval = $1.sval;}
 ;                
-lista_num: COR_ABRE lis_num_c COR_CIERRA
+lista_num: COR_ABRE lis_num_c COR_CIERRA {$$.sval = "[" + $1.sval + "]";}
 ;
-lis_num_c: CTE_NUM
-         | lis_num_c COMA CTE_NUM
+lis_num_c: CTE_NUM {$$.sval = TablaDeSimbolos.getInstance().getPos(yylval.ival);}
+         | lis_num_c COMA CTE_NUM {$$.sval = $1.sval + "," + TablaDeSimbolos.getInstance().getPos(yylval.ival);}
 ;                
-lista_str: COR_ABRE lis_str_c COR_CIERRA
+lista_str: COR_ABRE lis_str_c COR_CIERRA {$$.sval = "[" + $1.sval + "]";}
 ;
-lis_str_c: CTE_STR
-         | lis_str_c COMA CTE_STR
+lis_str_c: cte_str {$$.sval = $1.sval;}
+         | lis_str_c COMA cte_str  {$$.sval = $1.sval + "," + $2.sval;}
 ;                
 def_var: DEFVAR lista_var ENDDEF
 ;
-lista_var: lista_ids DOS_PUNTOS tipo PUNTO_Y_COMA
-         | lista_var lista_ids DOS_PUNTOS tipo PUNTO_Y_COMA 
+lista_var: lista_ids DOS_PUNTOS tipo PUNTO_Y_COMA {$$.sval = $1.sval + ":" + $2.sval + ";";}
+         | lista_var lista_ids DOS_PUNTOS tipo PUNTO_Y_COMA {$$.sval = $1.sval + "\n" + $2.sval + ":" + $3.sval + ";";}
 ;
-lista_ids: ID
-         | lista_ids COMA ID
+lista_ids: id {$$.sval = $1.sval;}
+         | lista_ids COMA id {$$.sval = $1.sval + "," + $2.sval;}
 ;                
-tipo: FLOAT
-    | STRING
-    | POINTER
-    | ID
+tipo: FLOAT {$$.sval = "FLOAT";}
+    | STRING {$$.sval = "STRING";}
+    | POINTER {$$.sval = "POINTER";}
+    | id {$$.sval = $1.sval;}
 ;                
-ejecucion: BEGIN sentencias END
-         | BEGIN END
+ejecucion: BEGIN sentencias END {$$.sval = "BEGIN " + $1.sval + " END";}
+         | BEGIN END {$$.sval = "BEGIN " + " END";}
 ;                
-sentencias: sentencia
+sentencias: sentencia 
           | sentencias sentencia
 ;                
-sentencia: asignacion {System.out.println("=");}							
+sentencia: asignacion {$$.sval = $1.sval;}							
          | condicional							
          | bucle								
          | display_command						
 ;                
-asignacion: ID OP_ASIG expresion PUNTO_Y_COMA
+asignacion: id OP_ASIG expresion PUNTO_Y_COMA {$$.sval = $1.sval + " = " + $2.sval + ";";}
 ;
 expresion: termino
-         | expresion OP_SUMA termino {System.out.println("+");}
-         | expresion OP_RESTA termino {System.out.println("-");}
+         | expresion OP_SUMA termino {$$.sval = $1.sval + " + " + $2.sval;}
+         | expresion OP_RESTA termino {$$.sval = $1.sval + " - " + $2.sval;}
 ;                
 termino: factor
-       | termino OP_MUL factor {System.out.println("*");}
-       | termino OP_DIV factor {System.out.println("/");}
+       | termino OP_MUL factor {$$.sval = $1.sval + " * " + $2.sval;}
+       | termino OP_DIV factor {$$.sval = $1.sval + " / " + $2.sval;}
 ;                
-factor: ID {System.out.println(TablaDeSimbolos.getInstance().getPos(yylval.ival));}
-      | CTE_NUM {System.out.println(TablaDeSimbolos.getInstance().getPos(yylval.ival));}
-      | PAR_ABRE expresion PAR_CIERRA
-      | average {System.out.println("AVG()");}
+factor: id {$$.sval = $1.sval;}
+      | cte_num {$$.sval = $1.sval;}
+      | PAR_ABRE expresion PAR_CIERRA {$$.sval = "(" + $1.sval + ")";}
+      | average {$$.sval = $1.sval;}
 ;                
 condicional: IF PAR_ABRE condicion PAR_CIERRA sentencias ENDIF 
            | IF PAR_ABRE condicion PAR_CIERRA sentencias ELSE sentencias ENDIF
 ;                 
 condicion: comparacion
-         | OP_NEGACION comparacion {System.out.println("!");}
-         | comparacion AND comparacion {System.out.println("&&");}
-         | comparacion OR comparacion {System.out.println("||");}
+         | OP_NEGACION comparacion {$1.sval = "!";}
+         | comparacion AND comparacion {$2.sval = "&&";}
+         | comparacion OR comparacion {$2.sval = "||";}
 ;                
-comparacion: expresion OP_IGUAL expresion {System.out.println("==");}
-           | expresion OP_DISTINTO expresion {System.out.println("!=");}
-           | expresion OP_MAYOR expresion {System.out.println(">");}
-           | expresion OP_MENOR expresion {System.out.println("<");}
-           | expresion OP_MAYOR_IGUAL expresion {System.out.println(">=");}
-           | expresion OP_MENOR_IGUAL expresion  {System.out.println("<=");}
+comparacion: expresion OP_IGUAL expresion {$2.sval = "==";}
+           | expresion OP_DISTINTO expresion {$2.sval = "!=";}
+           | expresion OP_MAYOR expresion {$2.sval = ">";}
+           | expresion OP_MENOR expresion {$2.sval = "<";}
+           | expresion OP_MAYOR_IGUAL expresion {$2.sval = ">=";}
+           | expresion OP_MENOR_IGUAL expresion  {$2.sval = "<=";}
 ;
 bucle: REPEAT sentencias UNTIL PAR_ABRE condicion PAR_CIERRA PUNTO_Y_COMA
 ;
 display_command: DISPLAY PAR_ABRE CTE_STR PAR_CIERRA PUNTO_Y_COMA
 ;
 average: AVG PAR_ABRE lista_num PAR_CIERRA
+;
+id: ID ID {$$.sval = TablaDeSimbolos.getInstance().getPos(yylval.ival);}
+;
+cte_num: CTE_NUM ID {$$.sval = TablaDeSimbolos.getInstance().getPos(yylval.ival);}
+;
+cte_str: CTE_STR {$$.sval = "\"" + TablaDeSimbolos.getInstance().getPos(yylval.ival) + "\"";}
 ;
 
 %%

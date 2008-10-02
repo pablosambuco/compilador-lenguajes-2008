@@ -193,11 +193,12 @@ public final static short AVG=296;
 public final static short YYERRCODE=256;
 final static short yylhs[] = {                           -1,
     0,    1,    1,    1,    2,    2,    5,    6,    6,    7,
-    9,    9,    8,   10,   10,    3,   11,   11,   12,   12,
-   13,   13,   13,   13,    4,    4,   14,   14,   15,   15,
-   15,   15,   16,   20,   20,   20,   21,   21,   21,   22,
-   22,   22,   22,   17,   17,   24,   24,   24,   24,   25,
-   25,   25,   25,   25,   25,   18,   19,   23,
+    9,    9,    8,   10,   10,    3,   12,   12,   13,   13,
+   14,   14,   14,   14,    4,    4,   16,   16,   17,   17,
+   17,   17,   18,   22,   22,   22,   23,   23,   23,   24,
+   24,   24,   24,   19,   19,   27,   27,   27,   27,   28,
+   28,   28,   28,   28,   28,   20,   21,   26,   15,   25,
+   11,
 };
 final static short yylen[] = {                            2,
     1,    3,    2,    1,    1,    2,    5,    1,    1,    3,
@@ -205,112 +206,117 @@ final static short yylen[] = {                            2,
     1,    1,    1,    1,    3,    2,    1,    2,    1,    1,
     1,    1,    4,    1,    3,    3,    1,    3,    3,    1,
     1,    3,    1,    6,    8,    1,    2,    3,    3,    3,
-    3,    3,    3,    3,    3,    7,    5,    4,
+    3,    3,    3,    3,    3,    7,    5,    4,    2,    2,
+    1,
 };
 final static short yydefred[] = {                         0,
     0,    0,    0,    0,    1,    0,    0,    4,    5,    0,
-   26,    0,    0,    0,    0,   27,   29,   30,   31,   32,
-   19,    0,    0,    0,    0,    6,    3,    0,    0,    0,
-    0,   25,   28,   16,    0,    0,    0,    0,    2,   40,
-   41,    0,    0,    0,    0,   37,   43,    0,    0,    0,
-    0,    0,    0,    0,   20,   24,   22,   21,   23,    0,
-    0,    0,    8,    9,    0,    0,    0,    0,   33,    0,
-    0,   47,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,    0,   17,   11,   14,    0,    0,    7,
-   42,    0,    0,    0,    0,   38,   39,    0,    0,    0,
-    0,    0,    0,    0,   48,   49,    0,   57,   18,   10,
-    0,   13,    0,   58,    0,   44,    0,   12,   15,    0,
-   56,   45,
+   26,    0,    0,    0,    0,    0,   27,   29,   30,   31,
+   32,    0,    0,   19,    0,    0,    6,    3,   59,    0,
+    0,    0,    0,   25,   28,   16,    0,    0,    0,    0,
+    2,    0,    0,    0,    0,   40,    0,    0,   37,   41,
+   43,    0,    0,    0,    0,    0,    0,   20,   22,   21,
+   23,    0,   24,    0,    0,    8,    9,   60,   47,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,   33,    0,   17,   11,
+   61,    0,    0,   14,    7,   42,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,   38,   39,    0,   48,
+   49,    0,   57,   18,   10,    0,   13,    0,   58,    0,
+   44,    0,   12,   15,    0,   56,   45,
 };
 final static short yydgoto[] = {                          4,
-    5,    6,    7,    8,    9,   62,   63,   64,   88,   89,
-   22,   23,   60,   15,   16,   17,   18,   19,   20,   49,
-   45,   46,   47,   50,   51,
+    5,    6,    7,    8,    9,   65,   66,   67,   92,   93,
+   94,   22,   23,   62,   46,   16,   17,   18,   19,   20,
+   21,   47,   48,   49,   50,   51,   52,   53,
 };
-final static short yysindex[] = {                      -210,
- -229, -246, -236,    0,    0, -274, -258,    0,    0, -233,
-    0, -237, -197, -228, -227,    0,    0,    0,    0,    0,
-    0, -224, -253, -219, -258,    0,    0, -252, -254, -214,
- -201,    0,    0,    0, -199, -192, -249, -190,    0,    0,
-    0, -252, -184, -251, -167,    0,    0, -252, -111, -182,
- -166, -177, -171, -249,    0,    0,    0,    0,    0, -172,
- -139, -165,    0,    0, -191, -152, -252, -252,    0, -252,
- -252,    0, -252, -252, -252, -252, -252, -252, -197, -252,
- -252, -254, -149, -140,    0,    0,    0, -142, -126,    0,
-    0, -104, -128, -167, -167,    0,    0,  -90,  -90,  -90,
-  -90,  -90,  -90, -250,    0,    0, -103,    0,    0,    0,
-  -81,    0,  -78,    0, -197,    0,  -98,    0,    0, -203,
-    0,    0,
+final static short yysindex[] = {                      -261,
+ -215, -248, -246,    0,    0, -204, -257,    0,    0, -231,
+    0, -233, -197, -221, -209, -205,    0,    0,    0,    0,
+    0, -251, -265,    0, -228, -257,    0,    0,    0, -239,
+ -217, -189, -235,    0,    0,    0, -182, -248, -178, -192,
+    0, -164, -235, -235, -173,    0,  -95, -147,    0,    0,
+    0, -171, -145, -165, -162, -253, -178,    0,    0,    0,
+    0, -149,    0, -123, -140,    0,    0,    0,    0, -161,
+ -129, -235, -235, -235, -235, -235, -235, -235, -235, -235,
+ -235, -197, -235, -235, -239, -124,    0, -117,    0,    0,
+    0, -126, -110,    0,    0,    0,  -88,  -87, -147, -147,
+  -76,  -76,  -76,  -76,  -76,  -76,    0,    0, -226,    0,
+    0,  -82,    0,    0,    0,  -64,    0,  -63,    0, -197,
+    0,  -85,    0,    0, -203,    0,    0,
 };
 final static short yyrindex[] = {                         0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,    0, -159,    0,    0,    0,    0,    0,
-  -92,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0, -143,    0,    0,
+    0,    0,  -78,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0, -143, -127,    0,    0, -248, -193, -110,
- -102,  -99,  -97,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0, -127, -111,
+ -232, -207, -163,  -94,  -86,  -83,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,
+    0,    0,    0,    0,    0,    0,    0,
 };
 final static short yygindex[] = {                         0,
-    0,    0,  178,    7,  179,    0,  120,    0,    0,    0,
-    0,  165,  134,  -12,  -15,    0,    0,    0,    0,  -26,
-  107,  109,    0,  108,  -24,
+    0,    0,  192,    3,  193,    0,  129,    0,    0,    0,
+   83,    0,  180,  146,   -1,  -10,  -14,    0,    0,    0,
+    0,  -28,  114,  110,    0,    0,  119,  -39,
 };
-final static int YYTABLESIZE=190;
+final static int YYTABLESIZE=204;
 static short yytable[];
 static { yytable();}
 static void yytable(){
-yytable = new short[]{                         33,
-   30,   44,   40,   41,   40,   41,   10,   56,   67,   68,
-   21,    2,   48,   27,   33,   65,   50,   50,    3,   42,
-   24,   42,    1,   72,   36,   37,   50,   10,   69,   10,
-   28,   39,   21,   57,   58,   59,   29,   12,  115,  116,
-   13,   43,   10,   43,   14,   31,   98,   99,  100,  101,
-  102,  103,   11,   10,   32,  105,  106,   53,   12,   10,
-   12,   13,   34,   13,   55,   14,  104,   14,   67,   68,
-    1,   51,   51,   12,   38,    2,   13,   52,   36,   54,
-   14,   51,    3,   91,   12,   61,  122,   13,   33,   66,
-   12,   14,   79,   13,   70,   71,   82,   14,   80,   81,
-   34,   34,  120,   83,   33,   34,   34,   85,   34,   34,
-   34,   34,   34,   34,   90,   34,   35,   35,   86,   87,
-   34,   35,   35,   92,   35,   35,   35,   35,   35,   35,
-  108,   35,   36,   36,  110,  111,   35,   36,   36,  109,
-   36,   36,   36,   36,   36,   36,  114,   36,   67,   68,
-  112,  113,   36,   86,   52,   52,   73,   74,   75,   76,
-   77,   78,   53,   53,   52,   54,   54,   55,   55,   67,
-   68,  117,   53,   94,   95,   54,  118,   55,   96,   97,
-  119,  121,   46,   25,   26,   93,   35,   84,    0,  107,
+yytable = new short[]{                         15,
+   24,   35,   31,   69,   56,   10,   72,   73,   10,   28,
+   25,   15,   38,   39,   15,   70,   35,   10,   42,    1,
+   24,   10,   42,    1,    2,   29,   87,   43,   41,   15,
+   10,    3,   50,   50,   44,   36,   58,   63,   44,   10,
+   30,   10,   50,  110,  111,  101,  102,  103,  104,  105,
+  106,   10,   32,   10,   33,   63,   45,   51,   51,   10,
+   45,   12,  120,  121,   13,   40,   11,   51,   14,   55,
+   12,  109,   12,   13,   54,   13,   34,   14,   10,   14,
+   15,    2,   12,   64,   12,   13,  127,   13,    3,   14,
+   12,   14,   68,   13,   35,   38,   57,   14,   72,   73,
+   71,   52,   52,   82,   59,   60,   61,   15,   85,  125,
+   35,   52,   86,   96,   80,   81,   34,   34,   15,   83,
+   84,   34,   34,   15,   34,   34,   34,   34,   34,   34,
+   89,   34,   35,   35,   90,   91,   34,   35,   35,   95,
+   35,   35,   35,   35,   35,   35,   97,   35,   36,   36,
+  115,  116,   35,   36,   36,  113,   36,   36,   36,   36,
+   36,   36,  114,   36,   72,   73,  117,  118,   36,   90,
+   53,   53,   74,   75,   76,   77,   78,   79,   54,   54,
+   53,   55,   55,   72,   73,   99,  100,  119,   54,  107,
+  108,   55,  122,  123,  126,   91,   46,   26,   27,   98,
+  124,   37,   88,  112,
 };
 }
 static short yycheck[];
 static { yycheck(); }
 static void yycheck() {
-yycheck = new short[] {                         15,
-   13,   28,  257,  258,  257,  258,  257,  257,  260,  261,
-  257,  286,  267,    7,   30,   42,  265,  266,  293,  274,
-  257,  274,  281,   48,  278,  279,  275,  257,  280,  257,
-  264,   25,  257,  283,  284,  285,  274,  288,  289,  290,
-  291,  296,  257,  296,  295,  274,   73,   74,   75,   76,
-   77,   78,  282,  257,  282,   80,   81,  259,  288,  257,
-  288,  291,  287,  291,  257,  295,   79,  295,  260,  261,
-  281,  265,  266,  288,  294,  286,  291,  292,  278,  279,
-  295,  275,  293,  275,  288,  276,  290,  291,  104,  274,
-  288,  295,  275,  291,  262,  263,  274,  295,  265,  266,
-  260,  261,  115,  275,  120,  265,  266,  280,  268,  269,
-  270,  271,  272,  273,  280,  275,  260,  261,  258,  259,
-  280,  265,  266,  276,  268,  269,  270,  271,  272,  273,
-  280,  275,  260,  261,  277,  278,  280,  265,  266,  280,
-  268,  269,  270,  271,  272,  273,  275,  275,  260,  261,
-  277,  278,  280,  258,  265,  266,  268,  269,  270,  271,
-  272,  273,  265,  266,  275,  265,  266,  265,  266,  260,
-  261,  275,  275,   67,   68,  275,  258,  275,   70,   71,
-  259,  280,  275,    6,    6,   66,   22,   54,   -1,   82,
+yycheck = new short[] {                          1,
+    2,   16,   13,   43,   33,  257,  260,  261,  257,    7,
+  257,   13,  278,  279,   16,   44,   31,  257,  258,  281,
+   22,  257,  258,  281,  286,  257,  280,  267,   26,   31,
+  257,  293,  265,  266,  274,  287,   38,   39,  274,  257,
+  274,  257,  275,   83,   84,   74,   75,   76,   77,   78,
+   79,  257,  274,  257,  264,   57,  296,  265,  266,  257,
+  296,  288,  289,  290,  291,  294,  282,  275,  295,  259,
+  288,   82,  288,  291,  292,  291,  282,  295,  257,  295,
+   82,  286,  288,  276,  288,  291,  290,  291,  293,  295,
+  288,  295,  257,  291,  109,  278,  279,  295,  260,  261,
+  274,  265,  266,  275,  283,  284,  285,  109,  274,  120,
+  125,  275,  275,  275,  262,  263,  260,  261,  120,  265,
+  266,  265,  266,  125,  268,  269,  270,  271,  272,  273,
+  280,  275,  260,  261,  258,  259,  280,  265,  266,  280,
+  268,  269,  270,  271,  272,  273,  276,  275,  260,  261,
+  277,  278,  280,  265,  266,  280,  268,  269,  270,  271,
+  272,  273,  280,  275,  260,  261,  277,  278,  280,  258,
+  265,  266,  268,  269,  270,  271,  272,  273,  265,  266,
+  275,  265,  266,  260,  261,   72,   73,  275,  275,   80,
+   81,  275,  275,  258,  280,  259,  275,    6,    6,   71,
+  118,   22,   57,   85,
 };
 }
 final static short YYFINAL=4;
@@ -354,17 +360,17 @@ final static String yyrule[] = {
 "lis_num_c : CTE_NUM",
 "lis_num_c : lis_num_c COMA CTE_NUM",
 "lista_str : COR_ABRE lis_str_c COR_CIERRA",
-"lis_str_c : CTE_STR",
-"lis_str_c : lis_str_c COMA CTE_STR",
+"lis_str_c : cte_str",
+"lis_str_c : lis_str_c COMA cte_str",
 "def_var : DEFVAR lista_var ENDDEF",
 "lista_var : lista_ids DOS_PUNTOS tipo PUNTO_Y_COMA",
 "lista_var : lista_var lista_ids DOS_PUNTOS tipo PUNTO_Y_COMA",
-"lista_ids : ID",
-"lista_ids : lista_ids COMA ID",
+"lista_ids : id",
+"lista_ids : lista_ids COMA id",
 "tipo : FLOAT",
 "tipo : STRING",
 "tipo : POINTER",
-"tipo : ID",
+"tipo : id",
 "ejecucion : BEGIN sentencias END",
 "ejecucion : BEGIN END",
 "sentencias : sentencia",
@@ -373,15 +379,15 @@ final static String yyrule[] = {
 "sentencia : condicional",
 "sentencia : bucle",
 "sentencia : display_command",
-"asignacion : ID OP_ASIG expresion PUNTO_Y_COMA",
+"asignacion : id OP_ASIG expresion PUNTO_Y_COMA",
 "expresion : termino",
 "expresion : expresion OP_SUMA termino",
 "expresion : expresion OP_RESTA termino",
 "termino : factor",
 "termino : termino OP_MUL factor",
 "termino : termino OP_DIV factor",
-"factor : ID",
-"factor : CTE_NUM",
+"factor : id",
+"factor : cte_num",
 "factor : PAR_ABRE expresion PAR_CIERRA",
 "factor : average",
 "condicional : IF PAR_ABRE condicion PAR_CIERRA sentencias ENDIF",
@@ -399,9 +405,12 @@ final static String yyrule[] = {
 "bucle : REPEAT sentencias UNTIL PAR_ABRE condicion PAR_CIERRA PUNTO_Y_COMA",
 "display_command : DISPLAY PAR_ABRE CTE_STR PAR_CIERRA PUNTO_Y_COMA",
 "average : AVG PAR_ABRE lista_num PAR_CIERRA",
+"id : ID ID",
+"cte_num : CTE_NUM ID",
+"cte_str : CTE_STR",
 };
 
-//#line 99 "input.y"
+//#line 105 "input.y"
 	void yyerror(String mensaje) {
 		System.out.println("Error: " + mensaje);
 	}
@@ -425,7 +434,7 @@ final static String yyrule[] = {
 		archivo.cerrarArhivo();
 		//System.out.println(TablaDeSimbolos.getInstance().toString());
 	}
-//#line 365 "Parser.java"
+//#line 374 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -582,75 +591,179 @@ case 1:
 //#line 13 "input.y"
 {System.out.println("Compila OK!");}
 break;
+case 5:
+//#line 19 "input.y"
+{System.out.println(yyval.sval);}
+break;
+case 6:
+//#line 20 "input.y"
+{System.out.println(yyval.sval);}
+break;
+case 7:
+//#line 22 "input.y"
+{yyval.sval = "TYPE " + "XXXXXXXXXX" + " AS " + val_peek(4).sval + ";"; }
+break;
+case 8:
+//#line 24 "input.y"
+{yyval.sval = val_peek(0).sval;}
+break;
+case 9:
+//#line 25 "input.y"
+{yyval.sval = val_peek(0).sval;}
+break;
+case 10:
+//#line 27 "input.y"
+{yyval.sval = "[" + val_peek(2).sval + "]";}
+break;
+case 11:
+//#line 29 "input.y"
+{yyval.sval = TablaDeSimbolos.getInstance().getPos(yylval.ival);}
+break;
+case 12:
+//#line 30 "input.y"
+{yyval.sval = val_peek(2).sval + "," + TablaDeSimbolos.getInstance().getPos(yylval.ival);}
+break;
+case 13:
+//#line 32 "input.y"
+{yyval.sval = "[" + val_peek(2).sval + "]";}
+break;
+case 14:
+//#line 34 "input.y"
+{yyval.sval = val_peek(0).sval;}
+break;
+case 15:
+//#line 35 "input.y"
+{yyval.sval = val_peek(2).sval + "," + val_peek(1).sval;}
+break;
+case 17:
+//#line 39 "input.y"
+{yyval.sval = val_peek(3).sval + ":" + val_peek(2).sval + ";";}
+break;
+case 18:
+//#line 40 "input.y"
+{yyval.sval = val_peek(4).sval + "\n" + val_peek(3).sval + ":" + val_peek(2).sval + ";";}
+break;
+case 19:
+//#line 42 "input.y"
+{yyval.sval = val_peek(0).sval;}
+break;
+case 20:
+//#line 43 "input.y"
+{yyval.sval = val_peek(2).sval + "," + val_peek(1).sval;}
+break;
+case 21:
+//#line 45 "input.y"
+{yyval.sval = "FLOAT";}
+break;
+case 22:
+//#line 46 "input.y"
+{yyval.sval = "STRING";}
+break;
+case 23:
+//#line 47 "input.y"
+{yyval.sval = "POINTER";}
+break;
+case 24:
+//#line 48 "input.y"
+{yyval.sval = val_peek(0).sval;}
+break;
+case 25:
+//#line 50 "input.y"
+{yyval.sval = "BEGIN " + val_peek(2).sval + " END";}
+break;
+case 26:
+//#line 51 "input.y"
+{yyval.sval = "BEGIN " + " END";}
+break;
 case 29:
 //#line 56 "input.y"
-{System.out.println("=");}
+{yyval.sval = val_peek(0).sval;}
+break;
+case 33:
+//#line 61 "input.y"
+{yyval.sval = val_peek(3).sval + " = " + val_peek(2).sval + ";";}
 break;
 case 35:
 //#line 64 "input.y"
-{System.out.println("+");}
+{yyval.sval = val_peek(2).sval + " + " + val_peek(1).sval;}
 break;
 case 36:
 //#line 65 "input.y"
-{System.out.println("-");}
+{yyval.sval = val_peek(2).sval + " - " + val_peek(1).sval;}
 break;
 case 38:
 //#line 68 "input.y"
-{System.out.println("*");}
+{yyval.sval = val_peek(2).sval + " * " + val_peek(1).sval;}
 break;
 case 39:
 //#line 69 "input.y"
-{System.out.println("/");}
+{yyval.sval = val_peek(2).sval + " / " + val_peek(1).sval;}
 break;
 case 40:
 //#line 71 "input.y"
-{System.out.println(TablaDeSimbolos.getInstance().getPos(yylval.ival));}
+{yyval.sval = val_peek(0).sval;}
 break;
 case 41:
 //#line 72 "input.y"
-{System.out.println(TablaDeSimbolos.getInstance().getPos(yylval.ival));}
+{yyval.sval = val_peek(0).sval;}
+break;
+case 42:
+//#line 73 "input.y"
+{yyval.sval = "(" + val_peek(2).sval + ")";}
 break;
 case 43:
 //#line 74 "input.y"
-{System.out.println("AVG()");}
+{yyval.sval = val_peek(0).sval;}
 break;
 case 47:
 //#line 80 "input.y"
-{System.out.println("!");}
+{val_peek(1).sval = "!";}
 break;
 case 48:
 //#line 81 "input.y"
-{System.out.println("&&");}
+{val_peek(1).sval = "&&";}
 break;
 case 49:
 //#line 82 "input.y"
-{System.out.println("||");}
+{val_peek(1).sval = "||";}
 break;
 case 50:
 //#line 84 "input.y"
-{System.out.println("==");}
+{val_peek(1).sval = "==";}
 break;
 case 51:
 //#line 85 "input.y"
-{System.out.println("!=");}
+{val_peek(1).sval = "!=";}
 break;
 case 52:
 //#line 86 "input.y"
-{System.out.println(">");}
+{val_peek(1).sval = ">";}
 break;
 case 53:
 //#line 87 "input.y"
-{System.out.println("<");}
+{val_peek(1).sval = "<";}
 break;
 case 54:
 //#line 88 "input.y"
-{System.out.println(">=");}
+{val_peek(1).sval = ">=";}
 break;
 case 55:
 //#line 89 "input.y"
-{System.out.println("<=");}
+{val_peek(1).sval = "<=";}
 break;
-//#line 585 "Parser.java"
+case 59:
+//#line 97 "input.y"
+{yyval.sval = TablaDeSimbolos.getInstance().getPos(yylval.ival);}
+break;
+case 60:
+//#line 99 "input.y"
+{yyval.sval = TablaDeSimbolos.getInstance().getPos(yylval.ival);}
+break;
+case 61:
+//#line 101 "input.y"
+{yyval.sval = "\"" + TablaDeSimbolos.getInstance().getPos(yylval.ival) + "\"";}
+break;
+//#line 698 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####
