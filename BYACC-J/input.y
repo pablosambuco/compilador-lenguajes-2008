@@ -77,7 +77,7 @@ condicional: IF PAR_ABRE condicion PAR_CIERRA sentencias ENDIF {$$ = new ParserV
            | IF PAR_ABRE condicion PAR_CIERRA sentencias ELSE sentencias ENDIF {$$ = new ParserVal("IF(" + $3.sval + ")\n" + $5.sval + "\nELSE\n" + $7.sval + "\nENDIF"); System.out.println("Regla 43\n" + $$.sval + "\n");}
 ;
 condicion: comparacion {$$ = new ParserVal($1.sval); System.out.println("Regla 44\n" + $$.sval + "\n");}
-         | OP_NEGACION comparacion {$$ = new ParserVal("!" + $2.sval); System.out.println("Regla 45\n" + $$.sval + "\n");}
+         | OP_NEGACION PAR_ABRE comparacion PAR_CIERRA {$$ = new ParserVal("!(" + $3.sval + ")"); System.out.println("Regla 45\n" + $$.sval + "\n");}
          | comparacion AND comparacion {$$ = new ParserVal($1.sval + "&&" + $3.sval); System.out.println("Regla 46\n" + $$.sval + "\n");}
          | comparacion OR comparacion {$$ = new ParserVal($1.sval + "||" + $3.sval); System.out.println("Regla 47\n" + $$.sval + "\n");}
 ;
