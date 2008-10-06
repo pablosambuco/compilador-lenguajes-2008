@@ -4,8 +4,8 @@ import compilador.parser.ParserVal;
 
 public interface IRutinaSemantica {
 	
-	public static final float TAMANIO_MAXIMO_TOKEN = 15;
-	public static final float TAMANIO_MAXIMO_CTE_STRING = 30;
+	public static final int TAMANIO_MAXIMO_TOKEN = 15;
+	public static final int TAMANIO_MAXIMO_CTE_STRING = 30;
 
 	/* TODO - Cambiar estas constantes, tener en cuenta el 0 y números negativos */
 	public static final float TAMANIO_MINIMO_CTE = Float.MIN_VALUE; //TODO cambiar por los valores de C

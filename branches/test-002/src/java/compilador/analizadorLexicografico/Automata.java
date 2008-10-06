@@ -307,7 +307,7 @@ public class Automata {
 			if(imprimir) {
 				System.out.print("Tipo:" + tipoToken + " ");
 				System.out.print(token);
-				if(tipoToken == 257 || tipoToken == 258 || tipoToken == 259)
+				if(tipoToken == Parser.ID || tipoToken == Parser.CTE_NUM || tipoToken == Parser.CTE_STR)
 				{	String posicion = "(Pos " + yylval.ival + ")"; 
 					System.out.print("                   ".substring(token.length()));
 				 	System.out.print(posicion);
