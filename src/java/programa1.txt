@@ -1,4 +1,3 @@
-
 #% 
  % Este es un programa de prueba.
  % La idea de este programa es mostrar todas las palabras reservadas y alguno simbolos
@@ -15,10 +14,9 @@ DEFVAR
 	otraVariable: POINTER;
 	tipoExtra: frutas;
 	otraMas: valores;
+	#%No estamos definiendo algunas variables que después usamos, pero no nos afecta por ahora %#
 ENDDEF
 BEGIN 
-jose = 26 + 9 / 8 * (7 + 2) / vagancia * 3 + x + 98;
-
 	jose = 5;
 	IF (jose != 2 && jose > 4) 
 		jose = 26 + 9 / 8 * (7 + 2) / vagancia * 3 + AVG([234,443.1,22,768]) + 98;
@@ -38,5 +36,4 @@ jose = 26 + 9 / 8 * (7 + 2) / vagancia * 3 + x + 98;
 		jose = jose - 1;
 	UNTIL(jose < 2);
 
-END  #% Holaaaaa #%anidamieeeento%# Chauuuuu %#
-				
+END  #% Holaaaaa #%comentario anidado%# Chauuuuu %#			
