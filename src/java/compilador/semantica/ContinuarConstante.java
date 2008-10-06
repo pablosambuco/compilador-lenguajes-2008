@@ -12,7 +12,7 @@ public class ContinuarConstante implements IRutinaSemantica {
 		
 		if( (num < TAMANIO_MINIMO_CTE || num > TAMANIO_MAXIMO_CTE) && num != 0) {
 			//TODO esto es un error y la verdad que no se como deberiamos tratarlo
-			System.out.println("ERROR: Tamanio de Constante fuera de rango");
+			//System.out.println("ERROR: Tamanio de Constante fuera de rango");
 		} else {
 			token.append(c);
 		}

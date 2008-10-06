@@ -11,7 +11,7 @@ TYPE valores AS [12.3, 14.2, 55, .64];
 TYPE otroOtro AS [12.3, 14.2, 55, .64];
 DEFVAR
 	jose, esteban: FLOAT; #% Todos los numericos son FLOAT %#
-	roberto, julian: STRING; #% El tamao maximo para las cadenas es 30 caracteres %#
+	roberto, julian: STRING; #% El tamaño maximo para las cadenas es 30 caracteres %#
 	otraVariable: POINTER;
 	tipoExtra: frutas;
 	otraMas: valores;
@@ -27,14 +27,14 @@ jose = 26 + 9 / 8 * (7 + 2) / vagancia * 3 + x + 98;
 		ELSE
 			REPEAT
 				DISPLAY("ya es muy groso");
-			UNTIL(!(SuHijo < 2)); #% Ojo con esto, el uso de ! queda horrible asi, ya que pareciera que esta negando a SuHijo (?) y en verdad est negando la comparacion %#
+			UNTIL(!(SuHijo < 2)); #% Ojo con esto, el uso de ! es siempre con parentesis %#
 		ENDIF
 	ELSE
-		DISPLAY("te quieroooo");
+		DISPLAY("salgo por else");
 	ENDIF
 	
 	REPEAT
-		DISPLAY("te odiooooo");
+		DISPLAY("repito");
 		jose = jose - 1;
 	UNTIL(jose < 2);
 
