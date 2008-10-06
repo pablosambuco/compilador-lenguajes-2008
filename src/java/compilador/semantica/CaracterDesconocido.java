@@ -1,12 +1,13 @@
 package compilador.semantica;
 
-import compilador.util.TipoToken;
+import compilador.parser.Parser;
+import compilador.parser.ParserVal;
 
 public class CaracterDesconocido implements IRutinaSemantica {
 
-	public int execute(char c, StringBuffer token) {
+	public int execute(char c, StringBuffer token, ParserVal yylval) {
 		System.out.print("Caracter Desconocido: " + "\"" + c + "\" ");
-		return TipoToken.ERROR_LEXICO;
+		return Parser.ERROR_LEXICO;
 	}
 
 }

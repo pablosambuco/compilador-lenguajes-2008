@@ -1,12 +1,13 @@
 package compilador.semantica;
 
-import compilador.util.TipoToken;
+import compilador.parser.Parser;
+import compilador.parser.ParserVal;
 
 public class ParentesisCierra implements IRutinaSemantica {
 
-	public int execute(char c, StringBuffer token) {
-		token.append("< ) >");
-		return TipoToken.PAR_CIERRA;
+	public int execute(char c, StringBuffer token, ParserVal yylval) {
+		token.append(")");
+		return Parser.PAR_CIERRA;
 	}
 
 }

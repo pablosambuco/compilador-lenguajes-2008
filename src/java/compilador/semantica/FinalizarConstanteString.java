@@ -1,21 +1,23 @@
 package compilador.semantica;
 
-import compilador.analizadorLexicografico.Automata;
+import compilador.parser.ParserVal;
+import compilador.parser.Parser;
 import compilador.beans.TablaDeSimbolos;
-import compilador.util.TipoToken;
 
 public class FinalizarConstanteString implements IRutinaSemantica {
 
-	public int execute(char c, StringBuffer token) {
+	public int execute(char c, StringBuffer token, ParserVal yylval) {
+		
 		if (token.length() > TAMANIO_MAXIMO_CTE_STRING) {
-			System.out.println("(ERROR: Tamanio de Constante String demasiado largo. Truncado a 30)");
-			token.setLength(30);
+			System.out.println("(ERROR: Tamanio de Constante String demasiado largo.)");
+			//token.setLength(TAMANIO_MAXIMO_CTE_STRING);
+			return Parser.ERROR_LEXICO;
 		}
-		Automata.yylval = TablaDeSimbolos.getInstance().agregar(token);
-		// llevamos la cadena a la forma <CTE: token>
-		token.insert(0, "<CTE_STR: \"");
-		token.append("\" >");
-		return TipoToken.CTE_STR;
+		
+		yylval.ival = TablaDeSimbolos.getInstance().agregar(token);
+		token.delete(0,token.length());
+		token.append("CTE_STR");
+		return Parser.CTE_STR;
 	}
 
 }

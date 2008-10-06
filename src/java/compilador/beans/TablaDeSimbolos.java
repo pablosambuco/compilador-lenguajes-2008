@@ -49,4 +49,10 @@ public class TablaDeSimbolos {
 		}
 		return out;
 	}
+	
+	public String getPos(int posicion) {
+		EntradaTS actual = simbolos.get(posicion);
+		return actual.getNombre();
+	}
+	
 }

@@ -1,0 +1,8 @@
+Para generar el parser:
+yacc.exe -J -Jpackage=compilador.parser input.y
+
+Los archivos generados, tirarlos en /src/java/compilador/parser
+
+
+Modificando el input.y se puede hacer que ejecute alguna sentencia (semantica) 
+Por ahora sólo comenta más o menos qué es lo que estamos haciendo
