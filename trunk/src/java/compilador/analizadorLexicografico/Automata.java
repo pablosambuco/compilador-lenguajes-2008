@@ -1,7 +1,9 @@
 package compilador.analizadorLexicografico;
 
 import java.io.IOException;
-
+import compilador.beans.TablaDeSimbolos;
+import compilador.parser.Parser;
+import compilador.parser.ParserVal;
 import compilador.semantica.And;
 import compilador.semantica.CaracterDesconocido;
 import compilador.semantica.Coma;
@@ -37,14 +39,28 @@ import compilador.semantica.ParentesisAbre;
 import compilador.semantica.ParentesisCierra;
 import compilador.semantica.PuntoYComa;
 import compilador.util.ArchivoReader;
-import compilador.util.TipoToken;
-
 
 public class Automata {
+
+	private static Automata instancia;
 	
-	public static final int ESTADO_INICIAL = 0;
-	public static final int ESTADO_FINAL = 36;
+	private Automata() {
+
+	}
 	
+	public static Automata getInstance(){
+		if(instancia == null)
+			instancia = new Automata();
+		return instancia;
+		
+	}
+	
+	
+	/*En caso de querer imprimir la tira de tokens, usar true*/
+	private boolean imprimir = false;
+	
+    public static final int ERR = -1;
+    
     //Tipos de caracter
 	public static final int C_LETRA = 0;
     public static final int C_DIGITO = 1;
@@ -72,9 +88,7 @@ public class Automata {
     public static final int C_IGNORADO = 23;
     public static final int C_DESCONOCIDO = 24;
     public static final int C_FIN_DE_ARCHIVO = 25; //no lo leemos pero se lo trata como un caracter más
-	
-    public static final int ERR = -1;
-	
+		
 	public static int [][]nuevoEstado = {
 		//letra		digito	.		"		=		!		<		>		&		|		[		]		(		)		,		:		;		+		-		*		/		#		%		ign.	desc.	EOF /* El contenido de esta última columna es simbólico porque una vez que se leyó fin de archivo se ejecuta la rutina de cierre necesaria y no se vuelve a pasar al estado siguiente (que tampoco interesa) */
 /* 0 */	{1,			2,		3,		5,		7,		9,		11,		13,		15,  	17, 	19,		20,		21,		22,		23,		24,		25,		26,		27,		28,		29,		30,		0,		0,		0,		0}, 
@@ -157,7 +171,6 @@ public class Automata {
 	private static Error error = new Error();
 	private static CaracterDesconocido caracterDesconocido = new CaracterDesconocido();
 	
-	
 	public static IRutinaSemantica [][]rutinaSemantica = {
 		//letra						digito						.							"							=							!							<							>							&							|							[							]							(							)							,							:							;							+							-							*							/							#							%							ignorado					desconocido					fin de archivo
 /* 0 */	{iniciarId,  				iniciarConstante,			iniciarConstante,  			iniciarConstanteString, 	ignorar,					ignorar, 					ignorar,		  			ignorar,  					ignorar, 					ignorar,	 				corcheteAbre,				corcheteCierra,				parentesisAbre,				parentesisCierra,			coma,		 				dosPuntos,					puntoYComa,					operadorSuma,				operadorResta,				operadorMultiplicacion,		operadorDivision,			ignorar,					error,						ignorar,					caracterDesconocido,		ignorar}, 
@@ -197,63 +210,9 @@ public class Automata {
 /* 34 */{ignorar,  					ignorar,					ignorar,  					ignorar, 					ignorar,					ignorar, 					ignorar,		  			ignorar,  					ignorar, 					ignorar,	 				ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					error},
 /* 35 */{ignorar,  					ignorar,					ignorar,  					ignorar, 					ignorar,					ignorar, 					ignorar,		  			ignorar,  					ignorar, 					ignorar,	 				ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					ignorar,					error},
 /* 36 */{error,  					error,						error,  					error, 						error,						error, 						error,		  				error,  					error, 						error,	 					error,						error,						error,						error,						error,						error,						error,						error,						error,						error,						error,						error,						error,						error,						error,						error},
-		};
-	
-	
+	};
 	
 	private StringBuffer token = new StringBuffer();
-	
-	public static int yylval;
-		
-	public int yylex () throws IOException {
-
-			ArchivoReader archivo = ArchivoReader.getInstance();
-		
-			char caracter;
-			int estado = ESTADO_INICIAL; 			// Estado dentro del AF (inicializado en con el primer estado) 
-		    int tipoCaracter;  			 			// Tipo del caracter leido
-		    int tipoToken = TipoToken.INCOMPLETO;   // Tipo de Token
-		    int tipoTokenAux;            
-		    
-		    do {
-				
-		    	caracter = archivo.getChar(); //levantamos el caracter
-				tipoCaracter = clasificarCaracter(caracter); //lo clasificamos
-
-				IRutinaSemantica rutina = rutinaSemantica[estado][tipoCaracter];
-				tipoTokenAux = rutina.execute(caracter, token);
-				
-				/*
-				 * Algunos casos devuelven TipoToken.INCOMPLETO porque se llama a Ignorar antes de pasar
-				 * al último estado, cuando en verdad el Tipo de Token correcto ya lo tenemos guardado de
-				 *  una llamada a rutina anterior. En esos casos, no guardamos el valor tipoToken sino que
-				 *  lo ignoramos. 
-				 */ 
-				if(tipoTokenAux != TipoToken.INCOMPLETO) {
-					tipoToken = tipoTokenAux;
-				}
-				
-				// Se pasa al proximo estado
-				estado = nuevoEstado[estado][tipoCaracter];
-
-		    } while ((estado != ESTADO_FINAL) && (tipoTokenAux != TipoToken.ERROR_LEXICO) && (!archivo.esFinDeArchivo()));
-
-		    if((estado == ESTADO_FINAL)) {
-		    	archivo.unGet();
-		    }
-		    
-			//Considerar que si se hizo unGet() nunca va a ser fin de archivo
-		    if(archivo.esFinDeArchivo()) {
-				IRutinaSemantica rutina = rutinaSemantica[estado][C_FIN_DE_ARCHIVO];
-				tipoToken = rutina.execute(caracter, token);
-			}
-		    
-		    
-		    System.out.print(token + new String("                                                 ").substring(token.length()));
-		    
-		    return tipoToken;
-		}
-	
 	
 	private int clasificarCaracter(char c) {
 
@@ -299,5 +258,68 @@ public class Automata {
 
 	    return C_DESCONOCIDO;
 	}
+	
+	public int getToken (ParserVal yylval) {
 
+		token.delete(0, token.length()); //Reseteo el buffer
+		ArchivoReader archivo = ArchivoReader.getInstance();
+		
+		if(archivo.esFinDeArchivo()) {
+			return Parser.INCOMPLETO;
+		}		
+				
+		char caracter;
+		int estado = Parser.ESTADO_INICIAL; 			// Estado dentro del AF (inicializado en con el primer estado) 
+		int tipoCaracter;  			 			// Tipo del caracter leido
+		int tipoToken = Parser.INCOMPLETO;  	// Tipo de Token es Incompleto por default, para que yyparse() no pida mas tokens si ya no se estan devolviendo a pesar de que no se haya llegado a fin de archivo (esto se da en los casos en que el archivo termina con caracteres ignorados o con comentarios)
+		int tipoTokenAux;            
+		try {		
+			do {
+
+				caracter = archivo.getChar(); //levantamos el caracter
+				tipoCaracter = clasificarCaracter(caracter); //lo clasificamos
+			
+				IRutinaSemantica rutina = rutinaSemantica[estado][tipoCaracter];
+				tipoTokenAux = rutina.execute(caracter, token, yylval);
+			
+				/*
+				 * Algunos casos devuelven INCOMPLETO porque se llama a Ignorar antes de pasar
+				 * al último estado, cuando en verdad el Tipo de Token correcto ya lo tenemos guardado de
+				 *  una llamada a rutina anterior. En esos casos, no guardamos el valor tipoToken sino que
+				 *  lo ignoramos. 
+				 */ 
+				if(tipoTokenAux != Parser.INCOMPLETO) {
+					tipoToken = tipoTokenAux;
+				}
+			
+				// Se pasa al proximo estado
+				estado = nuevoEstado[estado][tipoCaracter];
+			} while ((estado != Parser.ESTADO_FINAL) && (tipoTokenAux != Parser.ERROR_LEXICO) && (!archivo.esFinDeArchivo()));
+		
+			if((estado == Parser.ESTADO_FINAL)) {
+				archivo.unGet();
+			}
+			else if(archivo.esFinDeArchivo()) {
+				IRutinaSemantica rutina = rutinaSemantica[estado][C_FIN_DE_ARCHIVO];
+				tipoToken = rutina.execute(caracter, token, yylval);
+			}
+		
+			if(imprimir) {
+				System.out.print("Tipo:" + tipoToken + " ");
+				System.out.print(token);
+				if(tipoToken == Parser.ID || tipoToken == Parser.CTE_NUM || tipoToken == Parser.CTE_STR)
+				{	String posicion = "(Pos " + yylval.ival + ")"; 
+					System.out.print("                   ".substring(token.length()));
+				 	System.out.print(posicion);
+			   		System.out.print("          ".substring(posicion.length()));
+			   		System.out.print(TablaDeSimbolos.getInstance().getPos(yylval.ival)); 
+				}
+				System.out.print("\n");
+			}
+   
+			return tipoToken;
+		} catch (IOException e) {
+			return Parser.INCOMPLETO; 
+		}
+	}
 }

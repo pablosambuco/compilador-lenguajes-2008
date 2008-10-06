@@ -1,12 +1,13 @@
 package compilador.semantica;
 
-import compilador.util.TipoToken;
+import compilador.parser.ParserVal;
+import compilador.parser.Parser;
 
 public class OperadorDivision implements IRutinaSemantica {
 
-	public int execute(char c, StringBuffer token) {
-		token.append("< / >");
-		return TipoToken.OP_DIV;
+	public int execute(char c, StringBuffer token, ParserVal yylval) {
+		token.append("/");
+		return Parser.OP_DIV;
 	}
 
 }
