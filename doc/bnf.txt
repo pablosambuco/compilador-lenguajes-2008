@@ -60,7 +60,7 @@
                  <IF> <PAR_ABRE> <CONDICION> <PAR_CIERRA> <SENTENCIAS> <ELSE> <SENTENCIAS> <ENDIF>
 
 <CONDICION> ::= <COMPARACION> |
-                <OP_NEGACION> <COMPARACION> |
+                <OP_NEGACION> <PAR_ABRE> <COMPARACION> <PAR_CIERRA> |
                 <COMPARACION> <AND> <COMPARACION> |
                 <COMPARACION> <OR> <COMPARACION>
 
@@ -124,20 +124,3 @@
 <AS>            ::= AS
 <DISPLAY>       ::= DISPLAY
 <AVG>           ::= AVG
-
-<!-- Pseudo-Símbolos de uso interno del AF -->
-
-<LETRA>     ::= a | b | c | d | e | f | g | h | i | j | k | l | m |
-                n | o | p | q | r | s | t | u | v | w | x | y | z |
-                A | B | C | D | E | F | G | H | I | J | K | L | M |
-                N | O | P | Q | R | S | T | U | V | W | X | Y | Z
-
-<DIGITO>    ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
-
-<ENTERO>    ::= <DIGITO> | 
-                <ENTERO> <DIGITO>
-<DECIMAL>   ::= .<ENTERO>
-
-<TEXTO>     ::= <cualquier secuencia de caracteres sin " ni EOF>
-
-<IGNORADO>  ::= '\n' | '\t' |  '\r' |  ' '
