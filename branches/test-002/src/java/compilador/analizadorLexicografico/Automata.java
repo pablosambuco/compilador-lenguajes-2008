@@ -87,10 +87,10 @@ public class Automata {
     public static final int C_PORCENTUAL = 22;
     public static final int C_IGNORADO = 23;
     public static final int C_DESCONOCIDO = 24;
-    public static final int C_FIN_DE_ARCHIVO = 25; //no lo leemos pero se lo trata como un caracter más
+    public static final int C_FIN_DE_ARCHIVO = 25; //no lo leemos pero se lo trata como un caracter ms
 		
 	public static int [][]nuevoEstado = {
-		//letra		digito	.		"		=		!		<		>		&		|		[		]		(		)		,		:		;		+		-		*		/		#		%		ign.	desc.	EOF /* El contenido de esta última columna es simbólico porque una vez que se leyó fin de archivo se ejecuta la rutina de cierre necesaria y no se vuelve a pasar al estado siguiente (que tampoco interesa) */
+		//letra		digito	.		"		=		!		<		>		&		|		[		]		(		)		,		:		;		+		-		*		/		#		%		ign.	desc.	EOF /* El contenido de esta ltima columna es simblico porque una vez que se ley fin de archivo se ejecuta la rutina de cierre necesaria y no se vuelve a pasar al estado siguiente (que tampoco interesa) */
 /* 0 */	{1,			2,		3,		5,		7,		9,		11,		13,		15,  	17, 	19,		20,		21,		22,		23,		24,		25,		26,		27,		28,		29,		30,		0,		0,		0,		0}, 
 /* 1 */	{1,			1,		36,		36, 	36,		36,		36,		36,  	36, 	36,	 	36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36},
 /* 2 */	{36,		2,		4,		36, 	36,		36,		36,		36,  	36, 	36,	 	36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36},
@@ -121,13 +121,13 @@ public class Automata {
 /* 27 */{36,		36,		36,		36, 	36,		36,		36,		36,  	36, 	36,	 	36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36},
 /* 28 */{36,		36,		36,		36, 	36,		36,		36,		36,  	36, 	36,	 	36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36},
 /* 29 */{36,		36,		36,		36, 	36,		36,		36,		36,  	36, 	36,	 	36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36},
-/* 30 */{36,		36,		36,		36, 	36,		36,		36,		36,  	36, 	36,	 	36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		31,		36,		36,		36}, /* Si vino un # y luego otra cosa distinta de % se necesita informar error léxico y hacer unGet() (por eso llevamos al estado final) del último caracter ingresado */
+/* 30 */{36,		36,		36,		36, 	36,		36,		36,		36,  	36, 	36,	 	36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		36,		31,		36,		36,		36}, /* Si vino un # y luego otra cosa distinta de % se necesita informar error lxico y hacer unGet() (por eso llevamos al estado final) del ltimo caracter ingresado */
 /* 31 */{31,		31,		31,		31, 	31,		31,		31,		31,  	31, 	31,	 	31,		31,		31,		31,		31,		31,		31,		31,		31,		31,		31,		32,		35,		31,		31,		31},
 /* 32 */{31,		31,		31,		31, 	31,		31,		31,		31,  	31, 	31,	 	31,		31,		31,		31,		31,		31,		31,		31,		31,		31,		31,		32,		33,		31,		31,		31},
 /* 33 */{33,		33,		33,		33, 	33,		33,		33,		33,  	33, 	33,	 	33,		33,		33,		33,		33,		33,		33,		33,		33,		33,		33,		33,		34,		33,		33,		33},
 /* 34 */{33,		33,		33,		33, 	33,		33,		33,		33,  	33, 	33,	 	33,		33,		33,		33,		33,		33,		33,		33,		33,		33,		33,		31,		34,		33,		33,		33},
 /* 35 */{31,		31,		31,		31, 	31,		31,		31,		31,  	31, 	31,	 	31,		31,		31,		31,		31,		31,		31,		31,		31,		31,		31,		0,		35,		31,		31,		31},
-/* 36 */{ERR,		ERR,	ERR,	ERR, 	ERR,	ERR,	ERR,	ERR,  	ERR, 	ERR,	ERR,	ERR,	ERR,	ERR,	ERR,	ERR,	ERR,	ERR,	ERR,	ERR,	ERR,	ERR,	ERR,	ERR,	ERR,	ERR}, /* A esta Fila nunca se debría acceder */
+/* 36 */{ERR,		ERR,	ERR,	ERR, 	ERR,	ERR,	ERR,	ERR,  	ERR, 	ERR,	ERR,	ERR,	ERR,	ERR,	ERR,	ERR,	ERR,	ERR,	ERR,	ERR,	ERR,	ERR,	ERR,	ERR,	ERR,	ERR}, /* A esta Fila nunca se debra acceder */
 };
 
 	private static IniciarId iniciarId = new IniciarId();
@@ -284,7 +284,7 @@ public class Automata {
 			
 				/*
 				 * Algunos casos devuelven INCOMPLETO porque se llama a Ignorar antes de pasar
-				 * al último estado, cuando en verdad el Tipo de Token correcto ya lo tenemos guardado de
+				 * al ltimo estado, cuando en verdad el Tipo de Token correcto ya lo tenemos guardado de
 				 *  una llamada a rutina anterior. En esos casos, no guardamos el valor tipoToken sino que
 				 *  lo ignoramos. 
 				 */ 
@@ -299,7 +299,8 @@ public class Automata {
 			if((estado == Parser.ESTADO_FINAL)) {
 				archivo.unGet();
 			}
-			else if(archivo.esFinDeArchivo()) {
+			
+			if(archivo.esFinDeArchivo()) {
 				IRutinaSemantica rutina = rutinaSemantica[estado][C_FIN_DE_ARCHIVO];
 				tipoToken = rutina.execute(caracter, token, yylval);
 			}
@@ -315,8 +316,7 @@ public class Automata {
 			   		System.out.print(TablaDeSimbolos.getInstance().getPos(yylval.ival)); 
 				}
 				System.out.print("\n");
-			}
-   
+			}			
 			return tipoToken;
 		} catch (IOException e) {
 			return Parser.INCOMPLETO; 
