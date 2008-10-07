@@ -1,0 +1,837 @@
+Regla 59
+frutas
+
+Regla 61
+"manzana"
+
+Regla 14
+"manzana"
+
+Regla 61
+"naranja"
+
+Regla 15
+"manzana","naranja"
+
+Regla 61
+"cualquiera..."
+
+Regla 15
+"manzana","naranja","cualquiera..."
+
+Regla 13
+["manzana","naranja","cualquiera..."]
+
+Regla 09
+["manzana","naranja","cualquiera..."]
+
+Regla 07
+TYPE frutas AS ["manzana","naranja","cualquiera..."];
+
+Regla 05
+TYPE frutas AS ["manzana","naranja","cualquiera..."];
+
+Regla 59
+valores
+
+Regla 60
+12.3
+
+Regla 11
+12.3
+
+Regla 60
+14.2
+
+Regla 12
+12.3,14.2
+
+Regla 60
+55
+
+Regla 12
+12.3,14.2,55
+
+Regla 60
+0.64
+
+Regla 12
+12.3,14.2,55,0.64
+
+Regla 10
+[12.3,14.2,55,0.64]
+
+Regla 08
+[12.3,14.2,55,0.64]
+
+Regla 07
+TYPE valores AS [12.3,14.2,55,0.64];
+
+Regla 06
+TYPE frutas AS ["manzana","naranja","cualquiera..."];
+TYPE valores AS [12.3,14.2,55,0.64];
+
+Regla 59
+otroOtro
+
+Regla 60
+12.3
+
+Regla 11
+12.3
+
+Regla 60
+14.2
+
+Regla 12
+12.3,14.2
+
+Regla 60
+55
+
+Regla 12
+12.3,14.2,55
+
+Regla 60
+0.64
+
+Regla 12
+12.3,14.2,55,0.64
+
+Regla 10
+[12.3,14.2,55,0.64]
+
+Regla 08
+[12.3,14.2,55,0.64]
+
+Regla 07
+TYPE otroOtro AS [12.3,14.2,55,0.64];
+
+Regla 06
+TYPE frutas AS ["manzana","naranja","cualquiera..."];
+TYPE valores AS [12.3,14.2,55,0.64];
+TYPE otroOtro AS [12.3,14.2,55,0.64];
+
+Regla 59
+jose
+
+Regla 19
+jose
+
+Regla 59
+esteban
+
+Regla 20
+jose,esteban
+
+Regla 21
+FLOAT
+
+Regla 17
+jose,esteban:FLOAT;
+
+Regla 59
+roberto
+
+Regla 19
+roberto
+
+Regla 59
+julian
+
+Regla 20
+roberto,julian
+
+Regla 22
+STRING
+
+Regla 18
+jose,esteban:FLOAT;
+roberto,julian:STRING;
+
+Regla 59
+otraVariable
+
+Regla 19
+otraVariable
+
+Regla 23
+POINTER
+
+Regla 18
+jose,esteban:FLOAT;
+roberto,julian:STRING;
+otraVariable:POINTER;
+
+Regla 59
+tipoExtra
+
+Regla 19
+tipoExtra
+
+Regla 59
+frutas
+
+Regla 24
+frutas
+
+Regla 18
+jose,esteban:FLOAT;
+roberto,julian:STRING;
+otraVariable:POINTER;
+tipoExtra:frutas;
+
+Regla 59
+otraMas
+
+Regla 19
+otraMas
+
+Regla 59
+valores
+
+Regla 24
+valores
+
+Regla 18
+jose,esteban:FLOAT;
+roberto,julian:STRING;
+otraVariable:POINTER;
+tipoExtra:frutas;
+otraMas:valores;
+
+Regla 16
+DEFVAR
+jose,esteban:FLOAT;
+roberto,julian:STRING;
+otraVariable:POINTER;
+tipoExtra:frutas;
+otraMas:valores;
+ENDDEF
+
+Regla 59
+jose
+
+Regla 60
+5
+
+Regla 41
+5
+
+Regla 37
+5
+
+Regla 34
+5
+
+Regla 33
+jose = 5;
+
+Regla 29
+jose = 5;
+
+Regla 27
+jose = 5;
+
+Regla 59
+jose
+
+Regla 40
+jose
+
+Regla 37
+jose
+
+Regla 34
+jose
+
+Regla 60
+2
+
+Regla 41
+2
+
+Regla 37
+2
+
+Regla 34
+2
+
+Regla 51
+jose!=2
+
+Regla 59
+jose
+
+Regla 40
+jose
+
+Regla 37
+jose
+
+Regla 34
+jose
+
+Regla 60
+4
+
+Regla 41
+4
+
+Regla 37
+4
+
+Regla 34
+4
+
+Regla 52
+jose>4
+
+Regla 48
+jose!=2&&jose>4
+
+Regla 59
+jose
+
+Regla 60
+26
+
+Regla 41
+26
+
+Regla 37
+26
+
+Regla 34
+26
+
+Regla 60
+9
+
+Regla 41
+9
+
+Regla 37
+9
+
+Regla 60
+8
+
+Regla 41
+8
+
+Regla 39
+9 / 8
+
+Regla 60
+7
+
+Regla 41
+7
+
+Regla 37
+7
+
+Regla 34
+7
+
+Regla 60
+2
+
+Regla 41
+2
+
+Regla 37
+2
+
+Regla 35
+7 + 2
+
+Regla 42
+(7 + 2)
+
+Regla 38
+9 / 8 * (7 + 2)
+
+Regla 59
+vagancia
+
+Regla 40
+vagancia
+
+Regla 39
+9 / 8 * (7 + 2) / vagancia
+
+Regla 60
+3
+
+Regla 41
+3
+
+Regla 38
+9 / 8 * (7 + 2) / vagancia * 3
+
+Regla 35
+26 + 9 / 8 * (7 + 2) / vagancia * 3
+
+Regla 60
+234
+
+Regla 11
+234
+
+Regla 60
+443.1
+
+Regla 12
+234,443.1
+
+Regla 60
+22
+
+Regla 12
+234,443.1,22
+
+Regla 60
+768
+
+Regla 12
+234,443.1,22,768
+
+Regla 10
+[234,443.1,22,768]
+
+Regla 58
+AVG([234,443.1,22,768])
+
+Regla 43
+AVG([234,443.1,22,768])
+
+Regla 37
+AVG([234,443.1,22,768])
+
+Regla 35
+26 + 9 / 8 * (7 + 2) / vagancia * 3 + AVG([234,443.1,22,768])
+
+Regla 60
+98
+
+Regla 41
+98
+
+Regla 37
+98
+
+Regla 35
+26 + 9 / 8 * (7 + 2) / vagancia * 3 + AVG([234,443.1,22,768]) + 98
+
+Regla 33
+jose = 26 + 9 / 8 * (7 + 2) / vagancia * 3 + AVG([234,443.1,22,768]) + 98;
+
+Regla 29
+jose = 26 + 9 / 8 * (7 + 2) / vagancia * 3 + AVG([234,443.1,22,768]) + 98;
+
+Regla 27
+jose = 26 + 9 / 8 * (7 + 2) / vagancia * 3 + AVG([234,443.1,22,768]) + 98;
+
+Regla 59
+a
+
+Regla 40
+a
+
+Regla 37
+a
+
+Regla 34
+a
+
+Regla 59
+b
+
+Regla 40
+b
+
+Regla 37
+b
+
+Regla 34
+b
+
+Regla 51
+a!=b
+
+Regla 59
+juanSancho
+
+Regla 40
+juanSancho
+
+Regla 37
+juanSancho
+
+Regla 34
+juanSancho
+
+Regla 60
+3
+
+Regla 41
+3
+
+Regla 37
+3
+
+Regla 34
+3
+
+Regla 55
+juanSancho<=3
+
+Regla 49
+a!=b||juanSancho<=3
+
+Regla 61
+"Mmm, IFs anidados"
+
+Regla 57
+DISPLAY("Mmm, IFs anidados");
+
+Regla 32
+DISPLAY("Mmm, IFs anidados");
+
+Regla 27
+DISPLAY("Mmm, IFs anidados");
+
+Regla 61
+"ya es muy groso"
+
+Regla 57
+DISPLAY("ya es muy groso");
+
+Regla 32
+DISPLAY("ya es muy groso");
+
+Regla 27
+DISPLAY("ya es muy groso");
+
+Regla 59
+SuHijo
+
+Regla 40
+SuHijo
+
+Regla 37
+SuHijo
+
+Regla 34
+SuHijo
+
+Regla 60
+2
+
+Regla 41
+2
+
+Regla 37
+2
+
+Regla 34
+2
+
+Regla 53
+SuHijo<2
+
+Regla 47
+!(SuHijo<2)
+
+Regla 56
+REPEAT
+DISPLAY("ya es muy groso");
+UNTIL(!(SuHijo<2));
+
+Regla 31
+REPEAT
+DISPLAY("ya es muy groso");
+UNTIL(!(SuHijo<2));
+
+Regla 27
+REPEAT
+DISPLAY("ya es muy groso");
+UNTIL(!(SuHijo<2));
+
+Regla 45
+IF(a!=b||juanSancho<=3)
+DISPLAY("Mmm, IFs anidados");
+ELSE
+REPEAT
+DISPLAY("ya es muy groso");
+UNTIL(!(SuHijo<2));
+ENDIF
+
+Regla 30
+IF(a!=b||juanSancho<=3)
+DISPLAY("Mmm, IFs anidados");
+ELSE
+REPEAT
+DISPLAY("ya es muy groso");
+UNTIL(!(SuHijo<2));
+ENDIF
+
+Regla 28
+jose = 26 + 9 / 8 * (7 + 2) / vagancia * 3 + AVG([234,443.1,22,768]) + 98;
+IF(a!=b||juanSancho<=3)
+DISPLAY("Mmm, IFs anidados");
+ELSE
+REPEAT
+DISPLAY("ya es muy groso");
+UNTIL(!(SuHijo<2));
+ENDIF
+
+Regla 61
+"salgo por else"
+
+Regla 57
+DISPLAY("salgo por else");
+
+Regla 32
+DISPLAY("salgo por else");
+
+Regla 27
+DISPLAY("salgo por else");
+
+Regla 45
+IF(jose!=2&&jose>4)
+jose = 26 + 9 / 8 * (7 + 2) / vagancia * 3 + AVG([234,443.1,22,768]) + 98;
+IF(a!=b||juanSancho<=3)
+DISPLAY("Mmm, IFs anidados");
+ELSE
+REPEAT
+DISPLAY("ya es muy groso");
+UNTIL(!(SuHijo<2));
+ENDIF
+ELSE
+DISPLAY("salgo por else");
+ENDIF
+
+Regla 30
+IF(jose!=2&&jose>4)
+jose = 26 + 9 / 8 * (7 + 2) / vagancia * 3 + AVG([234,443.1,22,768]) + 98;
+IF(a!=b||juanSancho<=3)
+DISPLAY("Mmm, IFs anidados");
+ELSE
+REPEAT
+DISPLAY("ya es muy groso");
+UNTIL(!(SuHijo<2));
+ENDIF
+ELSE
+DISPLAY("salgo por else");
+ENDIF
+
+Regla 28
+jose = 5;
+IF(jose!=2&&jose>4)
+jose = 26 + 9 / 8 * (7 + 2) / vagancia * 3 + AVG([234,443.1,22,768]) + 98;
+IF(a!=b||juanSancho<=3)
+DISPLAY("Mmm, IFs anidados");
+ELSE
+REPEAT
+DISPLAY("ya es muy groso");
+UNTIL(!(SuHijo<2));
+ENDIF
+ELSE
+DISPLAY("salgo por else");
+ENDIF
+
+Regla 61
+"repito"
+
+Regla 57
+DISPLAY("repito");
+
+Regla 32
+DISPLAY("repito");
+
+Regla 27
+DISPLAY("repito");
+
+Regla 59
+jose
+
+Regla 59
+jose
+
+Regla 40
+jose
+
+Regla 37
+jose
+
+Regla 34
+jose
+
+Regla 60
+1
+
+Regla 41
+1
+
+Regla 37
+1
+
+Regla 36
+jose - 1
+
+Regla 33
+jose = jose - 1;
+
+Regla 29
+jose = jose - 1;
+
+Regla 28
+DISPLAY("repito");
+jose = jose - 1;
+
+Regla 59
+jose
+
+Regla 40
+jose
+
+Regla 37
+jose
+
+Regla 34
+jose
+
+Regla 60
+2
+
+Regla 41
+2
+
+Regla 37
+2
+
+Regla 34
+2
+
+Regla 53
+jose<2
+
+Regla 46
+jose<2
+
+Regla 56
+REPEAT
+DISPLAY("repito");
+jose = jose - 1;
+UNTIL(jose<2);
+
+Regla 31
+REPEAT
+DISPLAY("repito");
+jose = jose - 1;
+UNTIL(jose<2);
+
+Regla 28
+jose = 5;
+IF(jose!=2&&jose>4)
+jose = 26 + 9 / 8 * (7 + 2) / vagancia * 3 + AVG([234,443.1,22,768]) + 98;
+IF(a!=b||juanSancho<=3)
+DISPLAY("Mmm, IFs anidados");
+ELSE
+REPEAT
+DISPLAY("ya es muy groso");
+UNTIL(!(SuHijo<2));
+ENDIF
+ELSE
+DISPLAY("salgo por else");
+ENDIF
+REPEAT
+DISPLAY("repito");
+jose = jose - 1;
+UNTIL(jose<2);
+
+Regla 25
+BEGIN
+jose = 5;
+IF(jose!=2&&jose>4)
+jose = 26 + 9 / 8 * (7 + 2) / vagancia * 3 + AVG([234,443.1,22,768]) + 98;
+IF(a!=b||juanSancho<=3)
+DISPLAY("Mmm, IFs anidados");
+ELSE
+REPEAT
+DISPLAY("ya es muy groso");
+UNTIL(!(SuHijo<2));
+ENDIF
+ELSE
+DISPLAY("salgo por else");
+ENDIF
+REPEAT
+DISPLAY("repito");
+jose = jose - 1;
+UNTIL(jose<2);
+END
+
+Regla 02
+TYPE frutas AS ["manzana","naranja","cualquiera..."];
+TYPE valores AS [12.3,14.2,55,0.64];
+TYPE otroOtro AS [12.3,14.2,55,0.64];
+DEFVAR
+jose,esteban:FLOAT;
+roberto,julian:STRING;
+otraVariable:POINTER;
+tipoExtra:frutas;
+otraMas:valores;
+ENDDEF
+BEGIN
+jose = 5;
+IF(jose!=2&&jose>4)
+jose = 26 + 9 / 8 * (7 + 2) / vagancia * 3 + AVG([234,443.1,22,768]) + 98;
+IF(a!=b||juanSancho<=3)
+DISPLAY("Mmm, IFs anidados");
+ELSE
+REPEAT
+DISPLAY("ya es muy groso");
+UNTIL(!(SuHijo<2));
+ENDIF
+ELSE
+DISPLAY("salgo por else");
+ENDIF
+REPEAT
+DISPLAY("repito");
+jose = jose - 1;
+UNTIL(jose<2);
+END
+
+Regla 01 (Programa Completo)
+TYPE frutas AS ["manzana","naranja","cualquiera..."];
+TYPE valores AS [12.3,14.2,55,0.64];
+TYPE otroOtro AS [12.3,14.2,55,0.64];
+DEFVAR
+jose,esteban:FLOAT;
+roberto,julian:STRING;
+otraVariable:POINTER;
+tipoExtra:frutas;
+otraMas:valores;
+ENDDEF
+BEGIN
+jose = 5;
+IF(jose!=2&&jose>4)
+jose = 26 + 9 / 8 * (7 + 2) / vagancia * 3 + AVG([234,443.1,22,768]) + 98;
+IF(a!=b||juanSancho<=3)
+DISPLAY("Mmm, IFs anidados");
+ELSE
+REPEAT
+DISPLAY("ya es muy groso");
+UNTIL(!(SuHijo<2));
+ENDIF
+ELSE
+DISPLAY("salgo por else");
+ENDIF
+REPEAT
+DISPLAY("repito");
+jose = jose - 1;
+UNTIL(jose<2);
+END

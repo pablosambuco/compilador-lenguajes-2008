@@ -10,7 +10,7 @@ import compilador.util.ArchivoReader;
 
 /* Gramatica */
 %%
-start: programa {$$ = new ParserVal($1.sval); System.out.println("Regla 01 (Programa Completo)\n" + $$.sval + "\nCompila OK!");}
+start: programa {$$ = new ParserVal($1.sval); System.out.println("Regla 01 (Programa Completo)\n" + $$.sval);}
 ;
 programa: def_tipos def_var ejecucion  {$$ = new ParserVal($1.sval + "\n" + $2.sval +  "\n" + $3.sval); System.out.println("Regla 02\n" + $$.sval + "\n");}
         | def_var ejecucion {$$ = new ParserVal($1.sval + "\n" + $2.sval); System.out.println("Regla 03\n" + $$.sval + "\n");}
@@ -60,45 +60,45 @@ sentencia: asignacion {$$ = new ParserVal($1.sval); System.out.println("Regla 29
 ;
 asignacion: id OP_ASIG expresion PUNTO_Y_COMA {$$ = new ParserVal($1.sval + " = " + $3.sval + ";"); System.out.println("Regla 33\n" + $$.sval + "\n");}
 ;
-expresion: termino {$$ = new ParserVal($1.sval);}
-         | expresion OP_SUMA termino {$$ = new ParserVal($1.sval + " + " + $3.sval); System.out.println("Regla 34\n" + $$.sval + "\n");}
-         | expresion OP_RESTA termino {$$ = new ParserVal($1.sval + " - " + $3.sval); System.out.println("Regla 35\n" + $$.sval + "\n");}
+expresion: termino {$$ = new ParserVal($1.sval); System.out.println("Regla 34\n" + $$.sval + "\n");}
+         | expresion OP_SUMA termino {$$ = new ParserVal($1.sval + " + " + $3.sval); System.out.println("Regla 35\n" + $$.sval + "\n");}
+         | expresion OP_RESTA termino {$$ = new ParserVal($1.sval + " - " + $3.sval); System.out.println("Regla 36\n" + $$.sval + "\n");}
 ;
-termino: factor {$$ = new ParserVal($1.sval);}
-       | termino OP_MUL factor {$$ = new ParserVal($1.sval + " * " + $3.sval); System.out.println("Regla 36\n" + $$.sval + "\n");}
-       | termino OP_DIV factor {$$ = new ParserVal($1.sval + " / " + $3.sval); System.out.println("Regla 37\n" + $$.sval + "\n");}
+termino: factor {$$ = new ParserVal($1.sval);System.out.println("Regla 37\n" + $$.sval + "\n");}
+       | termino OP_MUL factor {$$ = new ParserVal($1.sval + " * " + $3.sval); System.out.println("Regla 38\n" + $$.sval + "\n");}
+       | termino OP_DIV factor {$$ = new ParserVal($1.sval + " / " + $3.sval); System.out.println("Regla 39\n" + $$.sval + "\n");}
 ;
-factor: id {$$ = new ParserVal($1.sval); System.out.println("Regla 38\n" + $$.sval + "\n");}
-      | cte_num {$$ = new ParserVal($1.sval); System.out.println("Regla 39\n" + $$.sval + "\n");}
-      | PAR_ABRE expresion PAR_CIERRA {$$ = new ParserVal("(" + $2.sval + ")"); System.out.println("Regla 40\n" + $$.sval + "\n");}
-      | average {$$ = new ParserVal($1.sval); System.out.println("Regla 41\n" + $$.sval + "\n");}
+factor: id {$$ = new ParserVal($1.sval); System.out.println("Regla 40\n" + $$.sval + "\n");}
+      | cte_num {$$ = new ParserVal($1.sval); System.out.println("Regla 41\n" + $$.sval + "\n");}
+      | PAR_ABRE expresion PAR_CIERRA {$$ = new ParserVal("(" + $2.sval + ")"); System.out.println("Regla 42\n" + $$.sval + "\n");}
+      | average {$$ = new ParserVal($1.sval); System.out.println("Regla 43\n" + $$.sval + "\n");}
 ;
-condicional: IF PAR_ABRE condicion PAR_CIERRA sentencias ENDIF {$$ = new ParserVal("IF(" + $3.sval + ")\n" + $4.sval + "\nENDIF"); System.out.println("Regla 42\n" + $$.sval + "\n");}
-           | IF PAR_ABRE condicion PAR_CIERRA sentencias ELSE sentencias ENDIF {$$ = new ParserVal("IF(" + $3.sval + ")\n" + $5.sval + "\nELSE\n" + $7.sval + "\nENDIF"); System.out.println("Regla 43\n" + $$.sval + "\n");}
+condicional: IF PAR_ABRE condicion PAR_CIERRA sentencias ENDIF {$$ = new ParserVal("IF(" + $3.sval + ")\n" + $4.sval + "\nENDIF"); System.out.println("Regla 44\n" + $$.sval + "\n");}
+           | IF PAR_ABRE condicion PAR_CIERRA sentencias ELSE sentencias ENDIF {$$ = new ParserVal("IF(" + $3.sval + ")\n" + $5.sval + "\nELSE\n" + $7.sval + "\nENDIF"); System.out.println("Regla 45\n" + $$.sval + "\n");}
 ;
-condicion: comparacion {$$ = new ParserVal($1.sval); System.out.println("Regla 44\n" + $$.sval + "\n");}
-         | OP_NEGACION PAR_ABRE comparacion PAR_CIERRA {$$ = new ParserVal("!(" + $3.sval + ")"); System.out.println("Regla 45\n" + $$.sval + "\n");}
-         | comparacion AND comparacion {$$ = new ParserVal($1.sval + "&&" + $3.sval); System.out.println("Regla 46\n" + $$.sval + "\n");}
-         | comparacion OR comparacion {$$ = new ParserVal($1.sval + "||" + $3.sval); System.out.println("Regla 47\n" + $$.sval + "\n");}
+condicion: comparacion {$$ = new ParserVal($1.sval); System.out.println("Regla 46\n" + $$.sval + "\n");}
+         | OP_NEGACION PAR_ABRE comparacion PAR_CIERRA {$$ = new ParserVal("!(" + $3.sval + ")"); System.out.println("Regla 47\n" + $$.sval + "\n");}
+         | comparacion AND comparacion {$$ = new ParserVal($1.sval + "&&" + $3.sval); System.out.println("Regla 48\n" + $$.sval + "\n");}
+         | comparacion OR comparacion {$$ = new ParserVal($1.sval + "||" + $3.sval); System.out.println("Regla 49\n" + $$.sval + "\n");}
 ;
-comparacion: expresion OP_IGUAL expresion {$$ = new ParserVal($1.sval + "==" + $3.sval); System.out.println("Regla 48\n" + $$.sval + "\n");}
-           | expresion OP_DISTINTO expresion {$$ = new ParserVal($1.sval + "!=" + $3.sval); System.out.println("Regla 49\n" + $$.sval + "\n");}
-           | expresion OP_MAYOR expresion {$$ = new ParserVal($1.sval + ">" + $3.sval); System.out.println("Regla 50\n" + $$.sval + "\n");}
-           | expresion OP_MENOR expresion {$$ = new ParserVal($1.sval + "<" + $3.sval); System.out.println("Regla 51\n" + $$.sval + "\n");}
-           | expresion OP_MAYOR_IGUAL expresion {$$ = new ParserVal($1.sval + ">=" + $3.sval); System.out.println("Regla 52\n" + $$.sval + "\n");}
-           | expresion OP_MENOR_IGUAL expresion  {$$ = new ParserVal($1.sval + "<=" + $3.sval); System.out.println("Regla 53\n" + $$.sval + "\n");}
+comparacion: expresion OP_IGUAL expresion {$$ = new ParserVal($1.sval + "==" + $3.sval); System.out.println("Regla 50\n" + $$.sval + "\n");}
+           | expresion OP_DISTINTO expresion {$$ = new ParserVal($1.sval + "!=" + $3.sval); System.out.println("Regla 51\n" + $$.sval + "\n");}
+           | expresion OP_MAYOR expresion {$$ = new ParserVal($1.sval + ">" + $3.sval); System.out.println("Regla 52\n" + $$.sval + "\n");}
+           | expresion OP_MENOR expresion {$$ = new ParserVal($1.sval + "<" + $3.sval); System.out.println("Regla 53\n" + $$.sval + "\n");}
+           | expresion OP_MAYOR_IGUAL expresion {$$ = new ParserVal($1.sval + ">=" + $3.sval); System.out.println("Regla 54\n" + $$.sval + "\n");}
+           | expresion OP_MENOR_IGUAL expresion  {$$ = new ParserVal($1.sval + "<=" + $3.sval); System.out.println("Regla 55\n" + $$.sval + "\n");}
 ;
-bucle: REPEAT sentencias UNTIL PAR_ABRE condicion PAR_CIERRA PUNTO_Y_COMA {$$ = new ParserVal("REPEAT\n" + $2.sval + "\nUNTIL(" + $5.sval + ");"); System.out.println("Regla 54\n" + $$.sval + "\n");}
+bucle: REPEAT sentencias UNTIL PAR_ABRE condicion PAR_CIERRA PUNTO_Y_COMA {$$ = new ParserVal("REPEAT\n" + $2.sval + "\nUNTIL(" + $5.sval + ");"); System.out.println("Regla 56\n" + $$.sval + "\n");}
 ;
-display_command: DISPLAY PAR_ABRE cte_str PAR_CIERRA PUNTO_Y_COMA {$$ = new ParserVal("DISPLAY(" + $3.sval + ");"); System.out.println("Regla 55\n" + $$.sval + "\n");}
+display_command: DISPLAY PAR_ABRE cte_str PAR_CIERRA PUNTO_Y_COMA {$$ = new ParserVal("DISPLAY(" + $3.sval + ");"); System.out.println("Regla 57\n" + $$.sval + "\n");}
 ;
-average: AVG PAR_ABRE lista_num PAR_CIERRA {$$ = new ParserVal("AVG(" + $3.sval + ")"); System.out.println("Regla 56\n" + $$.sval + "\n");}
+average: AVG PAR_ABRE lista_num PAR_CIERRA {$$ = new ParserVal("AVG(" + $3.sval + ")"); System.out.println("Regla 58\n" + $$.sval + "\n");}
 ;
-id: ID {$$ = new ParserVal(TablaDeSimbolos.getInstance().getPos(yylval.ival)); System.out.println("Regla 57\n" + $$.sval + "\n");}
+id: ID {$$ = new ParserVal(TablaDeSimbolos.getInstance().getPos(yylval.ival)); System.out.println("Regla 59\n" + $$.sval + "\n");}
 ;
-cte_num: CTE_NUM {$$ = new ParserVal(TablaDeSimbolos.getInstance().getPos(yylval.ival)); System.out.println("Regla 58\n" + $$.sval + "\n");}
+cte_num: CTE_NUM {$$ = new ParserVal(TablaDeSimbolos.getInstance().getPos(yylval.ival)); System.out.println("Regla 60\n" + $$.sval + "\n");}
 ;
-cte_str: CTE_STR {$$ = new ParserVal("\"" + TablaDeSimbolos.getInstance().getPos(yylval.ival) + "\""); System.out.println("Regla 59\n" + $$.sval + "\n");}
+cte_str: CTE_STR {$$ = new ParserVal("\"" + TablaDeSimbolos.getInstance().getPos(yylval.ival) + "\""); System.out.println("Regla 61\n" + $$.sval + "\n");}
 ;
 
 %%
@@ -110,7 +110,7 @@ cte_str: CTE_STR {$$ = new ParserVal("\"" + TablaDeSimbolos.getInstance().getPos
 
 		//Manejo de errores lexicos
 		public static int INCOMPLETO=0;
-		public static int ERROR_LEXICO=-1;
+		public static int ERROR_LEXICO=YYERRCODE;
 
 	int yylex() {
 		Automata automata = Automata.getInstance();
