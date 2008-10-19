@@ -19,9 +19,12 @@ package compilador.parser;
 
 //#line 3 "input.y"
 import compilador.analizadorLexicografico.Automata;
+import compilador.sintaxis.ArbolSintactico;
+import compilador.sintaxis.Datos;
+import compilador.sintaxis.Nodo;
 import compilador.beans.TablaDeSimbolos;
 import compilador.util.ArchivoReader;
-//#line 21 "Parser.java"
+//#line 24 "Parser.java"
 
 
 
@@ -410,7 +413,7 @@ final static String yyrule[] = {
 "cte_str : CTE_STR",
 };
 
-//#line 105 "input.y"
+//#line 114 "input.y"
 	void yyerror(String mensaje) {
 		System.out.println("Error: " + mensaje);
 	}
@@ -432,9 +435,12 @@ final static String yyrule[] = {
 		archivo.abrirArhivo(args[0]);
 		par.yyparse();
 		archivo.cerrarArhivo();
-		//System.out.println(TablaDeSimbolos.getInstance().toString());
+		System.out.print("\n\nImprimimos desde el Arbol \n \n");
+		ArbolSintactico arbol = ArbolSintactico.getInstance();
+		arbol.imprimirArbol();
+
 	}
-//#line 374 "Parser.java"
+//#line 380 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -588,250 +594,256 @@ boolean doaction;
       {
 //########## USER-SUPPLIED ACTIONS ##########
 case 1:
-//#line 13 "input.y"
+//#line 16 "input.y"
 {yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 01 (Programa Completo)\n" + yyval.sval);}
 break;
 case 2:
-//#line 15 "input.y"
+//#line 18 "input.y"
 {yyval = new ParserVal(val_peek(2).sval + "\n" + val_peek(1).sval +  "\n" + val_peek(0).sval); System.out.println("Regla 02\n" + yyval.sval + "\n");}
 break;
 case 3:
-//#line 16 "input.y"
+//#line 19 "input.y"
 {yyval = new ParserVal(val_peek(1).sval + "\n" + val_peek(0).sval); System.out.println("Regla 03\n" + yyval.sval + "\n");}
 break;
 case 4:
-//#line 17 "input.y"
+//#line 20 "input.y"
 {yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 04\n" + yyval.sval + "\n");}
 break;
 case 5:
-//#line 19 "input.y"
+//#line 22 "input.y"
 {yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 05\n" + yyval.sval + "\n");}
 break;
 case 6:
-//#line 20 "input.y"
+//#line 23 "input.y"
 {yyval = new ParserVal(val_peek(1).sval + "\n" + val_peek(0).sval); System.out.println("Regla 06\n" + yyval.sval + "\n");}
 break;
 case 7:
-//#line 22 "input.y"
+//#line 25 "input.y"
 {yyval = new ParserVal("TYPE " + val_peek(3).sval + " AS " + val_peek(1).sval + ";");  System.out.println("Regla 07\n" + yyval.sval + "\n");}
 break;
 case 8:
-//#line 24 "input.y"
+//#line 27 "input.y"
 {yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 08\n" + yyval.sval + "\n");}
 break;
 case 9:
-//#line 25 "input.y"
+//#line 28 "input.y"
 {yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 09\n" + yyval.sval + "\n");}
 break;
 case 10:
-//#line 27 "input.y"
+//#line 30 "input.y"
 {yyval = new ParserVal("[" + val_peek(1).sval + "]"); System.out.println("Regla 10\n" + yyval.sval + "\n");}
 break;
 case 11:
-//#line 29 "input.y"
+//#line 32 "input.y"
 {yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 11\n" + yyval.sval + "\n");}
 break;
 case 12:
-//#line 30 "input.y"
+//#line 33 "input.y"
 {yyval = new ParserVal(val_peek(2).sval + "," + val_peek(0).sval); System.out.println("Regla 12\n" + yyval.sval + "\n");}
 break;
 case 13:
-//#line 32 "input.y"
+//#line 35 "input.y"
 {yyval = new ParserVal("[" + val_peek(1).sval + "]"); System.out.println("Regla 13\n" + yyval.sval + "\n");}
 break;
 case 14:
-//#line 34 "input.y"
+//#line 37 "input.y"
 {yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 14\n" + yyval.sval + "\n");}
 break;
 case 15:
-//#line 35 "input.y"
+//#line 38 "input.y"
 {yyval = new ParserVal(val_peek(2).sval + "," + val_peek(0).sval); System.out.println("Regla 15\n" + yyval.sval + "\n");}
 break;
 case 16:
-//#line 37 "input.y"
+//#line 40 "input.y"
 {yyval = new ParserVal("DEFVAR\n" + val_peek(1).sval + "\nENDDEF"); System.out.println("Regla 16\n" + yyval.sval + "\n");}
 break;
 case 17:
-//#line 39 "input.y"
+//#line 42 "input.y"
 {yyval = new ParserVal(val_peek(3).sval + ":" + val_peek(1).sval + ";"); System.out.println("Regla 17\n" + yyval.sval + "\n");}
 break;
 case 18:
-//#line 40 "input.y"
+//#line 43 "input.y"
 {yyval = new ParserVal(val_peek(4).sval + "\n" + val_peek(3).sval + ":" + val_peek(1).sval + ";"); System.out.println("Regla 18\n" + yyval.sval + "\n");}
 break;
 case 19:
-//#line 42 "input.y"
+//#line 45 "input.y"
 {yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 19\n" + yyval.sval + "\n");}
 break;
 case 20:
-//#line 43 "input.y"
+//#line 46 "input.y"
 {yyval = new ParserVal(val_peek(2).sval + "," + val_peek(0).sval); System.out.println("Regla 20\n" + yyval.sval + "\n");}
 break;
 case 21:
-//#line 45 "input.y"
+//#line 48 "input.y"
 {yyval = new ParserVal("FLOAT"); System.out.println("Regla 21\n" + yyval.sval + "\n");}
 break;
 case 22:
-//#line 46 "input.y"
+//#line 49 "input.y"
 {yyval = new ParserVal("STRING"); System.out.println("Regla 22\n" + yyval.sval + "\n");}
 break;
 case 23:
-//#line 47 "input.y"
+//#line 50 "input.y"
 {yyval = new ParserVal("POINTER"); System.out.println("Regla 23\n" + yyval.sval + "\n");}
 break;
 case 24:
-//#line 48 "input.y"
+//#line 51 "input.y"
 {yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 24\n" + yyval.sval + "\n");}
 break;
 case 25:
-//#line 50 "input.y"
+//#line 53 "input.y"
 {yyval = new ParserVal("BEGIN\n" + val_peek(1).sval + "\nEND"); System.out.println("Regla 25\n" + yyval.sval + "\n");}
 break;
 case 26:
-//#line 51 "input.y"
+//#line 54 "input.y"
 {yyval = new ParserVal("BEGIN\nEND"); System.out.println("Regla 26\n" + yyval.sval + "\n");}
 break;
 case 27:
-//#line 53 "input.y"
+//#line 56 "input.y"
 {yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 27\n" + yyval.sval + "\n");}
 break;
 case 28:
-//#line 54 "input.y"
+//#line 57 "input.y"
 {yyval = new ParserVal(val_peek(1).sval + "\n" + val_peek(0).sval); System.out.println("Regla 28\n" + yyval.sval + "\n");}
 break;
 case 29:
-//#line 56 "input.y"
+//#line 59 "input.y"
 {yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 29\n" + yyval.sval + "\n");}
 break;
 case 30:
-//#line 57 "input.y"
+//#line 60 "input.y"
 {yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 30\n" + yyval.sval + "\n");}
 break;
 case 31:
-//#line 58 "input.y"
+//#line 61 "input.y"
 {yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 31\n" + yyval.sval + "\n");}
 break;
 case 32:
-//#line 59 "input.y"
+//#line 62 "input.y"
 {yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 32\n" + yyval.sval + "\n");}
 break;
 case 33:
-//#line 61 "input.y"
-{yyval = new ParserVal(val_peek(3).sval + " = " + val_peek(1).sval + ";"); System.out.println("Regla 33\n" + yyval.sval + "\n");}
+//#line 64 "input.y"
+{yyval = new ParserVal(val_peek(3).sval + " = " + val_peek(1).sval + ";"); System.out.println("Regla 33\n" + yyval.sval + "\n"); yyval.obj = ArbolSintactico.getInstance().insertar(new Datos("="),(Nodo)val_peek(3).obj,(Nodo)val_peek(1).obj);ArbolSintactico.getInstance().setRaiz((Nodo)yyval.obj);}
 break;
 case 34:
-//#line 63 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 34\n" + yyval.sval + "\n");}
+//#line 66 "input.y"
+{yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 34\n" + yyval.sval + "\n"); yyval.obj = val_peek(0).obj;}
 break;
 case 35:
-//#line 64 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " + " + val_peek(0).sval); System.out.println("Regla 35\n" + yyval.sval + "\n");}
+//#line 67 "input.y"
+{yyval = new ParserVal(val_peek(2).sval + " + " + val_peek(0).sval); System.out.println("Regla 35\n" + yyval.sval + "\n"); yyval.obj = ArbolSintactico.getInstance().insertar(new Datos("+"),(Nodo)val_peek(2).obj,(Nodo)val_peek(0).obj);}
 break;
 case 36:
-//#line 65 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " - " + val_peek(0).sval); System.out.println("Regla 36\n" + yyval.sval + "\n");}
+//#line 68 "input.y"
+{yyval = new ParserVal(val_peek(2).sval + " - " + val_peek(0).sval); System.out.println("Regla 36\n" + yyval.sval + "\n"); yyval.obj = ArbolSintactico.getInstance().insertar(new Datos("-"),(Nodo)val_peek(2).obj,(Nodo)val_peek(0).obj);}
 break;
 case 37:
-//#line 67 "input.y"
-{yyval = new ParserVal(val_peek(0).sval);System.out.println("Regla 37\n" + yyval.sval + "\n");}
+//#line 70 "input.y"
+{yyval = new ParserVal(val_peek(0).sval);System.out.println("Regla 37\n" + yyval.sval + "\n"); yyval.obj = val_peek(0).obj;}
 break;
 case 38:
-//#line 68 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " * " + val_peek(0).sval); System.out.println("Regla 38\n" + yyval.sval + "\n");}
+//#line 71 "input.y"
+{yyval = new ParserVal(val_peek(2).sval + " * " + val_peek(0).sval); System.out.println("Regla 38\n" + yyval.sval + "\n"); yyval.obj = ArbolSintactico.getInstance().insertar(new Datos("*"),(Nodo)val_peek(2).obj,(Nodo)val_peek(0).obj);}
 break;
 case 39:
-//#line 69 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " / " + val_peek(0).sval); System.out.println("Regla 39\n" + yyval.sval + "\n");}
+//#line 72 "input.y"
+{yyval = new ParserVal(val_peek(2).sval + " / " + val_peek(0).sval); System.out.println("Regla 39\n" + yyval.sval + "\n"); yyval.obj = ArbolSintactico.getInstance().insertar(new Datos("/"),(Nodo)val_peek(2).obj,(Nodo)val_peek(0).obj);}
 break;
 case 40:
-//#line 71 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 40\n" + yyval.sval + "\n");}
+//#line 74 "input.y"
+{yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 40\n" + yyval.sval + "\n"); yyval.obj = val_peek(0).obj;}
 break;
 case 41:
-//#line 72 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 41\n" + yyval.sval + "\n");}
+//#line 75 "input.y"
+{yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 41\n" + yyval.sval + "\n"); yyval.obj = val_peek(0).obj;}
 break;
 case 42:
-//#line 73 "input.y"
+//#line 76 "input.y"
 {yyval = new ParserVal("(" + val_peek(1).sval + ")"); System.out.println("Regla 42\n" + yyval.sval + "\n");}
 break;
 case 43:
-//#line 74 "input.y"
+//#line 77 "input.y"
 {yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 43\n" + yyval.sval + "\n");}
 break;
 case 44:
-//#line 76 "input.y"
+//#line 79 "input.y"
 {yyval = new ParserVal("IF(" + val_peek(3).sval + ")\n" + val_peek(2).sval + "\nENDIF"); System.out.println("Regla 44\n" + yyval.sval + "\n");}
 break;
 case 45:
-//#line 77 "input.y"
+//#line 80 "input.y"
 {yyval = new ParserVal("IF(" + val_peek(5).sval + ")\n" + val_peek(3).sval + "\nELSE\n" + val_peek(1).sval + "\nENDIF"); System.out.println("Regla 45\n" + yyval.sval + "\n");}
 break;
 case 46:
-//#line 79 "input.y"
+//#line 82 "input.y"
 {yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 46\n" + yyval.sval + "\n");}
 break;
 case 47:
-//#line 80 "input.y"
+//#line 83 "input.y"
 {yyval = new ParserVal("!(" + val_peek(1).sval + ")"); System.out.println("Regla 47\n" + yyval.sval + "\n");}
 break;
 case 48:
-//#line 81 "input.y"
+//#line 84 "input.y"
 {yyval = new ParserVal(val_peek(2).sval + "&&" + val_peek(0).sval); System.out.println("Regla 48\n" + yyval.sval + "\n");}
 break;
 case 49:
-//#line 82 "input.y"
+//#line 85 "input.y"
 {yyval = new ParserVal(val_peek(2).sval + "||" + val_peek(0).sval); System.out.println("Regla 49\n" + yyval.sval + "\n");}
 break;
 case 50:
-//#line 84 "input.y"
+//#line 87 "input.y"
 {yyval = new ParserVal(val_peek(2).sval + "==" + val_peek(0).sval); System.out.println("Regla 50\n" + yyval.sval + "\n");}
 break;
 case 51:
-//#line 85 "input.y"
+//#line 88 "input.y"
 {yyval = new ParserVal(val_peek(2).sval + "!=" + val_peek(0).sval); System.out.println("Regla 51\n" + yyval.sval + "\n");}
 break;
 case 52:
-//#line 86 "input.y"
+//#line 89 "input.y"
 {yyval = new ParserVal(val_peek(2).sval + ">" + val_peek(0).sval); System.out.println("Regla 52\n" + yyval.sval + "\n");}
 break;
 case 53:
-//#line 87 "input.y"
+//#line 90 "input.y"
 {yyval = new ParserVal(val_peek(2).sval + "<" + val_peek(0).sval); System.out.println("Regla 53\n" + yyval.sval + "\n");}
 break;
 case 54:
-//#line 88 "input.y"
+//#line 91 "input.y"
 {yyval = new ParserVal(val_peek(2).sval + ">=" + val_peek(0).sval); System.out.println("Regla 54\n" + yyval.sval + "\n");}
 break;
 case 55:
-//#line 89 "input.y"
+//#line 92 "input.y"
 {yyval = new ParserVal(val_peek(2).sval + "<=" + val_peek(0).sval); System.out.println("Regla 55\n" + yyval.sval + "\n");}
 break;
 case 56:
-//#line 91 "input.y"
+//#line 94 "input.y"
 {yyval = new ParserVal("REPEAT\n" + val_peek(5).sval + "\nUNTIL(" + val_peek(2).sval + ");"); System.out.println("Regla 56\n" + yyval.sval + "\n");}
 break;
 case 57:
-//#line 93 "input.y"
+//#line 96 "input.y"
 {yyval = new ParserVal("DISPLAY(" + val_peek(2).sval + ");"); System.out.println("Regla 57\n" + yyval.sval + "\n");}
 break;
 case 58:
-//#line 95 "input.y"
+//#line 98 "input.y"
 {yyval = new ParserVal("AVG(" + val_peek(1).sval + ")"); System.out.println("Regla 58\n" + yyval.sval + "\n");}
 break;
 case 59:
-//#line 97 "input.y"
-{yyval = new ParserVal(TablaDeSimbolos.getInstance().getPos(yylval.ival)); System.out.println("Regla 59\n" + yyval.sval + "\n");}
+//#line 100 "input.y"
+{yyval = new ParserVal(TablaDeSimbolos.getInstance().getPos(yylval.ival));
+		yyval.obj = ArbolSintactico.getInstance().crearHoja(new Datos(TablaDeSimbolos.getInstance().getPos(yylval.ival)));
+		System.out.println("Regla 59\n" + yyval.sval + "\n");}
 break;
 case 60:
-//#line 99 "input.y"
-{yyval = new ParserVal(TablaDeSimbolos.getInstance().getPos(yylval.ival)); System.out.println("Regla 60\n" + yyval.sval + "\n");}
+//#line 104 "input.y"
+{yyval = new ParserVal(TablaDeSimbolos.getInstance().getPos(yylval.ival));
+				 yyval.obj = ArbolSintactico.getInstance().crearHoja(new Datos(TablaDeSimbolos.getInstance().getPos(yylval.ival)));
+				 System.out.println("Regla 60\n" + yyval.sval + "\n");}
 break;
 case 61:
-//#line 101 "input.y"
-{yyval = new ParserVal("\"" + TablaDeSimbolos.getInstance().getPos(yylval.ival) + "\""); System.out.println("Regla 61\n" + yyval.sval + "\n");}
+//#line 108 "input.y"
+{yyval = new ParserVal("\"" + TablaDeSimbolos.getInstance().getPos(yylval.ival) + "\"");
+				 yyval.obj = ArbolSintactico.getInstance().crearHoja(new Datos(TablaDeSimbolos.getInstance().getPos(yylval.ival)));
+				 System.out.println("Regla 61\n" + yyval.sval + "\n");}
 break;
-//#line 766 "Parser.java"
+//#line 778 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####
