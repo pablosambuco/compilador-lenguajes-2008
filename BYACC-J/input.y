@@ -1,6 +1,9 @@
 /* Imports */
 %{
 import compilador.analizadorLexicografico.Automata;
+import compilador.sintaxis.ArbolSintactico;
+import compilador.sintaxis.Datos;
+import compilador.sintaxis.Nodo;
 import compilador.beans.TablaDeSimbolos;
 import compilador.util.ArchivoReader;
 %}
@@ -58,18 +61,18 @@ sentencia: asignacion {$$ = new ParserVal($1.sval); System.out.println("Regla 29
          | bucle {$$ = new ParserVal($1.sval); System.out.println("Regla 31\n" + $$.sval + "\n");}
          | display_command {$$ = new ParserVal($1.sval); System.out.println("Regla 32\n" + $$.sval + "\n");}
 ;
-asignacion: id OP_ASIG expresion PUNTO_Y_COMA {$$ = new ParserVal($1.sval + " = " + $3.sval + ";"); System.out.println("Regla 33\n" + $$.sval + "\n");}
+asignacion: id OP_ASIG expresion PUNTO_Y_COMA {$$ = new ParserVal($1.sval + " = " + $3.sval + ";"); System.out.println("Regla 33\n" + $$.sval + "\n"); $$.obj = ArbolSintactico.getInstance().insertar(new Datos("="),(Nodo)$1.obj,(Nodo)$3.obj);ArbolSintactico.getInstance().setRaiz((Nodo)$$.obj);}
 ;
-expresion: termino {$$ = new ParserVal($1.sval); System.out.println("Regla 34\n" + $$.sval + "\n");}
-         | expresion OP_SUMA termino {$$ = new ParserVal($1.sval + " + " + $3.sval); System.out.println("Regla 35\n" + $$.sval + "\n");}
-         | expresion OP_RESTA termino {$$ = new ParserVal($1.sval + " - " + $3.sval); System.out.println("Regla 36\n" + $$.sval + "\n");}
+expresion: termino {$$ = new ParserVal($1.sval); System.out.println("Regla 34\n" + $$.sval + "\n"); $$.obj = $1.obj;}
+         | expresion OP_SUMA termino {$$ = new ParserVal($1.sval + " + " + $3.sval); System.out.println("Regla 35\n" + $$.sval + "\n"); $$.obj = ArbolSintactico.getInstance().insertar(new Datos("+"),(Nodo)$1.obj,(Nodo)$3.obj);}
+         | expresion OP_RESTA termino {$$ = new ParserVal($1.sval + " - " + $3.sval); System.out.println("Regla 36\n" + $$.sval + "\n"); $$.obj = ArbolSintactico.getInstance().insertar(new Datos("-"),(Nodo)$1.obj,(Nodo)$3.obj);}
 ;
-termino: factor {$$ = new ParserVal($1.sval);System.out.println("Regla 37\n" + $$.sval + "\n");}
-       | termino OP_MUL factor {$$ = new ParserVal($1.sval + " * " + $3.sval); System.out.println("Regla 38\n" + $$.sval + "\n");}
-       | termino OP_DIV factor {$$ = new ParserVal($1.sval + " / " + $3.sval); System.out.println("Regla 39\n" + $$.sval + "\n");}
+termino: factor {$$ = new ParserVal($1.sval);System.out.println("Regla 37\n" + $$.sval + "\n"); $$.obj = $1.obj;}
+       | termino OP_MUL factor {$$ = new ParserVal($1.sval + " * " + $3.sval); System.out.println("Regla 38\n" + $$.sval + "\n"); $$.obj = ArbolSintactico.getInstance().insertar(new Datos("*"),(Nodo)$1.obj,(Nodo)$3.obj);}
+       | termino OP_DIV factor {$$ = new ParserVal($1.sval + " / " + $3.sval); System.out.println("Regla 39\n" + $$.sval + "\n"); $$.obj = ArbolSintactico.getInstance().insertar(new Datos("/"),(Nodo)$1.obj,(Nodo)$3.obj);}
 ;
-factor: id {$$ = new ParserVal($1.sval); System.out.println("Regla 40\n" + $$.sval + "\n");}
-      | cte_num {$$ = new ParserVal($1.sval); System.out.println("Regla 41\n" + $$.sval + "\n");}
+factor: id {$$ = new ParserVal($1.sval); System.out.println("Regla 40\n" + $$.sval + "\n"); $$.obj = $1.obj;}
+      | cte_num {$$ = new ParserVal($1.sval); System.out.println("Regla 41\n" + $$.sval + "\n"); $$.obj = $1.obj;}
       | PAR_ABRE expresion PAR_CIERRA {$$ = new ParserVal("(" + $2.sval + ")"); System.out.println("Regla 42\n" + $$.sval + "\n");}
       | average {$$ = new ParserVal($1.sval); System.out.println("Regla 43\n" + $$.sval + "\n");}
 ;
@@ -94,11 +97,17 @@ display_command: DISPLAY PAR_ABRE cte_str PAR_CIERRA PUNTO_Y_COMA {$$ = new Pars
 ;
 average: AVG PAR_ABRE lista_num PAR_CIERRA {$$ = new ParserVal("AVG(" + $3.sval + ")"); System.out.println("Regla 58\n" + $$.sval + "\n");}
 ;
-id: ID {$$ = new ParserVal(TablaDeSimbolos.getInstance().getPos(yylval.ival)); System.out.println("Regla 59\n" + $$.sval + "\n");}
+id: ID {$$ = new ParserVal(TablaDeSimbolos.getInstance().getPos(yylval.ival));
+		$$.obj = ArbolSintactico.getInstance().crearHoja(new Datos(TablaDeSimbolos.getInstance().getPos(yylval.ival)));
+		System.out.println("Regla 59\n" + $$.sval + "\n");}
 ;
-cte_num: CTE_NUM {$$ = new ParserVal(TablaDeSimbolos.getInstance().getPos(yylval.ival)); System.out.println("Regla 60\n" + $$.sval + "\n");}
+cte_num: CTE_NUM {$$ = new ParserVal(TablaDeSimbolos.getInstance().getPos(yylval.ival));
+				 $$.obj = ArbolSintactico.getInstance().crearHoja(new Datos(TablaDeSimbolos.getInstance().getPos(yylval.ival)));
+				 System.out.println("Regla 60\n" + $$.sval + "\n");}
 ;
-cte_str: CTE_STR {$$ = new ParserVal("\"" + TablaDeSimbolos.getInstance().getPos(yylval.ival) + "\""); System.out.println("Regla 61\n" + $$.sval + "\n");}
+cte_str: CTE_STR {$$ = new ParserVal("\"" + TablaDeSimbolos.getInstance().getPos(yylval.ival) + "\"");
+				 $$.obj = ArbolSintactico.getInstance().crearHoja(new Datos(TablaDeSimbolos.getInstance().getPos(yylval.ival)));
+				 System.out.println("Regla 61\n" + $$.sval + "\n");}
 ;
 
 %%
@@ -123,5 +132,8 @@ cte_str: CTE_STR {$$ = new ParserVal("\"" + TablaDeSimbolos.getInstance().getPos
 		archivo.abrirArhivo(args[0]);
 		par.yyparse();
 		archivo.cerrarArhivo();
-		//System.out.println(TablaDeSimbolos.getInstance().toString());
+		System.out.print("\n\nImprimimos desde el Arbol \n \n");
+		ArbolSintactico arbol = ArbolSintactico.getInstance();
+		arbol.imprimirArbol();
+
 	}
