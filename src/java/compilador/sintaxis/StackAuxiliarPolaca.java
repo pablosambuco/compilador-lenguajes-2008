@@ -16,11 +16,15 @@ public class StackAuxiliarPolaca {
 		stack = new Stack<Integer>();
 	}
 	
-	public void push(Integer valor) {
+	public void push(int valor) {
 		stack.push(valor);
 	}
 	
-	public Integer pop() {
-		return stack.pop();
+	public int pop() {
+		return stack.pop().intValue(); //si la pila está vacía esto revienta (lo cual está bien, porque se considera incorrecto devolver algun otro valor ya que eso limitaría lo que la pila en sí puede almacenar)
+	}
+	
+	public int getTamanio() {
+		return stack.size();
 	}
 }
