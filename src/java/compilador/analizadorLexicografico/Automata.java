@@ -313,7 +313,7 @@ public class Automata {
 					System.out.print("                   ".substring(token.length()));
 				 	System.out.print(posicion);
 			   		System.out.print("          ".substring(posicion.length()));
-			   		System.out.print(TablaDeSimbolos.getInstance().getPos(yylval.ival)); 
+			   		System.out.print(TablaDeSimbolos.getInstance().getNombre(yylval.ival)); 
 				}
 				System.out.print("\n");
 			}			

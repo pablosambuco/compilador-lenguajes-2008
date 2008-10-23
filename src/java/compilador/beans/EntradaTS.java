@@ -80,4 +80,11 @@ public class EntradaTS {
 	public String getValor() {
 		return valor;
 	}
+
+	/**
+	 * @param valor the valor to set
+	 */
+	public void setValor(String valor) {
+		this.valor = valor;
+	}
 }
