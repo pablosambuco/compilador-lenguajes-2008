@@ -20,7 +20,7 @@ public class FinalizarConstanteString implements IRutinaSemantica {
 		entrada.setTipo(TablaDeSimbolos.TIPO_CTE_STRING);
 		entrada.setValor(token.toString());
 		
-		yylval.ival = TablaDeSimbolos.getInstance().agregar("\""+token.toString()+"\"");
+		yylval.ival = TablaDeSimbolos.getInstance().agregar(entrada);
 		token.delete(0,token.length());
 		token.append("CTE_STR");
 		return Parser.CTE_STR;
