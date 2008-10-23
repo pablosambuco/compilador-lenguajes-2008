@@ -2,6 +2,7 @@ package compilador.semantica;
 
 import compilador.parser.ParserVal;
 import compilador.parser.Parser;
+import compilador.beans.EntradaTS;
 import compilador.beans.PalabrasReservadas;
 import compilador.beans.TablaDeSimbolos;
 
@@ -16,8 +17,8 @@ public class FinalizarId implements IRutinaSemantica {
 				System.out.println("(ERROR: Tamanio de Identificador demasiado largo.)");
 				return Parser.ERROR_LEXICO;
 			}
-					
-			yylval.ival = TablaDeSimbolos.getInstance().agregar(token);
+		
+			yylval.ival = TablaDeSimbolos.getInstance().agregar(new EntradaTS(token.toString()));
 			token.delete(0,token.length());
 			token.append("ID");
 		}
