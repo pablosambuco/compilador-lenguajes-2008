@@ -22,7 +22,7 @@ programa: def_tipos def_var ejecucion  {$$ = new ParserVal($1.sval + "\n" + $2.s
 def_tipos: def_tipo {$$ = new ParserVal($1.sval); System.out.println("Regla 05\n" + $$.sval + "\n");}
          | def_tipos def_tipo {$$ = new ParserVal($1.sval + "\n" + $2.sval); System.out.println("Regla 06\n" + $$.sval + "\n");}
 ;
-def_tipo: TYPE id {TablaDeSimbolos.getInstance().setTipo($2.sval, "TYPE");} AS lista PUNTO_Y_COMA {$$ = new ParserVal("TYPE " + $2.sval + " AS " + $5.sval + ";"); TablaDeSimbolos.getInstance().setType(listaAux,$2.sval) /* Tomamos la Tabla de símbolos y en el campo TYPEDEF de las variables recibidas en la lista, le seteamos el valor que llega en $2 */; System.out.println("Regla 07\n" + $$.sval + "\n");}
+def_tipo: TYPE id {TablaDeSimbolos.getInstance().setTipo($2.sval, TablaDeSimbolos.TIPO_TYPE);} AS lista PUNTO_Y_COMA {$$ = new ParserVal("TYPE " + $2.sval + " AS " + $5.sval + ";"); TablaDeSimbolos.getInstance().setTypedefs(listaAux,$2.sval) /* Tomamos la Tabla de símbolos y en el campo TYPEDEF de las variables recibidas en la lista, le seteamos el tipo creado */; System.out.println("Regla 07\n" + $$.sval + "\n");}
 ;
 lista: lista_num {$$ = new ParserVal($1.sval); System.out.println("Regla 08\n" + $$.sval + "\n");}
      | lista_str {$$ = new ParserVal($1.sval); System.out.println("Regla 09\n" + $$.sval + "\n");}
@@ -39,16 +39,16 @@ lis_str_c: cte_str {$$ = new ParserVal($1.sval); listaAux = new ArrayList<String
 ;
 def_var: DEFVAR lista_var ENDDEF {$$ = new ParserVal("DEFVAR\n" + $2.sval + "\nENDDEF"); System.out.println("Regla 16\n" + $$.sval + "\n");}
 ;
-lista_var: lista_ids DOS_PUNTOS tipo PUNTO_Y_COMA {$$ = new ParserVal($1.sval + ":" + $3.sval + ";"); System.out.println("Regla 17\n" + $$.sval + "\n");}
-         | lista_var lista_ids DOS_PUNTOS tipo PUNTO_Y_COMA {$$ = new ParserVal($1.sval + "\n" + $2.sval + ":" + $4.sval + ";"); System.out.println("Regla 18\n" + $$.sval + "\n");}
+lista_var: lista_ids DOS_PUNTOS tipo PUNTO_Y_COMA {$$ = new ParserVal($1.sval + ":" + $3.sval + ";"); TablaDeSimbolos.getInstance().setTipos(listaAux,$3.sval) /* Tomamos la Tabla de símbolos y en el campo Tipo de los IDs recibidos en la lista, le seteamos el tipo */; System.out.println("Regla 17\n" + $$.sval + "\n");}
+         | lista_var lista_ids DOS_PUNTOS tipo PUNTO_Y_COMA {$$ = new ParserVal($1.sval + "\n" + $2.sval + ":" + $4.sval + ";"); TablaDeSimbolos.getInstance().setTipos(listaAux,$4.sval) /* Tomamos la Tabla de símbolos y en el campo Tipo de los IDs recibidos en la lista, le seteamos el tipo */; System.out.println("Regla 18\n" + $$.sval + "\n");}
 ;
-lista_ids: id {$$ = new ParserVal($1.sval); System.out.println("Regla 19\n" + $$.sval + "\n");}
-         | lista_ids COMA id {$$ = new ParserVal($1.sval + "," + $3.sval); System.out.println("Regla 20\n" + $$.sval + "\n");}
+lista_ids: id {$$ = new ParserVal($1.sval); listaAux = new ArrayList<String>(); listaAux.add($1.sval) /* Vamos agregando los IDs en una lista para usarlos mas arriba */; System.out.println("Regla 19\n" + $$.sval + "\n");}
+         | lista_ids COMA id {$$ = new ParserVal($1.sval + "," + $3.sval); listaAux.add($3.sval) /*Esta regla siempre se ejecuta despues que la de arriba, por eso el ArrayList ya fue instanciado con new */; System.out.println("Regla 20\n" + $$.sval + "\n");}
 ;
 tipo: FLOAT {$$ = new ParserVal("FLOAT"); System.out.println("Regla 21\n" + $$.sval + "\n");}
     | STRING {$$ = new ParserVal("STRING"); System.out.println("Regla 22\n" + $$.sval + "\n");}
     | POINTER {$$ = new ParserVal("POINTER"); System.out.println("Regla 23\n" + $$.sval + "\n");}
-    | id {$$ = new ParserVal($1.sval); System.out.println("Regla 24\n" + $$.sval + "\n");}
+    | id {$$ = new ParserVal($1.sval); TablaDeSimbolos.getInstance().verificarTipoValido($1.sval); System.out.println("Regla 24\n" + $$.sval + "\n");}
 ;
 ejecucion: BEGIN sentencias END {$$ = new ParserVal("BEGIN\n" + $2.sval + "\nEND"); System.out.println("Regla 25\n" + $$.sval + "\n");}
          | BEGIN END {$$ = new ParserVal("BEGIN\nEND"); System.out.println("Regla 26\n" + $$.sval + "\n");}
@@ -61,7 +61,7 @@ sentencia: asignacion {$$ = new ParserVal($1.sval); System.out.println("Regla 29
          | bucle {$$ = new ParserVal($1.sval); System.out.println("Regla 31\n" + $$.sval + "\n");}
          | display_command {$$ = new ParserVal($1.sval); System.out.println("Regla 32\n" + $$.sval + "\n");}
 ;
-asignacion: id OP_ASIG expresion PUNTO_Y_COMA {$$ = new ParserVal($1.sval + " " + $3.sval + " = " + ";"); System.out.println("Regla 33\n" + $$.sval + "\n");}
+asignacion: id OP_ASIG expresion PUNTO_Y_COMA {$$ = new ParserVal($1.sval + " " + $3.sval + " = " + ";"); TablaDeSimbolos.getInstance().verificarDeclaracion($1.sval); System.out.println("Regla 33\n" + $$.sval + "\n");}
 ;
 expresion: termino {$$ = new ParserVal($1.sval); System.out.println("Regla 34\n" + $$.sval + "\n");}
          | expresion OP_SUMA termino {$$ = new ParserVal($1.sval + " " + $3.sval + " +"); System.out.println("Regla 35\n" + $$.sval + "\n");}
@@ -71,7 +71,7 @@ termino: factor {$$ = new ParserVal($1.sval);System.out.println("Regla 37\n" + $
        | termino OP_MUL factor {$$ = new ParserVal($1.sval + " " + $3.sval + " *");VectorPolaca.getInstance().agregar(new EntradaVectorPolaca("*")); System.out.println("Regla 38\n" + $$.sval + "\n");}
        | termino OP_DIV factor {$$ = new ParserVal($1.sval + " " + $3.sval + " /");VectorPolaca.getInstance().agregar(new EntradaVectorPolaca("/")); System.out.println("Regla 39\n" + $$.sval + "\n");}
 ;
-factor: id {$$ = new ParserVal($1.sval); System.out.println("Regla 40\n" + $$.sval + "\n");}
+factor: id {$$ = new ParserVal($1.sval); TablaDeSimbolos.getInstance().verificarDeclaracion($1.sval); System.out.println("Regla 40\n" + $$.sval + "\n");}
       | cte_num {$$ = new ParserVal($1.sval); System.out.println("Regla 41\n" + $$.sval + "\n");}
       | PAR_ABRE expresion PAR_CIERRA {$$ = new ParserVal($2.sval); System.out.println("Regla 42\n" + $$.sval + "\n");}
       | average {$$ = new ParserVal($1.sval); System.out.println("Regla 43\n" + $$.sval + "\n");}

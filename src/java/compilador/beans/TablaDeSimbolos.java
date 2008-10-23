@@ -11,9 +11,8 @@ public class TablaDeSimbolos {
 	public static final String TIPO_CTE_NUM = "Real";
 	public static final String TIPO_CTE_STRING = "CteString";
 	public static final String TIPO_POINTER = "Pointer";
+	public static final String TIPO_TYPE = "TYPE";
 
-	//TODO eliminar "cantidad" y manejarse con el sizeOf()	
-	private static int cantidad = 0;
 	private static TablaDeSimbolos instance;
 
 	public static TablaDeSimbolos getInstance() {
@@ -26,16 +25,21 @@ public class TablaDeSimbolos {
 		simbolos = new ArrayList<EntradaTS>();
 	}
 
+	/**
+	 * Sólo agrega una entrada si la misma no existía.
+	 * Sino simplemente devuelve la posición. 
+	 */
+	
 	public int agregar(EntradaTS entrada) {
-		int posicion = cantidad;
+		
+		int posicion = simbolos.size();
+		
 		if (!simbolos.contains(entrada)) { //Entrada TS tiene sobreescrito el equals y compara por nombre solamente
-			simbolos.add(posicion, entrada);
-			cantidad++;
+			simbolos.add(entrada);
 		} else {
 			posicion = simbolos.indexOf(entrada);
-			simbolos.set(posicion, entrada); //si ya existía, lo reemplazamos con el que nos llegó y devolvemos la posición
-			//FIXME ACA hay un error, esta pisando el valor TYPE de las variables que son de ese tipo 
 		}
+
 		return posicion;
 	}
 	
@@ -57,6 +61,10 @@ public class TablaDeSimbolos {
 		return simbolos.get(posicion);
 	}
 	
+	public EntradaTS getEntrada(String clave) {
+		return simbolos.get(this.getPosicion(clave));
+	}
+	
 	public int getPosicion(String nombre) {
 		return simbolos.indexOf(new EntradaTS(nombre));
 	}
@@ -65,31 +73,61 @@ public class TablaDeSimbolos {
 		return simbolos.indexOf(entrada);
 	}
 	
+	public void setTipo(String clave, String tipo) {
+		simbolos.get(this.getPosicion(clave)).setTipo(tipo);
+	}
+	
+	public void setValor(String clave, String valor) {
+		simbolos.get(this.getPosicion(clave)).setValor(valor);
+	}
+	
+	public void setTypedef(String clave, String typedef) {
+		simbolos.get(this.getPosicion(clave)).setTypedef(typedef);
+	}
+
 	/**
 	 * Toma una lista de constantes (String o Numéricas) y le setea en el campo TYPEDEF
 	 * de la tabla el valor recibido en el parámetro 'tipo'
 	 */
-	public void setType(Collection<String> listaDeConstantes, String tipo) {
+	public void setTypedefs(Collection<String> listaDeConstantes, String tipo) {
 		
 		Iterator<String> iter = listaDeConstantes.iterator();
 		while(iter.hasNext()) {
-			String valor = iter.next();
-			int posicion = this.getPosicion(valor);
-			EntradaTS entrada = simbolos.get(posicion);
-			entrada.setTypedef(tipo);
+			simbolos.get(this.getPosicion(iter.next())).setTypedef(tipo);
 		}
-		
 	}
 	
-	public void setTipo(String nombre, String tipo) {
-		simbolos.get(this.getPosicion(nombre)).setTipo(tipo);
+	/**
+	 * Toma una lista de IDs y le setea en el campo TIPO
+	 * de la tabla el valor recibido en el parámetro 'tipo'
+	 */
+	public void setTipos(Collection<String> listaDeIDs, String tipo) {
+		
+		Iterator<String> iter = listaDeIDs.iterator();
+		while(iter.hasNext()) {
+			simbolos.get(this.getPosicion(iter.next())).setTipo(tipo);
+		}
+	}
+	
+	public void verificarTipoValido(String clave) {
+		EntradaTS entrada = this.getEntrada(clave); 
+		if( entrada.getTipo() == null || !entrada.getTipo().equals(TIPO_TYPE)) {
+			System.err.println("Tipo Inválido: " + clave);
+		}
+	}
+	
+	public void verificarDeclaracion(String clave) {
+		EntradaTS entrada = this.getEntrada(clave); 
+		if( entrada.getTipo() == null) {
+			System.err.println("La variable " + clave + " no fue declarada");
+		}
 	}
 	
 	@Override
 	public String toString() {
 		String out = new String();
 		int posicion;
-		for (posicion = 0; posicion < cantidad; posicion++) {
+		for (posicion = 0; posicion < simbolos.size(); posicion++) {
 			EntradaTS actual = simbolos.get(posicion);
 			
 			out = out + "Posicion: " + posicion + "\tNombre: "

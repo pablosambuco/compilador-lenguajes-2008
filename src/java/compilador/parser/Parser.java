@@ -620,11 +620,11 @@ case 6:
 break;
 case 7:
 //#line 25 "input.y"
-{TablaDeSimbolos.getInstance().setTipo(val_peek(0).sval, "TYPE");}
+{TablaDeSimbolos.getInstance().setTipo(val_peek(0).sval, TablaDeSimbolos.TIPO_TYPE);}
 break;
 case 8:
 //#line 25 "input.y"
-{yyval = new ParserVal("TYPE " + val_peek(4).sval + " AS " + val_peek(1).sval + ";"); TablaDeSimbolos.getInstance().setType(listaAux,val_peek(4).sval) /* Tomamos la Tabla de símbolos y en el campo TYPEDEF de las variables recibidas en la lista, le seteamos el valor que llega en $2 */; System.out.println("Regla 07\n" + yyval.sval + "\n");}
+{yyval = new ParserVal("TYPE " + val_peek(4).sval + " AS " + val_peek(1).sval + ";"); TablaDeSimbolos.getInstance().setTypedefs(listaAux,val_peek(4).sval) /* Tomamos la Tabla de símbolos y en el campo TYPEDEF de las variables recibidas en la lista, le seteamos el tipo creado */; System.out.println("Regla 07\n" + yyval.sval + "\n");}
 break;
 case 9:
 //#line 27 "input.y"
@@ -664,19 +664,19 @@ case 17:
 break;
 case 18:
 //#line 42 "input.y"
-{yyval = new ParserVal(val_peek(3).sval + ":" + val_peek(1).sval + ";"); System.out.println("Regla 17\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(3).sval + ":" + val_peek(1).sval + ";"); TablaDeSimbolos.getInstance().setTipos(listaAux,val_peek(1).sval) /* Tomamos la Tabla de símbolos y en el campo Tipo de los IDs recibidos en la lista, le seteamos el tipo */; System.out.println("Regla 17\n" + yyval.sval + "\n");}
 break;
 case 19:
 //#line 43 "input.y"
-{yyval = new ParserVal(val_peek(4).sval + "\n" + val_peek(3).sval + ":" + val_peek(1).sval + ";"); System.out.println("Regla 18\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(4).sval + "\n" + val_peek(3).sval + ":" + val_peek(1).sval + ";"); TablaDeSimbolos.getInstance().setTipos(listaAux,val_peek(1).sval) /* Tomamos la Tabla de símbolos y en el campo Tipo de los IDs recibidos en la lista, le seteamos el tipo */; System.out.println("Regla 18\n" + yyval.sval + "\n");}
 break;
 case 20:
 //#line 45 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 19\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(0).sval); listaAux = new ArrayList<String>(); listaAux.add(val_peek(0).sval) /* Vamos agregando los IDs en una lista para usarlos mas arriba */; System.out.println("Regla 19\n" + yyval.sval + "\n");}
 break;
 case 21:
 //#line 46 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + "," + val_peek(0).sval); System.out.println("Regla 20\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(2).sval + "," + val_peek(0).sval); listaAux.add(val_peek(0).sval) /*Esta regla siempre se ejecuta despues que la de arriba, por eso el ArrayList ya fue instanciado con new */; System.out.println("Regla 20\n" + yyval.sval + "\n");}
 break;
 case 22:
 //#line 48 "input.y"
@@ -692,7 +692,7 @@ case 24:
 break;
 case 25:
 //#line 51 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 24\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(0).sval); TablaDeSimbolos.getInstance().verificarTipoValido(val_peek(0).sval); System.out.println("Regla 24\n" + yyval.sval + "\n");}
 break;
 case 26:
 //#line 53 "input.y"
@@ -728,7 +728,7 @@ case 33:
 break;
 case 34:
 //#line 64 "input.y"
-{yyval = new ParserVal(val_peek(3).sval + " " + val_peek(1).sval + " = " + ";"); System.out.println("Regla 33\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(3).sval + " " + val_peek(1).sval + " = " + ";"); TablaDeSimbolos.getInstance().verificarDeclaracion(val_peek(3).sval); System.out.println("Regla 33\n" + yyval.sval + "\n");}
 break;
 case 35:
 //#line 66 "input.y"
@@ -756,7 +756,7 @@ case 40:
 break;
 case 41:
 //#line 74 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 40\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(0).sval); TablaDeSimbolos.getInstance().verificarDeclaracion(val_peek(0).sval); System.out.println("Regla 40\n" + yyval.sval + "\n");}
 break;
 case 42:
 //#line 75 "input.y"
