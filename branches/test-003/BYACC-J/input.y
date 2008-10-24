@@ -6,6 +6,8 @@ import compilador.util.ArchivoReader;
 import compilador.sintaxis.VectorPolaca;
 import compilador.sintaxis.EntradaVectorPolaca;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.lang.String;
 %}
 
 /* Definiciones */
@@ -22,7 +24,7 @@ programa: def_tipos def_var ejecucion  {$$ = new ParserVal($1.sval + "\n" + $2.s
 def_tipos: def_tipo {$$ = new ParserVal($1.sval); System.out.println("Regla 05\n" + $$.sval + "\n");}
          | def_tipos def_tipo {$$ = new ParserVal($1.sval + "\n" + $2.sval); System.out.println("Regla 06\n" + $$.sval + "\n");}
 ;
-def_tipo: TYPE id {TablaDeSimbolos.getInstance().setTipo($2.sval, TablaDeSimbolos.TIPO_TYPE);} AS lista PUNTO_Y_COMA {$$ = new ParserVal("TYPE " + $2.sval + " AS " + $5.sval + ";"); TablaDeSimbolos.getInstance().setTypedefs(listaAux,$2.sval) /* Tomamos la Tabla de símbolos y en el campo TYPEDEF de las variables recibidas en la lista, le seteamos el tipo creado */; System.out.println("Regla 07\n" + $$.sval + "\n");}
+def_tipo: TYPE id {TablaDeSimbolos.getInstance().crearNuevoTipo($2.sval);} AS lista PUNTO_Y_COMA {$$ = new ParserVal("TYPE " + $2.sval + " AS " + $5.sval + ";"); TablaDeSimbolos.getInstance().setTypedefs(listaAux,$2.sval) /* Tomamos la Tabla de símbolos y en el campo TYPEDEF de las variables recibidas en la lista, le seteamos el tipo creado (verificando que no exista ya) */; System.out.println("Regla 07\n" + $$.sval + "\n");}
 ;
 lista: lista_num {$$ = new ParserVal($1.sval); System.out.println("Regla 08\n" + $$.sval + "\n");}
      | lista_str {$$ = new ParserVal($1.sval); System.out.println("Regla 09\n" + $$.sval + "\n");}
@@ -45,6 +47,12 @@ lista_var: lista_ids DOS_PUNTOS tipo PUNTO_Y_COMA {$$ = new ParserVal($1.sval + 
 lista_ids: id {$$ = new ParserVal($1.sval); listaAux = new ArrayList<String>(); listaAux.add($1.sval) /* Vamos agregando los IDs en una lista para usarlos mas arriba */; System.out.println("Regla 19\n" + $$.sval + "\n");}
          | lista_ids COMA id {$$ = new ParserVal($1.sval + "," + $3.sval); listaAux.add($3.sval) /*Esta regla siempre se ejecuta despues que la de arriba, por eso el ArrayList ya fue instanciado con new */; System.out.println("Regla 20\n" + $$.sval + "\n");}
 ;
+
+/**
+En esta seccion se verifica que para instanciar variables sólo se puedan utilizar tipos que fueron previamente
+definidos haciendo uso de TYPE (además de los ya soportados por el lenguaje, pero eso es checkeado automáticamente
+por la gramática).
+*/
 tipo: FLOAT {$$ = new ParserVal("FLOAT"); System.out.println("Regla 21\n" + $$.sval + "\n");}
     | STRING {$$ = new ParserVal("STRING"); System.out.println("Regla 22\n" + $$.sval + "\n");}
     | POINTER {$$ = new ParserVal("POINTER"); System.out.println("Regla 23\n" + $$.sval + "\n");}
@@ -61,20 +69,35 @@ sentencia: asignacion {$$ = new ParserVal($1.sval); System.out.println("Regla 29
          | bucle {$$ = new ParserVal($1.sval); System.out.println("Regla 31\n" + $$.sval + "\n");}
          | display_command {$$ = new ParserVal($1.sval); System.out.println("Regla 32\n" + $$.sval + "\n");}
 ;
-asignacion: id OP_ASIG expresion PUNTO_Y_COMA {$$ = new ParserVal($1.sval + " " + $3.sval + " = " + ";"); TablaDeSimbolos.getInstance().verificarDeclaracion($1.sval); System.out.println("Regla 33\n" + $$.sval + "\n");}
+
+/**
+En esta sección se verifica que el ID del lado izquierdo haya sido declarado previamente y que los tipos en la asignacion coincidan.
+Para realizar esto último, se recibe una lista de Tokens que intervienen en la operacion (IDs, Ctes. Numericas y la sentencia AVG).
+Si la lista contiene solamente ID, entonces se verificará que el tipo izquierdo coincida con el derecho. Si hay más de un Token
+en la lista, debemos verificar que todos los IDs que aparezcan sean constantes FLOAT, ya que solo se permiten expresiones numéricas
+en el lenguaje.
+*/
+asignacion: id OP_ASIG expresion PUNTO_Y_COMA {$$ = new ParserVal($1.sval + " " + $3.sval + " = " + ";"); TablaDeSimbolos.getInstance().verificarDeclaracion($1.sval); TablaDeSimbolos.getInstance().verificarAsignacion($1.sval, (ArrayList<String>)$3.obj); System.out.println("Regla 33\n" + $$.sval + "\n");}
 ;
-expresion: termino {$$ = new ParserVal($1.sval); System.out.println("Regla 34\n" + $$.sval + "\n");}
-         | expresion OP_SUMA termino {$$ = new ParserVal($1.sval + " " + $3.sval + " +"); System.out.println("Regla 35\n" + $$.sval + "\n");}
-         | expresion OP_RESTA termino {$$ = new ParserVal($1.sval + " " + $3.sval + " -"); System.out.println("Regla 36\n" + $$.sval + "\n");}
+expresion: termino {$$ = new ParserVal($1.sval); $$.obj = $1.obj; System.out.println("Regla 34\n" + $$.sval + "\n");}
+         | expresion OP_SUMA termino {$$ = new ParserVal($1.sval + " " + $3.sval + " +"); $$.obj = $1.obj; ((ArrayList<String>)$$.obj).addAll((Collection)$3.obj); System.out.println("Regla 35\n" + $$.sval + "\n");}
+         | expresion OP_RESTA termino {$$ = new ParserVal($1.sval + " " + $3.sval + " -"); $$.obj = $1.obj; ((ArrayList<String>)$$.obj).addAll((Collection)$3.obj); System.out.println("Regla 36\n" + $$.sval + "\n");}
 ;
-termino: factor {$$ = new ParserVal($1.sval);System.out.println("Regla 37\n" + $$.sval + "\n");}
-       | termino OP_MUL factor {$$ = new ParserVal($1.sval + " " + $3.sval + " *");VectorPolaca.getInstance().agregar(new EntradaVectorPolaca("*")); System.out.println("Regla 38\n" + $$.sval + "\n");}
-       | termino OP_DIV factor {$$ = new ParserVal($1.sval + " " + $3.sval + " /");VectorPolaca.getInstance().agregar(new EntradaVectorPolaca("/")); System.out.println("Regla 39\n" + $$.sval + "\n");}
+termino: factor {$$ = new ParserVal($1.sval); $$.obj = new ArrayList<String>(); ((ArrayList<String>)$$.obj).addAll((Collection)$1.obj); System.out.println("Regla 37\n" + $$.sval + "\n");}
+       | termino OP_MUL factor {$$ = new ParserVal($1.sval + " " + $3.sval + " *"); $$.obj = $1.obj; ((ArrayList<String>)$$.obj).addAll((Collection)$3.obj); VectorPolaca.getInstance().agregar(new EntradaVectorPolaca("*")); System.out.println("Regla 38\n" + $$.sval + "\n");}
+       | termino OP_DIV factor {$$ = new ParserVal($1.sval + " " + $3.sval + " /"); $$.obj = $1.obj; ((ArrayList<String>)$$.obj).addAll((Collection)$3.obj); VectorPolaca.getInstance().agregar(new EntradaVectorPolaca("/")); System.out.println("Regla 39\n" + $$.sval + "\n");}
 ;
-factor: id {$$ = new ParserVal($1.sval); TablaDeSimbolos.getInstance().verificarDeclaracion($1.sval);/* TODO ver que pasa con esto ya que al verificar que sea un FLOAT aca, me va a dar error cuando la expresion termina siendo solo un ID de un tipo distinto (lo cual es correcto para hacer asignaciones entre variables de otros tipos) TablaDeSimbolos.getInstance().verificarTipoDatoReal($1.sval);*/ System.out.println("Regla 40\n" + $$.sval + "\n");}
-      | cte_num {$$ = new ParserVal($1.sval); System.out.println("Regla 41\n" + $$.sval + "\n");}
-      | PAR_ABRE expresion PAR_CIERRA {$$ = new ParserVal($2.sval); System.out.println("Regla 42\n" + $$.sval + "\n");}
-      | average {$$ = new ParserVal($1.sval); System.out.println("Regla 43\n" + $$.sval + "\n");}
+/**
+En esta sección se verificará que cualquier ID que se use en una expresion haya sido instanciado antes
+Por otro lado, se seteará en el $$.obj un ArrayList de Strings con el ID o la constante utilizada, para que la regla
+de más arriba la tome y pueda ir armando una lista de las mismas que finalmente se evaluarán en la asignacion.
+Para el caso de average, se seteará la palabra reservada AVG. Se utiliza un ArrayList y no simplemente un String,
+porque la regla 42 contiene una expresion que puede ya venir con varios elementos en vez de uno solo.
+*/
+factor: id {$$ = new ParserVal($1.sval); TablaDeSimbolos.getInstance().verificarDeclaracion($1.sval); $$.obj = new ArrayList<String>(); ((ArrayList<String>)$$.obj).add($1.sval); System.out.println("Regla 40\n" + $$.sval + "\n");}
+      | cte_num {$$ = new ParserVal($1.sval); $$.obj = new ArrayList<String>(); ((ArrayList<String>)$$.obj).add($1.sval); System.out.println("Regla 41\n" + $$.sval + "\n");}
+      | PAR_ABRE expresion PAR_CIERRA {$$ = new ParserVal($2.sval); $$.obj = $2.obj; System.out.println("Regla 42\n" + $$.sval + "\n");}
+      | average {$$ = new ParserVal($1.sval); $$.obj = new ArrayList<String>(); ((ArrayList<String>)$$.obj).add(new String("AVG")); System.out.println("Regla 43\n" + $$.sval + "\n");}
 ;
 condicional: IF PAR_ABRE condicion PAR_CIERRA sentencias ENDIF {$$ = new ParserVal("IF(" + $3.sval + ")\n" + $4.sval + "\nENDIF"); System.out.println("Regla 44\n" + $$.sval + "\n");}
            | IF PAR_ABRE condicion PAR_CIERRA sentencias ELSE sentencias ENDIF {$$ = new ParserVal("IF(" + $3.sval + ")\n" + $5.sval + "\nELSE\n" + $7.sval + "\nENDIF"); System.out.println("Regla 45\n" + $$.sval + "\n");}
