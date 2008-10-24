@@ -6,6 +6,8 @@ import java.util.Iterator;
 
 public class TablaDeSimbolos {
 
+	//TODO implementar un mecanismo que registre cuando se produce un error y no deje seguir con la generacion de Assembler
+	
 	private java.util.ArrayList<EntradaTS> simbolos;
 	
 	public static final String TIPO_CTE_NUM = "Real";
@@ -73,10 +75,6 @@ public class TablaDeSimbolos {
 		return simbolos.indexOf(entrada);
 	}
 	
-	public void setTipo(String clave, String tipo) {
-		simbolos.get(this.getPosicion(clave)).setTipo(tipo);
-	}
-	
 	public void setValor(String clave, String valor) {
 		simbolos.get(this.getPosicion(clave)).setValor(valor);
 	}
@@ -84,34 +82,55 @@ public class TablaDeSimbolos {
 	public void setTypedef(String clave, String typedef) {
 		simbolos.get(this.getPosicion(clave)).setTypedef(typedef);
 	}
+	
+	public void crearNuevoTipo(String clave) {
+		EntradaTS entrada = simbolos.get(this.getPosicion(clave));
+		if(entrada.getTipo() != null) {
+			System.err.println("Tipo Duplicado: " + entrada.getNombre());
+		} else {
+			entrada.setTipo(TIPO_TYPE);
+		}
+	}
 
 	/**
 	 * Toma una lista de constantes (String o Numéricas) y le setea en el campo TYPEDEF
-	 * de la tabla el valor recibido en el parámetro 'tipo'
+	 * de la tabla el valor recibido en el parámetro 'tipo'. Verifica antes que no hubiera
+	 * sido seteado ya.
 	 */
 	public void setTypedefs(Collection<String> listaDeConstantes, String tipo) {
 		
 		Iterator<String> iter = listaDeConstantes.iterator();
 		while(iter.hasNext()) {
-			simbolos.get(this.getPosicion(iter.next())).setTypedef(tipo);
+			EntradaTS entrada = simbolos.get(this.getPosicion(iter.next()));
+			if(entrada.getTypedef() != null) {
+				//FIXME Esto es feo, ya que sí podrian repetirse dentro de distintos tipos creados por el usuario, pero la TS solo admite una entrada con el mismo nombre :-s
+				System.err.println("La constante " + entrada.getValor() + " ya fue utilizada en una declaración de tipos.");
+			} else {
+				entrada.setTypedef(tipo);
+			}
 		}
 	}
 	
 	/**
 	 * Toma una lista de IDs y le setea en el campo TIPO
 	 * de la TS el valor recibido en el parámetro 'tipo'
+	 * Verifica antes que no hubiera sido seteado ya.
 	 */
 	public void setTipos(Collection<String> listaDeIDs, String tipo) {
-		
 		Iterator<String> iter = listaDeIDs.iterator();
 		while(iter.hasNext()) {
-			simbolos.get(this.getPosicion(iter.next())).setTipo(tipo);
+			EntradaTS entrada = simbolos.get(this.getPosicion(iter.next()));
+			if(entrada.getTipo() != null) {
+				System.err.println("Variable Duplicada: " + entrada.getNombre());
+			} else {
+				entrada.setTipo(tipo);
+			}
 		}
 	}
 	
 	/**
 	 * Verifica si el tipo que se le quiere asignar a una variable fue definido
-	 * con anterioridad usando TYPE
+	 * con anterioridad usando TYPE.
 	 */
 	public void verificarTipoValido(String clave) {
 		EntradaTS entrada = this.getEntrada(clave); 
@@ -153,6 +172,10 @@ public class TablaDeSimbolos {
 					+ actual.getNombre() + "\n";
 		}
 		return out;
+	}
+	
+	public void verificarAsignacion(String idLadoIzquierdo, ArrayList<String> valoresLadoDerecho) {
+		//TODO aca va la magia!
 	}
 	
 }
