@@ -2,7 +2,7 @@
 TYPE frutas AS ["manzana","naranja"];
 TYPE valores AS [12.3, 14.2];
 DEFVAR
-	jose: FLOAT; #% Todos los numericos son FLOAT %#
+	jose, mario, raul, ernesto: FLOAT; #% Todos los numericos son FLOAT %#
 	mivariable, otraVariable, estavariable, carlos: POINTER;
 	tipoExtra, a, b: frutas;
 	otraMas: valores;
@@ -15,9 +15,9 @@ BEGIN
 	ELSE	
 		raul = mario / (45.89 + jennifer);
 	ENDIF%#
-	IF(carlos < ariel)
-		a = b + c;
+	IF(jose < mario)
+		raul = ernesto + b;
 	ELSE
-		Raiz = 1 + 3;
+		jose = 1 + 3;
 	ENDIF	
 END
