@@ -71,7 +71,7 @@ termino: factor {$$ = new ParserVal($1.sval);System.out.println("Regla 37\n" + $
        | termino OP_MUL factor {$$ = new ParserVal($1.sval + " " + $3.sval + " *");VectorPolaca.getInstance().agregar(new EntradaVectorPolaca("*")); System.out.println("Regla 38\n" + $$.sval + "\n");}
        | termino OP_DIV factor {$$ = new ParserVal($1.sval + " " + $3.sval + " /");VectorPolaca.getInstance().agregar(new EntradaVectorPolaca("/")); System.out.println("Regla 39\n" + $$.sval + "\n");}
 ;
-factor: id {$$ = new ParserVal($1.sval); TablaDeSimbolos.getInstance().verificarDeclaracion($1.sval); System.out.println("Regla 40\n" + $$.sval + "\n");}
+factor: id {$$ = new ParserVal($1.sval); TablaDeSimbolos.getInstance().verificarDeclaracion($1.sval);/* TODO ver que pasa con esto ya que al verificar que sea un FLOAT aca, me va a dar error cuando la expresion termina siendo solo un ID de un tipo distinto (lo cual es correcto para hacer asignaciones entre variables de otros tipos) TablaDeSimbolos.getInstance().verificarTipoDatoReal($1.sval);*/ System.out.println("Regla 40\n" + $$.sval + "\n");}
       | cte_num {$$ = new ParserVal($1.sval); System.out.println("Regla 41\n" + $$.sval + "\n");}
       | PAR_ABRE expresion PAR_CIERRA {$$ = new ParserVal($2.sval); System.out.println("Regla 42\n" + $$.sval + "\n");}
       | average {$$ = new ParserVal($1.sval); System.out.println("Regla 43\n" + $$.sval + "\n");}

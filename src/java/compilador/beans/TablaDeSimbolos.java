@@ -99,7 +99,7 @@ public class TablaDeSimbolos {
 	
 	/**
 	 * Toma una lista de IDs y le setea en el campo TIPO
-	 * de la tabla el valor recibido en el parámetro 'tipo'
+	 * de la TS el valor recibido en el parámetro 'tipo'
 	 */
 	public void setTipos(Collection<String> listaDeIDs, String tipo) {
 		
@@ -109,6 +109,10 @@ public class TablaDeSimbolos {
 		}
 	}
 	
+	/**
+	 * Verifica si el tipo que se le quiere asignar a una variable fue definido
+	 * con anterioridad usando TYPE
+	 */
 	public void verificarTipoValido(String clave) {
 		EntradaTS entrada = this.getEntrada(clave); 
 		if( entrada.getTipo() == null || !entrada.getTipo().equals(TIPO_TYPE)) {
@@ -116,17 +120,32 @@ public class TablaDeSimbolos {
 		}
 	}
 	
+	/**
+	 * Verifica si una variable fue declarada antes de su primer uso
+	 */
 	public void verificarDeclaracion(String clave) {
 		EntradaTS entrada = this.getEntrada(clave); 
-		if( entrada.getTipo() == null) {
+		if( entrada.getTipo() == null ) {
 			System.err.println("La variable " + clave + " no fue declarada");
+		}
+	}
+	
+	
+	/**
+	 * Indica si una variable es del tipo FLOAT (el único
+	 * admitido para realizar operaciones aritméticas y de comparación)
+	 */
+	public void verificarTipoDatoReal(String clave) {
+		EntradaTS entrada = this.getEntrada(clave); 
+		if( entrada.getTipo() == null || !entrada.getTipo().equals(TIPO_CTE_NUM)) {
+			System.err.println("Incompatibilidad de tipos. La variable " + clave + " debe ser numérica");
 		}
 	}
 	
 	@Override
 	public String toString() {
 		String out = new String();
-		int posicion;
+		int posicion = 2;
 		for (posicion = 0; posicion < simbolos.size(); posicion++) {
 			EntradaTS actual = simbolos.get(posicion);
 			

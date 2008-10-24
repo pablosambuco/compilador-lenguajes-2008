@@ -756,7 +756,7 @@ case 40:
 break;
 case 41:
 //#line 74 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); TablaDeSimbolos.getInstance().verificarDeclaracion(val_peek(0).sval); System.out.println("Regla 40\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(0).sval); TablaDeSimbolos.getInstance().verificarDeclaracion(val_peek(0).sval);/* TODO ver que pasa con esto ya que al verificar que sea un FLOAT aca, me va a dar error cuando la expresion termina siendo solo un ID de un tipo distinto (lo cual es correcto para hacer asignaciones entre variables de otros tipos) TablaDeSimbolos.getInstance().verificarTipoDatoReal($1.sval);*/ System.out.println("Regla 40\n" + yyval.sval + "\n");}
 break;
 case 42:
 //#line 75 "input.y"
