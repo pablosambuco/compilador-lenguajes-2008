@@ -1,12 +1,15 @@
-TYPE frutas AS ["manzana","naranja"];
 TYPE valores AS [12.3, 14.2];
+TYPE frutas AS ["manzanas","naranja"];
 DEFVAR
-	a, b, c: FLOAT;
+	a, b, c,f,x: FLOAT;
 	d, e: STRING;
-	f: POINTER;
-	g, h: frutas;
-	i, x: valores;
+	p: POINTER;
+	topos, h: frutas;
+	diantres, m: valores;
 ENDDEF
-BEGIN 
+BEGIN
+	x = 3; 
+	d = e;
+	a = AVG([24, 45.6, 888888]);
 	f = x * ( 3 / 9 - 58) + (45 - 8 * 5) / 25 + 3 - AVG([24, 45.6, 888888]);
 END
