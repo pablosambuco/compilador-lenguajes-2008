@@ -53,9 +53,9 @@ En esta seccion se verifica que para instanciar variables sólo se puedan utiliza
 definidos haciendo uso de TYPE (además de los ya soportados por el lenguaje, pero eso es checkeado automáticamente
 por la gramática).
 */
-tipo: FLOAT {$$ = new ParserVal("FLOAT"); System.out.println("Regla 21\n" + $$.sval + "\n");}
-    | STRING {$$ = new ParserVal("STRING"); System.out.println("Regla 22\n" + $$.sval + "\n");}
-    | POINTER {$$ = new ParserVal("POINTER"); System.out.println("Regla 23\n" + $$.sval + "\n");}
+tipo: FLOAT {$$ = new ParserVal(TablaDeSimbolos.TIPO_FLOAT); System.out.println("Regla 21\n" + $$.sval + "\n");}
+    | STRING {$$ = new ParserVal(TablaDeSimbolos.TIPO_STRING); System.out.println("Regla 22\n" + $$.sval + "\n");}
+    | POINTER {$$ = new ParserVal(TablaDeSimbolos.TIPO_POINTER); System.out.println("Regla 23\n" + $$.sval + "\n");}
     | id {$$ = new ParserVal($1.sval); TablaDeSimbolos.getInstance().verificarTipoValido($1.sval); System.out.println("Regla 24\n" + $$.sval + "\n");}
 ;
 ejecucion: BEGIN sentencias END {$$ = new ParserVal("BEGIN\n" + $2.sval + "\nEND"); System.out.println("Regla 25\n" + $$.sval + "\n");}
@@ -79,6 +79,11 @@ en el lenguaje.
 */
 asignacion: id OP_ASIG expresion PUNTO_Y_COMA {$$ = new ParserVal($1.sval + " " + $3.sval + " = " + ";"); TablaDeSimbolos.getInstance().verificarDeclaracion($1.sval); TablaDeSimbolos.getInstance().verificarAsignacion($1.sval, (ArrayList<String>)$3.obj); System.out.println("Regla 33\n" + $$.sval + "\n");}
 ;
+/**
+Este tipo de asignación a una Constante String existe para que se puedan realizar asignaciones a tipos definidos con TYPE. Ej: var1 = "EUR"; (donde var1 es del tipo "moneda" el cual tiene entre su lista de valores posibles la palabra "EUR")
+*/
+asignacion: id OP_ASIG cte_str PUNTO_Y_COMA {$$ = new ParserVal($1.sval + " " + $3.sval + " = " + ";"); TablaDeSimbolos.getInstance().verificarDeclaracion($1.sval); listaAux = new ArrayList<String>(); listaAux.add($3.sval); TablaDeSimbolos.getInstance().verificarAsignacion($1.sval, listaAux); System.out.println("Regla 33\n" + $$.sval + "\n");}
+;
 expresion: termino {$$ = new ParserVal($1.sval); $$.obj = $1.obj; System.out.println("Regla 34\n" + $$.sval + "\n");}
          | expresion OP_SUMA termino {$$ = new ParserVal($1.sval + " " + $3.sval + " +"); $$.obj = $1.obj; ((ArrayList<String>)$$.obj).addAll((Collection)$3.obj); System.out.println("Regla 35\n" + $$.sval + "\n");}
          | expresion OP_RESTA termino {$$ = new ParserVal($1.sval + " " + $3.sval + " -"); $$.obj = $1.obj; ((ArrayList<String>)$$.obj).addAll((Collection)$3.obj); System.out.println("Regla 36\n" + $$.sval + "\n");}
@@ -97,7 +102,7 @@ porque la regla 42 contiene una expresion que puede ya venir con varios elemento
 factor: id {$$ = new ParserVal($1.sval); TablaDeSimbolos.getInstance().verificarDeclaracion($1.sval); $$.obj = new ArrayList<String>(); ((ArrayList<String>)$$.obj).add($1.sval); System.out.println("Regla 40\n" + $$.sval + "\n");}
       | cte_num {$$ = new ParserVal($1.sval); $$.obj = new ArrayList<String>(); ((ArrayList<String>)$$.obj).add($1.sval); System.out.println("Regla 41\n" + $$.sval + "\n");}
       | PAR_ABRE expresion PAR_CIERRA {$$ = new ParserVal($2.sval); $$.obj = $2.obj; System.out.println("Regla 42\n" + $$.sval + "\n");}
-      | average {$$ = new ParserVal($1.sval); $$.obj = new ArrayList<String>(); ((ArrayList<String>)$$.obj).add(new String("AVG")); System.out.println("Regla 43\n" + $$.sval + "\n");}
+      | average {$$ = new ParserVal($1.sval); $$.obj = new ArrayList<String>(); ((ArrayList<String>)$$.obj).add(new String(TablaDeSimbolos.TIPO_AVG)); System.out.println("Regla 43\n" + $$.sval + "\n");}
 ;
 condicional: IF PAR_ABRE condicion PAR_CIERRA sentencias ENDIF {$$ = new ParserVal("IF(" + $3.sval + ")\n" + $4.sval + "\nENDIF"); System.out.println("Regla 44\n" + $$.sval + "\n");}
            | IF PAR_ABRE condicion PAR_CIERRA sentencias ELSE sentencias ENDIF {$$ = new ParserVal("IF(" + $3.sval + ")\n" + $5.sval + "\nELSE\n" + $7.sval + "\nENDIF"); System.out.println("Regla 45\n" + $$.sval + "\n");}
@@ -152,5 +157,5 @@ cte_str: CTE_STR {$$ = new ParserVal(TablaDeSimbolos.getInstance().getNombre(yyl
 		par.yyparse();
 		archivo.cerrarArhivo();
 		VectorPolaca.getInstance().imprimirVector();
-		TablaDeSimbolos.getInstance().toString();
+		System.out.println("\n\nTABLA DE SIMBOLOS\n\n" + TablaDeSimbolos.getInstance().toString());
 	}

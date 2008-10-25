@@ -17,7 +17,7 @@ public class FinalizarConstante implements IRutinaSemantica {
 		
 		//creamos una entrada en la tabla de simbolos y le seteamos ciertos atributos
 		EntradaTS entrada = new EntradaTS("_"+token.toString());
-		entrada.setTipo(TablaDeSimbolos.TIPO_CTE_NUM);
+		entrada.setTipo(TablaDeSimbolos.TIPO_CTE_REAL);
 		entrada.setValor(token.toString());
 		
 		yylval.ival = TablaDeSimbolos.getInstance().agregar(entrada);
