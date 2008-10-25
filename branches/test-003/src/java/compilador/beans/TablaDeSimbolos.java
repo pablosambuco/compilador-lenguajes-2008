@@ -167,16 +167,17 @@ public class TablaDeSimbolos {
 	
 	public void verificarAsignacion(String idLadoIzquierdo, ArrayList<String> valoresLadoDerecho) {
 		
+		EntradaTS entradaLadoIzquierdo = getEntrada(idLadoIzquierdo);
+
 		/*
 		 * Cuando del lado derecho tengo un solo valor, debo verificar que
 		 *  sea de un tipo compatible con el id del lado izquierdo
 		 */
 		if(valoresLadoDerecho.size() == 1) {
-			EntradaTS entradaLadoIzquierdo = getEntrada(idLadoIzquierdo);
 			String valorLadoDerecho = valoresLadoDerecho.get(0);
 			//Antes que nada verificamos si el valor a la derecha es un AVG, ya que al no estar en tabla de símbolos nos traería problemas al buscar la compatibilidad de tipos
 			if(valorLadoDerecho.equals(TIPO_AVG)) {
-				if(!entradaLadoIzquierdo.getTipo().equals(TIPO_FLOAT)) {
+				if(entradaLadoIzquierdo.getTipo() == null || !entradaLadoIzquierdo.getTipo().equals(TIPO_FLOAT)) {
 					System.err.println("Error en asignación a la variable \"" + idLadoIzquierdo + "\": incompatibilidad de tipos");
 				}
 			} else {
@@ -194,7 +195,7 @@ public class TablaDeSimbolos {
 		 * que también debo validar que el id del lado izquierdo también sea FLOAT.
 		 */
 					
-			if(!getEntrada(idLadoIzquierdo).getTipo().equals(TIPO_FLOAT)) {
+			if(entradaLadoIzquierdo.getTipo() == null || !entradaLadoIzquierdo.getTipo().equals(TIPO_FLOAT)) {
 				System.err.println("Error en asignación a la variable \"" + idLadoIzquierdo + "\": incompatibilidad de tipos");
 			}
 			
@@ -202,7 +203,7 @@ public class TablaDeSimbolos {
 			while (iter.hasNext()) {
 				String aux = iter.next(); //contiene un ID, Cte Numerica o la palabra AVG (esta ultima no se encuentra en TS)
 				String tipoValorLadoDerecho = aux.equals(TIPO_AVG) ? TIPO_AVG : getEntrada(aux).getTipo();
-				if(!tipoValorLadoDerecho.equals(TIPO_FLOAT) && !tipoValorLadoDerecho.equals(TIPO_CTE_REAL) && !tipoValorLadoDerecho.equals(TIPO_AVG)) {
+				if(tipoValorLadoDerecho == null || (!tipoValorLadoDerecho.equals(TIPO_FLOAT) && !tipoValorLadoDerecho.equals(TIPO_CTE_REAL) && !tipoValorLadoDerecho.equals(TIPO_AVG))) {
 					System.err.println("Error en expresión: sólo se permite utilizar tipos numéricos");
 					break; //cortamos porque sino tira siempre el mismo error
 				}
@@ -217,6 +218,9 @@ public class TablaDeSimbolos {
 		
 		String tipoIdLadoIzquierdo = entradaLadoIzquierdo.getTipo();
 		String tipoLadoDerecho = entradaLadoDerecho.getTipo();
+		
+		if(tipoIdLadoIzquierdo == null || tipoLadoDerecho == null)
+			return false;
 		
 		if(tipoIdLadoIzquierdo.equals(TIPO_STRING)) {
 			if(tipoLadoDerecho.equals(TIPO_STRING))
