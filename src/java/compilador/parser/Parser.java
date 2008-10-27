@@ -798,43 +798,43 @@ case 47:
 break;
 case 48:
 //#line 110 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); imprimir("Regla 46\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(0).sval); imprimir("Regla 46\n" + yyval.sval + "\n"); VectorPolaca.getInstance().moverLista(listaAuxPolaca);}
 break;
 case 49:
 //#line 111 "input.y"
-{yyval = new ParserVal(val_peek(1).sval + " NEGAR_COMPARACION_ANTERIOR"); imprimir("Regla 47\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("NEGAR_COMPARACION_ANTERIOR"));}
+{yyval = new ParserVal(val_peek(1).sval + " _NEGACION"); imprimir("Regla 47\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_NEGACION"));VectorPolaca.getInstance().moverLista(listaAuxPolaca);}
 break;
 case 50:
 //#line 112 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " AND"); imprimir("Regla 48\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("AND"));}
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _AND"); imprimir("Regla 48\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_AND"));VectorPolaca.getInstance().moverLista(listaAuxPolaca);}
 break;
 case 51:
 //#line 113 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " OR"); imprimir("Regla 49\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("OR"));}
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _OR"); imprimir("Regla 49\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_OR"));VectorPolaca.getInstance().moverLista(listaAuxPolaca);}
 break;
 case 52:
 //#line 115 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " CMP DIRECCION (OFFSET) BNE"); imprimir("Regla 50\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION (OFFSET)"));listaAuxPolaca.add(new EntradaVectorPolaca("BNE")); VectorPolaca.getInstance().moverLista(listaAuxPolaca);}
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " CMP DIRECCION (OFFSET) BNE"); imprimir("Regla 50\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION (OFFSET)"));listaAuxPolaca.add(new EntradaVectorPolaca("BNE"));}
 break;
 case 53:
 //#line 116 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " CMP DIRECCION (OFFSET) BEQ"); imprimir("Regla 51\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION (OFFSET)"));listaAuxPolaca.add(new EntradaVectorPolaca("BEQ")); VectorPolaca.getInstance().moverLista(listaAuxPolaca);}
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " CMP DIRECCION (OFFSET) BEQ"); imprimir("Regla 51\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION (OFFSET)"));listaAuxPolaca.add(new EntradaVectorPolaca("BEQ")); }
 break;
 case 54:
 //#line 117 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " CMP DIRECCION (OFFSET) BLE"); imprimir("Regla 52\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION (OFFSET)"));listaAuxPolaca.add(new EntradaVectorPolaca("BLE")); VectorPolaca.getInstance().moverLista(listaAuxPolaca);}
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " CMP DIRECCION (OFFSET) BLE"); imprimir("Regla 52\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION (OFFSET)"));listaAuxPolaca.add(new EntradaVectorPolaca("BLE")); }
 break;
 case 55:
 //#line 118 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " CMP DIRECCION (OFFSET) BGE"); imprimir("Regla 53\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION (OFFSET)"));listaAuxPolaca.add(new EntradaVectorPolaca("BGE")); VectorPolaca.getInstance().moverLista(listaAuxPolaca);}
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " CMP DIRECCION (OFFSET) BGE"); imprimir("Regla 53\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION (OFFSET)"));listaAuxPolaca.add(new EntradaVectorPolaca("BGE")); }
 break;
 case 56:
 //#line 119 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " CMP DIRECCION (OFFSET) BLT"); imprimir("Regla 54\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION (OFFSET)"));listaAuxPolaca.add(new EntradaVectorPolaca("BLT")); VectorPolaca.getInstance().moverLista(listaAuxPolaca);}
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " CMP DIRECCION (OFFSET) BLT"); imprimir("Regla 54\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION (OFFSET)"));listaAuxPolaca.add(new EntradaVectorPolaca("BLT")); }
 break;
 case 57:
 //#line 120 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " CMP DIRECCION (OFFSET) BGT"); imprimir("Regla 55\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION (OFFSET)"));listaAuxPolaca.add(new EntradaVectorPolaca("BGT")); VectorPolaca.getInstance().moverLista(listaAuxPolaca);}
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " CMP DIRECCION (OFFSET) BGT"); imprimir("Regla 55\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION (OFFSET)"));listaAuxPolaca.add(new EntradaVectorPolaca("BGT")); }
 break;
 case 58:
 //#line 122 "input.y"
