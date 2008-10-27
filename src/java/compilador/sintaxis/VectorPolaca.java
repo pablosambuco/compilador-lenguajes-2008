@@ -1,8 +1,11 @@
 package compilador.sintaxis;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Vector;
+
+import compilador.beans.EntradaTS;
 
 public class VectorPolaca {
 
@@ -38,8 +41,15 @@ public class VectorPolaca {
 		vector.setElementAt(entrada, posicion); //agrega en el indice especificado reemplazando el objeto existente
 	}
 	
-	public void agregarCollection(Collection<EntradaVectorPolaca> collection) {
-		vector.addAll(collection);
+	public void agregarLista(ArrayList<EntradaVectorPolaca> lista) {
+		vector.addAll(lista);
+	}
+	
+	//Toma una collection y le setea al vector todos sus elementos eliminándolos de la misma
+	public void moverLista(ArrayList<EntradaVectorPolaca> lista) {
+		while(lista.size() > 0) {
+			vector.add(lista.remove(0)); //los va eliminando en el orden que entraron
+		}
 	}
 	
 	public void imprimirVector() {
@@ -48,6 +58,20 @@ public class VectorPolaca {
 			System.out.print("|" + iterator.next());
 		}
 	}
+	
+	
+	public String toString() {
+		String out = new String();
+		for (int posicion = 0; posicion < vector.size(); posicion++) {
+			EntradaVectorPolaca actual = vector.get(posicion);
+			out = out + "Posicion: " + posicion +
+				"\tNombre: " + actual.getNombre() + "                   ".substring(actual.getNombre() != null ? actual.getNombre().length() : 4) +
+				"Tipo: " + actual.getTipo()       + "                   ".substring(actual.getTipo() != null ? actual.getTipo().length() : 4) +
+				"\n";
+		}
+		return out;
+	}
+	
 	
 	public int getPosicionActual() {
 		return vector.size();
