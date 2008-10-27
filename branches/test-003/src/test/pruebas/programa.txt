@@ -1,15 +1,31 @@
-TYPE valores AS [12.3, 14.2];
-TYPE frutas AS ["manzanas","naranja"];
+#%TYPE frutas AS ["manzana","naranja","cualquiera"];
+TYPE valores AS [12.3, 14.2, 55, .64];
 DEFVAR
-	a, b, c,f,x: FLOAT;
-	d, e: STRING;
-	p: POINTER;
-	topos, h: frutas;
-	diantres, m: valores;
-ENDDEF
-BEGIN
-	x = 3; 
-	d = e;
-	a = AVG([24, 45.6, 888888]);
-	f = x * ( 3 / 9 - 58) + (45 - 8 * 5) / 25 + 3 - AVG([24, 45.6, 888888]);
+	jose, esteban, raul: FLOAT;
+	roberto, julian: STRING;
+	otraVariable: POINTER;
+	tipoExtra: frutas;
+	otraMas: valores;
+ENDDEF%#
+BEGIN 
+	#%jose = 25 * esteban + raul;
+	roberto = "HOLA CHICHEEE";
+	tipoExtra = "manzana";
+	otraMas = 12.3;%#
+	probando = 3;
+	sigo = viendo+ si + anda;
+	
+	IF(dos > tres && tres > 89)
+		mi = tio + tu + tia;
+		IF(a < b)
+			nariz = 3;
+			ruiz = 5 + 9;
+		ELSE
+			gato = "3424";	
+		ENDIF	
+	ELSE
+		IF(cuatro > 5)	
+			yo = soy + pablo;
+		ENDIF
+	ENDIF		
 END
