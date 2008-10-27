@@ -420,6 +420,11 @@ final static String yyrule[] = {
 };
 
 //#line 136 "input.y"
+	//lo habilitamos o deshabilitamos para debuggear
+	public void imprimir(String valor){
+		System.out.println(valor);
+	}
+	
 	void yyerror(String mensaje) {
 		System.out.println("Error: " + mensaje);
 	}
@@ -431,6 +436,9 @@ final static String yyrule[] = {
 	public static int ERROR_LEXICO=YYERRCODE;
 	
 	public static ArrayList<String> listaAux = null;
+	
+	//Esta lista ya está instanciada y cada elemento que se agrega es luego tomado por la regla correspondiente, por ende nunca contiene basura
+	public static ArrayList<EntradaVectorPolaca> listaAuxPolaca = new ArrayList<EntradaVectorPolaca>();
 
 	int yylex() {
 		Automata automata = Automata.getInstance();
@@ -443,10 +451,11 @@ final static String yyrule[] = {
 		archivo.abrirArhivo(args[0]);
 		par.yyparse();
 		archivo.cerrarArhivo();
-		VectorPolaca.getInstance().imprimirVector();
 		System.out.println("\n\nTABLA DE SIMBOLOS\n\n" + TablaDeSimbolos.getInstance().toString());
+		System.out.println("\n\nVECTOR POLACA\n\n" + VectorPolaca.getInstance().toString());
+		System.out.println("VECTOR POLACA\n"); VectorPolaca.getInstance().imprimirVector();
 	}
-//#line 386 "Parser.java"
+//#line 395 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -601,27 +610,27 @@ boolean doaction;
 //########## USER-SUPPLIED ACTIONS ##########
 case 1:
 //#line 18 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 01 (Programa Completo)\n" + yyval.sval);}
+{yyval = new ParserVal(val_peek(0).sval); imprimir("Regla 01 (Programa Completo)\n" + yyval.sval);}
 break;
 case 2:
 //#line 20 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + "\n" + val_peek(1).sval +  "\n" + val_peek(0).sval); System.out.println("Regla 02\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(2).sval + "\n" + val_peek(1).sval +  "\n" + val_peek(0).sval); imprimir("Regla 02\n" + yyval.sval + "\n");}
 break;
 case 3:
 //#line 21 "input.y"
-{yyval = new ParserVal(val_peek(1).sval + "\n" + val_peek(0).sval); System.out.println("Regla 03\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(1).sval + "\n" + val_peek(0).sval); imprimir("Regla 03\n" + yyval.sval + "\n");}
 break;
 case 4:
 //#line 22 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 04\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(0).sval); imprimir("Regla 04\n" + yyval.sval + "\n");}
 break;
 case 5:
 //#line 24 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 05\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(0).sval); imprimir("Regla 05\n" + yyval.sval + "\n");}
 break;
 case 6:
 //#line 25 "input.y"
-{yyval = new ParserVal(val_peek(1).sval + "\n" + val_peek(0).sval); System.out.println("Regla 06\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(1).sval + "\n" + val_peek(0).sval); imprimir("Regla 06\n" + yyval.sval + "\n");}
 break;
 case 7:
 //#line 27 "input.y"
@@ -629,229 +638,229 @@ case 7:
 break;
 case 8:
 //#line 27 "input.y"
-{yyval = new ParserVal("TYPE " + val_peek(4).sval + " AS " + val_peek(1).sval + ";"); TablaDeSimbolos.getInstance().setTypedefs(listaAux,val_peek(4).sval) /* Tomamos la Tabla de símbolos y en el campo TYPEDEF de las variables recibidas en la lista, le seteamos el tipo creado (verificando que no exista ya) */; System.out.println("Regla 07\n" + yyval.sval + "\n");}
+{yyval = new ParserVal("TYPE " + val_peek(4).sval + " AS " + val_peek(1).sval + ";"); TablaDeSimbolos.getInstance().setTypedefs(listaAux,val_peek(4).sval) /* Tomamos la Tabla de símbolos y en el campo TYPEDEF de las variables recibidas en la lista, le seteamos el tipo creado (verificando que no exista ya) */; imprimir("Regla 07\n" + yyval.sval + "\n");}
 break;
 case 9:
 //#line 29 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 08\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(0).sval); imprimir("Regla 08\n" + yyval.sval + "\n");}
 break;
 case 10:
 //#line 30 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 09\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(0).sval); imprimir("Regla 09\n" + yyval.sval + "\n");}
 break;
 case 11:
 //#line 32 "input.y"
-{yyval = new ParserVal("[" + val_peek(1).sval + "]"); System.out.println("Regla 10\n" + yyval.sval + "\n");}
+{yyval = new ParserVal("[" + val_peek(1).sval + "]"); imprimir("Regla 10\n" + yyval.sval + "\n");}
 break;
 case 12:
 //#line 34 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); listaAux = new ArrayList<String>(); listaAux.add(val_peek(0).sval) /* Vamos agregando los valores en una lista para usarlos mas arriba */; System.out.println("Regla 11\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(0).sval); listaAux = new ArrayList<String>(); listaAux.add(val_peek(0).sval) /* Vamos agregando los valores en una lista para usarlos mas arriba */; imprimir("Regla 11\n" + yyval.sval + "\n");}
 break;
 case 13:
 //#line 35 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + "," + val_peek(0).sval); listaAux.add(val_peek(0).sval) /*Esta regla siempre se ejecuta despues que la de arriba, por eso el ArrayList ya fue instanciado con new */; System.out.println("Regla 12\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(2).sval + "," + val_peek(0).sval); listaAux.add(val_peek(0).sval) /*Esta regla siempre se ejecuta despues que la de arriba, por eso el ArrayList ya fue instanciado con new */; imprimir("Regla 12\n" + yyval.sval + "\n");}
 break;
 case 14:
 //#line 37 "input.y"
-{yyval = new ParserVal("[" + val_peek(1).sval + "]"); System.out.println("Regla 13\n" + yyval.sval + "\n");}
+{yyval = new ParserVal("[" + val_peek(1).sval + "]"); imprimir("Regla 13\n" + yyval.sval + "\n");}
 break;
 case 15:
 //#line 39 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); listaAux = new ArrayList<String>(); listaAux.add(val_peek(0).sval) /* Vamos agregando los valores en una lista para usarlos mas arriba */; System.out.println("Regla 14\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(0).sval); listaAux = new ArrayList<String>(); listaAux.add(val_peek(0).sval) /* Vamos agregando los valores en una lista para usarlos mas arriba */; imprimir("Regla 14\n" + yyval.sval + "\n");}
 break;
 case 16:
 //#line 40 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + "," + val_peek(0).sval); listaAux.add(val_peek(0).sval) /*Esta regla siempre se ejecuta despues que la de arriba, por eso el ArrayList ya fue instanciado con new */; System.out.println("Regla 15\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(2).sval + "," + val_peek(0).sval); listaAux.add(val_peek(0).sval) /*Esta regla siempre se ejecuta despues que la de arriba, por eso el ArrayList ya fue instanciado con new */; imprimir("Regla 15\n" + yyval.sval + "\n");}
 break;
 case 17:
 //#line 42 "input.y"
-{yyval = new ParserVal("DEFVAR\n" + val_peek(1).sval + "\nENDDEF"); System.out.println("Regla 16\n" + yyval.sval + "\n");}
+{yyval = new ParserVal("DEFVAR\n" + val_peek(1).sval + "\nENDDEF"); imprimir("Regla 16\n" + yyval.sval + "\n");}
 break;
 case 18:
 //#line 44 "input.y"
-{yyval = new ParserVal(val_peek(3).sval + ":" + val_peek(1).sval + ";"); TablaDeSimbolos.getInstance().setTipos(listaAux,val_peek(1).sval) /* Tomamos la Tabla de símbolos y en el campo Tipo de los IDs recibidos en la lista, le seteamos el tipo */; System.out.println("Regla 17\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(3).sval + ":" + val_peek(1).sval + ";"); TablaDeSimbolos.getInstance().setTipos(listaAux,val_peek(1).sval) /* Tomamos la Tabla de símbolos y en el campo Tipo de los IDs recibidos en la lista, le seteamos el tipo */; imprimir("Regla 17\n" + yyval.sval + "\n");}
 break;
 case 19:
 //#line 45 "input.y"
-{yyval = new ParserVal(val_peek(4).sval + "\n" + val_peek(3).sval + ":" + val_peek(1).sval + ";"); TablaDeSimbolos.getInstance().setTipos(listaAux,val_peek(1).sval) /* Tomamos la Tabla de símbolos y en el campo Tipo de los IDs recibidos en la lista, le seteamos el tipo */; System.out.println("Regla 18\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(4).sval + "\n" + val_peek(3).sval + ":" + val_peek(1).sval + ";"); TablaDeSimbolos.getInstance().setTipos(listaAux,val_peek(1).sval) /* Tomamos la Tabla de símbolos y en el campo Tipo de los IDs recibidos en la lista, le seteamos el tipo */; imprimir("Regla 18\n" + yyval.sval + "\n");}
 break;
 case 20:
 //#line 47 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); listaAux = new ArrayList<String>(); listaAux.add(val_peek(0).sval) /* Vamos agregando los IDs en una lista para usarlos mas arriba */; System.out.println("Regla 19\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(0).sval); listaAux = new ArrayList<String>(); listaAux.add(val_peek(0).sval) /* Vamos agregando los IDs en una lista para usarlos mas arriba */; imprimir("Regla 19\n" + yyval.sval + "\n");}
 break;
 case 21:
 //#line 48 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + "," + val_peek(0).sval); listaAux.add(val_peek(0).sval) /*Esta regla siempre se ejecuta despues que la de arriba, por eso el ArrayList ya fue instanciado con new */; System.out.println("Regla 20\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(2).sval + "," + val_peek(0).sval); listaAux.add(val_peek(0).sval) /*Esta regla siempre se ejecuta despues que la de arriba, por eso el ArrayList ya fue instanciado con new */; imprimir("Regla 20\n" + yyval.sval + "\n");}
 break;
 case 22:
 //#line 56 "input.y"
-{yyval = new ParserVal(TablaDeSimbolos.TIPO_FLOAT); System.out.println("Regla 21\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(TablaDeSimbolos.TIPO_FLOAT); imprimir("Regla 21\n" + yyval.sval + "\n");}
 break;
 case 23:
 //#line 57 "input.y"
-{yyval = new ParserVal(TablaDeSimbolos.TIPO_STRING); System.out.println("Regla 22\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(TablaDeSimbolos.TIPO_STRING); imprimir("Regla 22\n" + yyval.sval + "\n");}
 break;
 case 24:
 //#line 58 "input.y"
-{yyval = new ParserVal(TablaDeSimbolos.TIPO_POINTER); System.out.println("Regla 23\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(TablaDeSimbolos.TIPO_POINTER); imprimir("Regla 23\n" + yyval.sval + "\n");}
 break;
 case 25:
 //#line 59 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); TablaDeSimbolos.getInstance().verificarTipoValido(val_peek(0).sval); System.out.println("Regla 24\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(0).sval); TablaDeSimbolos.getInstance().verificarTipoValido(val_peek(0).sval); imprimir("Regla 24\n" + yyval.sval + "\n");}
 break;
 case 26:
 //#line 61 "input.y"
-{yyval = new ParserVal("BEGIN\n" + val_peek(1).sval + "\nEND"); System.out.println("Regla 25\n" + yyval.sval + "\n");}
+{yyval = new ParserVal("BEGIN\n" + val_peek(1).sval + "\nEND"); imprimir("Regla 25\n" + yyval.sval + "\n");}
 break;
 case 27:
 //#line 62 "input.y"
-{yyval = new ParserVal("BEGIN\nEND"); System.out.println("Regla 26\n" + yyval.sval + "\n");}
+{yyval = new ParserVal("BEGIN\nEND"); imprimir("Regla 26\n" + yyval.sval + "\n");}
 break;
 case 28:
 //#line 64 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 27\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(0).sval); imprimir("Regla 27\n" + yyval.sval + "\n");}
 break;
 case 29:
 //#line 65 "input.y"
-{yyval = new ParserVal(val_peek(1).sval + "\n" + val_peek(0).sval); System.out.println("Regla 28\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(1).sval + "\n" + val_peek(0).sval); imprimir("Regla 28\n" + yyval.sval + "\n");}
 break;
 case 30:
 //#line 67 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 29\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(0).sval); imprimir("Regla 29\n" + yyval.sval + "\n");}
 break;
 case 31:
 //#line 68 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 30\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(0).sval); imprimir("Regla 30\n" + yyval.sval + "\n");}
 break;
 case 32:
 //#line 69 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 31\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(0).sval); imprimir("Regla 31\n" + yyval.sval + "\n");}
 break;
 case 33:
 //#line 70 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 32\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(0).sval); imprimir("Regla 32\n" + yyval.sval + "\n");}
 break;
 case 34:
 //#line 80 "input.y"
-{yyval = new ParserVal(val_peek(3).sval + " " + val_peek(1).sval + " = " + ";"); TablaDeSimbolos.getInstance().verificarDeclaracion(val_peek(3).sval); TablaDeSimbolos.getInstance().verificarAsignacion(val_peek(3).sval, (ArrayList<String>)val_peek(1).obj); System.out.println("Regla 33\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(3).sval + " " + val_peek(1).sval + " = " + ";"); TablaDeSimbolos.getInstance().verificarDeclaracion(val_peek(3).sval); TablaDeSimbolos.getInstance().verificarAsignacion(val_peek(3).sval, (ArrayList<String>)val_peek(1).obj); imprimir("Regla 33\n" + yyval.sval + "\n"); VectorPolaca.getInstance().agregar(new EntradaVectorPolaca(val_peek(3).sval, TablaDeSimbolos.getInstance().getEntrada(val_peek(3).sval).getTipo())); VectorPolaca.getInstance().moverLista(listaAuxPolaca);VectorPolaca.getInstance().agregar(new EntradaVectorPolaca("="));VectorPolaca.getInstance().agregar(new EntradaVectorPolaca(";"));}
 break;
 case 35:
 //#line 85 "input.y"
-{yyval = new ParserVal(val_peek(3).sval + " " + val_peek(1).sval + " = " + ";"); TablaDeSimbolos.getInstance().verificarDeclaracion(val_peek(3).sval); listaAux = new ArrayList<String>(); listaAux.add(val_peek(1).sval); TablaDeSimbolos.getInstance().verificarAsignacion(val_peek(3).sval, listaAux); System.out.println("Regla 33\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(3).sval + " " + val_peek(1).sval + " = " + ";"); TablaDeSimbolos.getInstance().verificarDeclaracion(val_peek(3).sval); listaAux = new ArrayList<String>(); listaAux.add(val_peek(1).sval); TablaDeSimbolos.getInstance().verificarAsignacion(val_peek(3).sval, listaAux); imprimir("Regla 33\n" + yyval.sval + "\n"); VectorPolaca.getInstance().agregar(new EntradaVectorPolaca(val_peek(3).sval, TablaDeSimbolos.getInstance().getEntrada(val_peek(3).sval).getTipo())); VectorPolaca.getInstance().agregar(new EntradaVectorPolaca(val_peek(1).sval, TablaDeSimbolos.getInstance().getEntrada(val_peek(1).sval).getTipo())); VectorPolaca.getInstance().agregar(new EntradaVectorPolaca("="));VectorPolaca.getInstance().agregar(new EntradaVectorPolaca(";"));}
 break;
 case 36:
 //#line 87 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); yyval.obj = val_peek(0).obj; System.out.println("Regla 34\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(0).sval); yyval.obj = val_peek(0).obj; imprimir("Regla 34\n" + yyval.sval + "\n");}
 break;
 case 37:
 //#line 88 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " +"); yyval.obj = val_peek(2).obj; ((ArrayList<String>)yyval.obj).addAll((Collection)val_peek(0).obj); System.out.println("Regla 35\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " +"); yyval.obj = val_peek(2).obj; ((ArrayList<String>)yyval.obj).addAll((Collection)val_peek(0).obj); imprimir("Regla 35\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("+"));}
 break;
 case 38:
 //#line 89 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " -"); yyval.obj = val_peek(2).obj; ((ArrayList<String>)yyval.obj).addAll((Collection)val_peek(0).obj); System.out.println("Regla 36\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " -"); yyval.obj = val_peek(2).obj; ((ArrayList<String>)yyval.obj).addAll((Collection)val_peek(0).obj); imprimir("Regla 36\n" + yyval.sval + "\n");listaAuxPolaca.add(new EntradaVectorPolaca("-"));}
 break;
 case 39:
 //#line 91 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); yyval.obj = new ArrayList<String>(); ((ArrayList<String>)yyval.obj).addAll((Collection)val_peek(0).obj); System.out.println("Regla 37\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(0).sval); yyval.obj = new ArrayList<String>(); ((ArrayList<String>)yyval.obj).addAll((Collection)val_peek(0).obj); imprimir("Regla 37\n" + yyval.sval + "\n");}
 break;
 case 40:
 //#line 92 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " *"); yyval.obj = val_peek(2).obj; ((ArrayList<String>)yyval.obj).addAll((Collection)val_peek(0).obj); VectorPolaca.getInstance().agregar(new EntradaVectorPolaca("*")); System.out.println("Regla 38\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " *"); yyval.obj = val_peek(2).obj; ((ArrayList<String>)yyval.obj).addAll((Collection)val_peek(0).obj); imprimir("Regla 38\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("*"));}
 break;
 case 41:
 //#line 93 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " /"); yyval.obj = val_peek(2).obj; ((ArrayList<String>)yyval.obj).addAll((Collection)val_peek(0).obj); VectorPolaca.getInstance().agregar(new EntradaVectorPolaca("/")); System.out.println("Regla 39\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " /"); yyval.obj = val_peek(2).obj; ((ArrayList<String>)yyval.obj).addAll((Collection)val_peek(0).obj); imprimir("Regla 39\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("/"));}
 break;
 case 42:
 //#line 102 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); TablaDeSimbolos.getInstance().verificarDeclaracion(val_peek(0).sval); yyval.obj = new ArrayList<String>(); ((ArrayList<String>)yyval.obj).add(val_peek(0).sval); System.out.println("Regla 40\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(0).sval); TablaDeSimbolos.getInstance().verificarDeclaracion(val_peek(0).sval); yyval.obj = new ArrayList<String>(); ((ArrayList<String>)yyval.obj).add(val_peek(0).sval); imprimir("Regla 40\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(val_peek(0).sval, TablaDeSimbolos.getInstance().getEntrada(val_peek(0).sval).getTipo()));}
 break;
 case 43:
 //#line 103 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); yyval.obj = new ArrayList<String>(); ((ArrayList<String>)yyval.obj).add(val_peek(0).sval); System.out.println("Regla 41\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(0).sval); yyval.obj = new ArrayList<String>(); ((ArrayList<String>)yyval.obj).add(val_peek(0).sval); imprimir("Regla 41\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(TablaDeSimbolos.getInstance().getEntrada(val_peek(0).sval).getValor(), TablaDeSimbolos.getInstance().getEntrada(val_peek(0).sval).getTipo()));}
 break;
 case 44:
 //#line 104 "input.y"
-{yyval = new ParserVal(val_peek(1).sval); yyval.obj = val_peek(1).obj; System.out.println("Regla 42\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(1).sval); yyval.obj = val_peek(1).obj; imprimir("Regla 42\n" + yyval.sval + "\n");}
 break;
 case 45:
 //#line 105 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); yyval.obj = new ArrayList<String>(); ((ArrayList<String>)yyval.obj).add(new String(TablaDeSimbolos.TIPO_AVG)); System.out.println("Regla 43\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(0).sval); yyval.obj = new ArrayList<String>(); ((ArrayList<String>)yyval.obj).add(new String(TablaDeSimbolos.TIPO_AVG)); imprimir("Regla 43\n" + yyval.sval + "\n");}
 break;
 case 46:
 //#line 107 "input.y"
-{yyval = new ParserVal("IF(" + val_peek(3).sval + ")\n" + val_peek(2).sval + "\nENDIF"); System.out.println("Regla 44\n" + yyval.sval + "\n");}
+{yyval = new ParserVal("IF(" + val_peek(3).sval + ")\n" + val_peek(2).sval + "\nENDIF"); imprimir("Regla 44\n" + yyval.sval + "\n"); }
 break;
 case 47:
 //#line 108 "input.y"
-{yyval = new ParserVal("IF(" + val_peek(5).sval + ")\n" + val_peek(3).sval + "\nELSE\n" + val_peek(1).sval + "\nENDIF"); System.out.println("Regla 45\n" + yyval.sval + "\n");}
+{yyval = new ParserVal("IF(" + val_peek(5).sval + ")\n" + val_peek(3).sval + "\nELSE\n" + val_peek(1).sval + "\nENDIF"); imprimir("Regla 45\n" + yyval.sval + "\n");}
 break;
 case 48:
 //#line 110 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); System.out.println("Regla 46\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(0).sval); imprimir("Regla 46\n" + yyval.sval + "\n");}
 break;
 case 49:
 //#line 111 "input.y"
-{yyval = new ParserVal(val_peek(1).sval + " NEGAR_COMPARACION_ANTERIOR"); System.out.println("Regla 47\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(1).sval + " NEGAR_COMPARACION_ANTERIOR"); imprimir("Regla 47\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("NEGAR_COMPARACION_ANTERIOR"));}
 break;
 case 50:
 //#line 112 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " AND"); System.out.println("Regla 48\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " AND"); imprimir("Regla 48\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("AND"));}
 break;
 case 51:
 //#line 113 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " OR"); System.out.println("Regla 49\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " OR"); imprimir("Regla 49\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("OR"));}
 break;
 case 52:
 //#line 115 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " CMP DIRECCION BNE"); System.out.println("Regla 50\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " CMP DIRECCION (OFFSET) BNE"); imprimir("Regla 50\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION (OFFSET)"));listaAuxPolaca.add(new EntradaVectorPolaca("BNE")); VectorPolaca.getInstance().moverLista(listaAuxPolaca);}
 break;
 case 53:
 //#line 116 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " CMP DIRECCION BEQ"); System.out.println("Regla 51\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " CMP DIRECCION (OFFSET) BEQ"); imprimir("Regla 51\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION (OFFSET)"));listaAuxPolaca.add(new EntradaVectorPolaca("BEQ")); VectorPolaca.getInstance().moverLista(listaAuxPolaca);}
 break;
 case 54:
 //#line 117 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " CMP DIRECCION BLE"); System.out.println("Regla 52\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " CMP DIRECCION (OFFSET) BLE"); imprimir("Regla 52\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION (OFFSET)"));listaAuxPolaca.add(new EntradaVectorPolaca("BLE")); VectorPolaca.getInstance().moverLista(listaAuxPolaca);}
 break;
 case 55:
 //#line 118 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " CMP DIRECCION BGE"); System.out.println("Regla 53\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " CMP DIRECCION (OFFSET) BGE"); imprimir("Regla 53\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION (OFFSET)"));listaAuxPolaca.add(new EntradaVectorPolaca("BGE")); VectorPolaca.getInstance().moverLista(listaAuxPolaca);}
 break;
 case 56:
 //#line 119 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " CMP DIRECCION BL"); System.out.println("Regla 54\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " CMP DIRECCION (OFFSET) BLT"); imprimir("Regla 54\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION (OFFSET)"));listaAuxPolaca.add(new EntradaVectorPolaca("BLT")); VectorPolaca.getInstance().moverLista(listaAuxPolaca);}
 break;
 case 57:
 //#line 120 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " CMP DIRECCION BG"); System.out.println("Regla 55\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " CMP DIRECCION (OFFSET) BGT"); imprimir("Regla 55\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION (OFFSET)"));listaAuxPolaca.add(new EntradaVectorPolaca("BGT")); VectorPolaca.getInstance().moverLista(listaAuxPolaca);}
 break;
 case 58:
 //#line 122 "input.y"
-{yyval = new ParserVal("REPEAT\n" + val_peek(5).sval + "\nUNTIL(" + val_peek(2).sval + ");"); System.out.println("Regla 56\n" + yyval.sval + "\n");}
+{yyval = new ParserVal("REPEAT\n" + val_peek(5).sval + "\nUNTIL(" + val_peek(2).sval + ");"); imprimir("Regla 56\n" + yyval.sval + "\n");}
 break;
 case 59:
 //#line 124 "input.y"
-{yyval = new ParserVal("DISPLAY(" + val_peek(2).sval + ");"); System.out.println("Regla 57\n" + yyval.sval + "\n");}
+{yyval = new ParserVal("DISPLAY(" + val_peek(2).sval + ");"); imprimir("Regla 57\n" + yyval.sval + "\n");}
 break;
 case 60:
 //#line 126 "input.y"
-{yyval = new ParserVal("AVG(" + val_peek(1).sval + ")"); System.out.println("Regla 58\n" + yyval.sval + "\n");}
+{yyval = new ParserVal("AVG(" + val_peek(1).sval + ")"); imprimir("Regla 58\n" + yyval.sval + "\n");}
 break;
 case 61:
 //#line 128 "input.y"
-{yyval = new ParserVal(TablaDeSimbolos.getInstance().getNombre(yylval.ival)); VectorPolaca.getInstance().agregar(new EntradaVectorPolaca(TablaDeSimbolos.getInstance().getNombre(yylval.ival), TablaDeSimbolos.getInstance().getEntrada(yylval.ival).getTipo()));  System.out.println("Regla 59\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(TablaDeSimbolos.getInstance().getNombre(yylval.ival)); imprimir("Regla 59\n" + yyval.sval + "\n");}
 break;
 case 62:
 //#line 130 "input.y"
-{yyval = new ParserVal(TablaDeSimbolos.getInstance().getNombre(yylval.ival)); VectorPolaca.getInstance().agregar(new EntradaVectorPolaca(TablaDeSimbolos.getInstance().getNombre(yylval.ival), TablaDeSimbolos.getInstance().getEntrada(yylval.ival).getTipo())); System.out.println("Regla 60\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(TablaDeSimbolos.getInstance().getNombre(yylval.ival))/* Aca sí o sí necesitamos sacar el nombre y no el valor (aunque aparezcan con un "_"), sino las reglas de mas arriba nunca las van a encontrar en TS */; imprimir("Regla 60\n" + yyval.sval + "\n");}
 break;
 case 63:
 //#line 132 "input.y"
-{yyval = new ParserVal(TablaDeSimbolos.getInstance().getNombre(yylval.ival)); VectorPolaca.getInstance().agregar(new EntradaVectorPolaca((TablaDeSimbolos.getInstance().getNombre(yylval.ival)), TablaDeSimbolos.getInstance().getEntrada(yylval.ival).getTipo())); System.out.println("Regla 61\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(TablaDeSimbolos.getInstance().getNombre(yylval.ival))/* Aca sí o sí necesitamos sacar el nombre y no el valor (aunque aparezcan con un "_"), sino las reglas de mas arriba nunca las van a encontrar en TS */; imprimir("Regla 61\n" + yyval.sval + "\n");}
 break;
-//#line 786 "Parser.java"
+//#line 795 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####
