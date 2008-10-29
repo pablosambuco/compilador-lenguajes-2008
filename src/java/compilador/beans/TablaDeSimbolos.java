@@ -6,7 +6,9 @@ import java.util.Iterator;
 
 public class TablaDeSimbolos {
 
-	//TODO implementar un mecanismo que registre cuando se produce un error y no deje seguir con la generacion de Assembler
+	//TODO consultar esta variable antes de continuar con el pasaje a Assembler
+	//TODO inicializar variables a 0 por default
+	private static boolean abortarCompilacion = false;
 	
 	private java.util.ArrayList<EntradaTS> simbolos;
 	
@@ -94,7 +96,7 @@ public class TablaDeSimbolos {
 	public void crearNuevoTipo(String clave) {
 		EntradaTS entrada = simbolos.get(this.getPosicion(clave));
 		if(entrada.getTipo() != null) {
-			System.err.println("Tipo Duplicado: \"" + entrada.getNombre() + "\"");
+			imprimirError("Tipo Duplicado: \"" + entrada.getNombre() + "\"");
 		} else {
 			entrada.setTipo(TIPO_TYPE);
 		}
@@ -112,7 +114,7 @@ public class TablaDeSimbolos {
 			EntradaTS entrada = simbolos.get(this.getPosicion(iter.next()));
 			if(entrada.getTypedef() != null) {
 				//FIXME Esto es feo, ya que sí podrian repetirse dentro de distintos tipos creados por el usuario, pero la TS solo admite una entrada con el mismo nombre :-s
-				System.err.println("La constante \"" + entrada.getValor() + "\" ya fue utilizada en una declaración de tipos.");
+				imprimirError("La constante \"" + entrada.getValor() + "\" ya fue utilizada en una declaración de tipos.");
 			} else {
 				entrada.setTypedef(tipo);
 			}
@@ -130,9 +132,9 @@ public class TablaDeSimbolos {
 			EntradaTS entrada = simbolos.get(this.getPosicion(iter.next()));
 			if(entrada.getTipo() != null) {
 				if(entrada.getTipo().equals(TIPO_TYPE)) {
-					System.err.println("La variable \"" + entrada.getNombre() + "\" no puede ser declarada ya que fue definida como un tipo de datos");
+					imprimirError("La variable \"" + entrada.getNombre() + "\" no puede ser declarada ya que fue definida como un tipo de datos");
 				} else {
-					System.err.println("Variable Duplicada: \"" + entrada.getNombre() + "\"");
+					imprimirError("Variable Duplicada: \"" + entrada.getNombre() + "\"");
 				}
 			} else {
 				entrada.setTipo(tipo);
@@ -147,7 +149,7 @@ public class TablaDeSimbolos {
 	public void verificarTipoValido(String clave) {
 		EntradaTS entrada = this.getEntrada(clave); 
 		if( entrada.getTipo() == null || !entrada.getTipo().equals(TIPO_TYPE)) {
-			System.err.println("Tipo Inválido: \"" + clave + "\"");
+			imprimirError("Tipo Inválido: \"" + clave + "\"");
 		}
 	}
 	
@@ -157,10 +159,10 @@ public class TablaDeSimbolos {
 	public void verificarDeclaracion(String clave) {
 		EntradaTS entrada = this.getEntrada(clave); 
 		if( entrada.getTipo() == null) {
-			System.err.println("La variable \"" + clave + "\" no fue declarada");
+			imprimirError("La variable \"" + clave + "\" no fue declarada");
 		} else {
 			if(entrada.getTipo().equals(TIPO_TYPE)) {
-				System.err.println("La variable \"" + clave + "\" se corresponde con un tipo de dato y no puede ser utilizada");
+				imprimirError("La variable \"" + clave + "\" se corresponde con un tipo de dato y no puede ser utilizada");
 			}
 		}
 	}
@@ -178,12 +180,12 @@ public class TablaDeSimbolos {
 			//Antes que nada verificamos si el valor a la derecha es un AVG, ya que al no estar en tabla de símbolos nos traería problemas al buscar la compatibilidad de tipos
 			if(valorLadoDerecho.equals(TIPO_AVG)) {
 				if(entradaLadoIzquierdo.getTipo() == null || !entradaLadoIzquierdo.getTipo().equals(TIPO_FLOAT)) {
-					System.err.println("Error en asignación a la variable \"" + idLadoIzquierdo + "\": incompatibilidad de tipos");
+					imprimirError("Error en asignación a la variable \"" + idLadoIzquierdo + "\": incompatibilidad de tipos");
 				}
 			} else {
 				//una vez que sabemos que no es AVG, nos fijamos la compatibilidad mirando la TS
 				if(!sonTiposCompatibles(entradaLadoIzquierdo, getEntrada(valorLadoDerecho))) {
-					System.err.println("Error en asignación a la variable \"" + idLadoIzquierdo + "\": incompatibilidad de tipos");
+					imprimirError("Error en asignación a la variable \"" + idLadoIzquierdo + "\": incompatibilidad de tipos");
 				}
 			}
 			
@@ -196,7 +198,7 @@ public class TablaDeSimbolos {
 		 */
 					
 			if(entradaLadoIzquierdo.getTipo() == null || !entradaLadoIzquierdo.getTipo().equals(TIPO_FLOAT)) {
-				System.err.println("Error en asignación a la variable \"" + idLadoIzquierdo + "\": incompatibilidad de tipos");
+				imprimirError("Error en asignación a la variable \"" + idLadoIzquierdo + "\": incompatibilidad de tipos");
 			}
 			
 			Iterator<String> iter = valoresLadoDerecho.iterator();
@@ -204,7 +206,7 @@ public class TablaDeSimbolos {
 				String aux = iter.next(); //contiene un ID, Cte Numerica o la palabra AVG (esta ultima no se encuentra en TS)
 				String tipoValorLadoDerecho = aux.equals(TIPO_AVG) ? TIPO_AVG : getEntrada(aux).getTipo();
 				if(tipoValorLadoDerecho == null || (!tipoValorLadoDerecho.equals(TIPO_FLOAT) && !tipoValorLadoDerecho.equals(TIPO_CTE_REAL) && !tipoValorLadoDerecho.equals(TIPO_AVG))) {
-					System.err.println("Error en expresión: sólo se permite utilizar tipos numéricos");
+					imprimirError("Error en expresión: sólo se permite utilizar tipos numéricos");
 					break; //cortamos porque sino tira siempre el mismo error
 				}
 			}
@@ -263,6 +265,11 @@ public class TablaDeSimbolos {
 				"\n";
 		}
 		return out;
+	}
+	
+	private void imprimirError(String error) {
+		System.err.println(error);
+		abortarCompilacion = true; //seteamos en true el flag para que no se continue con el paso siguiente (pasaje a Assembler)
 	}
 	
 }

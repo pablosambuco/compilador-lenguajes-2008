@@ -1,11 +1,8 @@
 package compilador.sintaxis;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.Vector;
-
-import compilador.beans.EntradaTS;
 
 public class VectorPolaca {
 
