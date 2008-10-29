@@ -12,20 +12,29 @@ BEGIN
 	roberto = "HOLA CHICHEEE";
 	tipoExtra = "manzana";
 	otraMas = 12.3;%#
-	probando = 3;
-	sigo = viendo+ si + anda;
 	
-	IF(dos > tres && tres > 89)
-		mi = tio + tu + tia;
-		IF(a < b)
-			nariz = 3;
-			ruiz = 5 + 9;
-		ELSE
-			gato = "3424";	
-		ENDIF	
+	probando = 3;
+	sigo = viendo + si + anda;
+	
+	IF(cuatro != 5)	
+		yo = soy + pablo;
+		otra = sentencia;
+	ENDIF
+	
+	IF(te <= aburris && no == entendes)	
+		lo = siento;
+		mucho = mucho;
 	ELSE
-		IF(cuatro > 5)	
-			yo = soy + pablo;
-		ENDIF
-	ENDIF		
+		me = alegro;
+		un = monton;	
+	ENDIF
+	
+	rellenamos = un - poco;
+	
+	REPEAT
+		seguimos = un + poco + mas;
+		ya = estamos;
+	UNTIL(the / end + of >= the * world);
+	
+	
 END
