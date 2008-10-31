@@ -11,17 +11,21 @@ BEGIN
 	#%jose = 25 * esteban + raul;
 	roberto = "HOLA CHICHEEE";
 	tipoExtra = "manzana";
-	otraMas = 12.3;%#
+	otraMas = 12.3;
 	
 	probando = 3;
-	sigo = viendo + si + anda;
+	sigo = viendo + si + anda;%#
 	
-	IF(cuatro != 5)	
+	IF(hola == chiche)	
+		probando = a + full; 
+	ENDIF
+	
+	IF(!(cuatro != 5))	
 		yo = soy + pablo;
 		otra = sentencia;
 	ENDIF
 	
-	IF(te <= aburris && no == entendes)	
+	IF(te <= aburris || no == entendes)	
 		lo = siento;
 		mucho = mucho;
 	ELSE

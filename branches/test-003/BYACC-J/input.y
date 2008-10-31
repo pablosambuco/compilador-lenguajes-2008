@@ -5,6 +5,7 @@ import compilador.beans.TablaDeSimbolos;
 import compilador.util.ArchivoReader;
 import compilador.sintaxis.VectorPolaca;
 import compilador.sintaxis.EntradaVectorPolaca;
+import compilador.sintaxis.StackAuxiliarPolaca;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.lang.String;
@@ -24,7 +25,7 @@ programa: def_tipos def_var ejecucion  {$$ = new ParserVal($1.sval + "\n" + $2.s
 def_tipos: def_tipo {$$ = new ParserVal($1.sval); imprimir("Regla 05\n" + $$.sval + "\n");}
          | def_tipos def_tipo {$$ = new ParserVal($1.sval + "\n" + $2.sval); imprimir("Regla 06\n" + $$.sval + "\n");}
 ;
-def_tipo: TYPE id {TablaDeSimbolos.getInstance().crearNuevoTipo($2.sval);} AS lista PUNTO_Y_COMA {$$ = new ParserVal("TYPE " + $2.sval + " AS " + $5.sval + ";"); TablaDeSimbolos.getInstance().setTypedefs(listaAux,$2.sval) /* Tomamos la Tabla de símbolos y en el campo TYPEDEF de las variables recibidas en la lista, le seteamos el tipo creado (verificando que no exista ya) */; imprimir("Regla 07\n" + $$.sval + "\n");}
+def_tipo: TYPE id {TS.crearNuevoTipo($2.sval);} AS lista PUNTO_Y_COMA {$$ = new ParserVal("TYPE " + $2.sval + " AS " + $5.sval + ";"); TS.setTypedefs(listaAux,$2.sval) /* Tomamos la Tabla de símbolos y en el campo TYPEDEF de las variables recibidas en la lista, le seteamos el tipo creado (verificando que no exista ya) */; imprimir("Regla 07\n" + $$.sval + "\n");}
 ;
 lista: lista_num {$$ = new ParserVal($1.sval); imprimir("Regla 08\n" + $$.sval + "\n");}
      | lista_str {$$ = new ParserVal($1.sval); imprimir("Regla 09\n" + $$.sval + "\n");}
@@ -41,8 +42,8 @@ lis_str_c: cte_str {$$ = new ParserVal($1.sval); listaAux = new ArrayList<String
 ;
 def_var: DEFVAR lista_var ENDDEF {$$ = new ParserVal("DEFVAR\n" + $2.sval + "\nENDDEF"); imprimir("Regla 16\n" + $$.sval + "\n");}
 ;
-lista_var: lista_ids DOS_PUNTOS tipo PUNTO_Y_COMA {$$ = new ParserVal($1.sval + ":" + $3.sval + ";"); TablaDeSimbolos.getInstance().setTipos(listaAux,$3.sval) /* Tomamos la Tabla de símbolos y en el campo Tipo de los IDs recibidos en la lista, le seteamos el tipo */; imprimir("Regla 17\n" + $$.sval + "\n");}
-         | lista_var lista_ids DOS_PUNTOS tipo PUNTO_Y_COMA {$$ = new ParserVal($1.sval + "\n" + $2.sval + ":" + $4.sval + ";"); TablaDeSimbolos.getInstance().setTipos(listaAux,$4.sval) /* Tomamos la Tabla de símbolos y en el campo Tipo de los IDs recibidos en la lista, le seteamos el tipo */; imprimir("Regla 18\n" + $$.sval + "\n");}
+lista_var: lista_ids DOS_PUNTOS tipo PUNTO_Y_COMA {$$ = new ParserVal($1.sval + ":" + $3.sval + ";"); TS.setTipos(listaAux,$3.sval) /* Tomamos la Tabla de símbolos y en el campo Tipo de los IDs recibidos en la lista, le seteamos el tipo */; imprimir("Regla 17\n" + $$.sval + "\n");}
+         | lista_var lista_ids DOS_PUNTOS tipo PUNTO_Y_COMA {$$ = new ParserVal($1.sval + "\n" + $2.sval + ":" + $4.sval + ";"); TS.setTipos(listaAux,$4.sval) /* Tomamos la Tabla de símbolos y en el campo Tipo de los IDs recibidos en la lista, le seteamos el tipo */; imprimir("Regla 18\n" + $$.sval + "\n");}
 ;
 lista_ids: id {$$ = new ParserVal($1.sval); listaAux = new ArrayList<String>(); listaAux.add($1.sval) /* Vamos agregando los IDs en una lista para usarlos mas arriba */; imprimir("Regla 19\n" + $$.sval + "\n");}
          | lista_ids COMA id {$$ = new ParserVal($1.sval + "," + $3.sval); listaAux.add($3.sval) /*Esta regla siempre se ejecuta despues que la de arriba, por eso el ArrayList ya fue instanciado con new */; imprimir("Regla 20\n" + $$.sval + "\n");}
@@ -56,7 +57,7 @@ por la gramática).
 tipo: FLOAT {$$ = new ParserVal(TablaDeSimbolos.TIPO_FLOAT); imprimir("Regla 21\n" + $$.sval + "\n");}
     | STRING {$$ = new ParserVal(TablaDeSimbolos.TIPO_STRING); imprimir("Regla 22\n" + $$.sval + "\n");}
     | POINTER {$$ = new ParserVal(TablaDeSimbolos.TIPO_POINTER); imprimir("Regla 23\n" + $$.sval + "\n");}
-    | id {$$ = new ParserVal($1.sval); TablaDeSimbolos.getInstance().verificarTipoValido($1.sval); imprimir("Regla 24\n" + $$.sval + "\n");}
+    | id {$$ = new ParserVal($1.sval); TS.verificarTipoValido($1.sval); imprimir("Regla 24\n" + $$.sval + "\n");}
 ;
 ejecucion: BEGIN sentencias END {$$ = new ParserVal("BEGIN\n" + $2.sval + "\nEND"); imprimir("Regla 25\n" + $$.sval + "\n");}
          | BEGIN END {$$ = new ParserVal("BEGIN\nEND"); imprimir("Regla 26\n" + $$.sval + "\n");}
@@ -77,12 +78,12 @@ Si la lista contiene solamente ID, entonces se verificará que el tipo izquierdo 
 en la lista, debemos verificar que todos los IDs que aparezcan sean constantes FLOAT, ya que solo se permiten expresiones numéricas
 en el lenguaje.
 */
-asignacion: id OP_ASIG expresion PUNTO_Y_COMA {$$ = new ParserVal($1.sval + " " + $3.sval + " = " + ";"); TablaDeSimbolos.getInstance().verificarDeclaracion($1.sval); TablaDeSimbolos.getInstance().verificarAsignacion($1.sval, (ArrayList<String>)$3.obj); imprimir("Regla 33\n" + $$.sval + "\n"); VectorPolaca.getInstance().agregar(new EntradaVectorPolaca($1.sval, TablaDeSimbolos.getInstance().getEntrada($1.sval).getTipo())); VectorPolaca.getInstance().moverLista(listaAuxPolaca);VectorPolaca.getInstance().agregar(new EntradaVectorPolaca("="));VectorPolaca.getInstance().agregar(new EntradaVectorPolaca(";"));}
+asignacion: id OP_ASIG expresion PUNTO_Y_COMA {$$ = new ParserVal($1.sval + " " + $3.sval + " = " + ";"); TS.verificarDeclaracion($1.sval); TS.verificarAsignacion($1.sval, (ArrayList<String>)$3.obj); imprimir("Regla 33\n" + $$.sval + "\n"); vector.agregar(new EntradaVectorPolaca($1.sval, TS.getEntrada($1.sval).getTipo())); vector.moverLista(listaAuxPolaca);vector.agregar(new EntradaVectorPolaca("="));vector.agregar(new EntradaVectorPolaca(";"));}
 ;
 /**
 Este tipo de asignación a una Constante String existe para que se puedan realizar asignaciones a tipos definidos con TYPE. Ej: var1 = "EUR"; (donde var1 es del tipo "moneda" el cual tiene entre su lista de valores posibles la palabra "EUR")
 */
-asignacion: id OP_ASIG cte_str PUNTO_Y_COMA {$$ = new ParserVal($1.sval + " " + $3.sval + " = " + ";"); TablaDeSimbolos.getInstance().verificarDeclaracion($1.sval); listaAux = new ArrayList<String>(); listaAux.add($3.sval); TablaDeSimbolos.getInstance().verificarAsignacion($1.sval, listaAux); imprimir("Regla 33\n" + $$.sval + "\n"); VectorPolaca.getInstance().agregar(new EntradaVectorPolaca($1.sval, TablaDeSimbolos.getInstance().getEntrada($1.sval).getTipo())); VectorPolaca.getInstance().agregar(new EntradaVectorPolaca($3.sval, TablaDeSimbolos.getInstance().getEntrada($3.sval).getTipo())); VectorPolaca.getInstance().agregar(new EntradaVectorPolaca("="));VectorPolaca.getInstance().agregar(new EntradaVectorPolaca(";"));}
+asignacion: id OP_ASIG cte_str PUNTO_Y_COMA {$$ = new ParserVal($1.sval + " " + $3.sval + " = " + ";"); TS.verificarDeclaracion($1.sval); listaAux = new ArrayList<String>(); listaAux.add($3.sval); TS.verificarAsignacion($1.sval, listaAux); imprimir("Regla 33\n" + $$.sval + "\n"); vector.agregar(new EntradaVectorPolaca($1.sval, TS.getEntrada($1.sval).getTipo())); vector.agregar(new EntradaVectorPolaca($3.sval, TS.getEntrada($3.sval).getTipo())); vector.agregar(new EntradaVectorPolaca("="));vector.agregar(new EntradaVectorPolaca(";"));}
 ;
 expresion: termino {$$ = new ParserVal($1.sval); $$.obj = $1.obj; imprimir("Regla 34\n" + $$.sval + "\n");}
          | expresion OP_SUMA termino {$$ = new ParserVal($1.sval + " " + $3.sval + " +"); $$.obj = $1.obj; ((ArrayList<String>)$$.obj).addAll((Collection)$3.obj); imprimir("Regla 35\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("+"));}
@@ -99,27 +100,27 @@ de más arriba la tome y pueda ir armando una lista de las mismas que finalmente 
 Para el caso de average, se seteará la palabra reservada AVG. Se utiliza un ArrayList y no simplemente un String,
 porque la regla 42 contiene una expresion que puede ya venir con varios elementos en vez de uno solo.
 */
-factor: id {$$ = new ParserVal($1.sval); TablaDeSimbolos.getInstance().verificarDeclaracion($1.sval); $$.obj = new ArrayList<String>(); ((ArrayList<String>)$$.obj).add($1.sval); imprimir("Regla 40\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca($1.sval, TablaDeSimbolos.getInstance().getEntrada($1.sval).getTipo()));}
-      | cte_num {$$ = new ParserVal($1.sval); $$.obj = new ArrayList<String>(); ((ArrayList<String>)$$.obj).add($1.sval); imprimir("Regla 41\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(TablaDeSimbolos.getInstance().getEntrada($1.sval).getValor(), TablaDeSimbolos.getInstance().getEntrada($1.sval).getTipo()));}
+factor: id {$$ = new ParserVal($1.sval); TS.verificarDeclaracion($1.sval); $$.obj = new ArrayList<String>(); ((ArrayList<String>)$$.obj).add($1.sval); imprimir("Regla 40\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca($1.sval, TS.getEntrada($1.sval).getTipo()));}
+      | cte_num {$$ = new ParserVal($1.sval); $$.obj = new ArrayList<String>(); ((ArrayList<String>)$$.obj).add($1.sval); imprimir("Regla 41\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(TS.getEntrada($1.sval).getValor(), TS.getEntrada($1.sval).getTipo()));}
       | PAR_ABRE expresion PAR_CIERRA {$$ = new ParserVal($2.sval); $$.obj = $2.obj; imprimir("Regla 42\n" + $$.sval + "\n");}
       | average {$$ = new ParserVal($1.sval); $$.obj = new ArrayList<String>(); ((ArrayList<String>)$$.obj).add(new String(TablaDeSimbolos.TIPO_AVG)); imprimir("Regla 43\n" + $$.sval + "\n");}
 ;
-condicional: IF PAR_ABRE condicion PAR_CIERRA {imprimir("ADD: IF\nAppend condicion(es) al vector y apilar posicion(es) de los casilleros donde se setearan las direcciones del salto. Evluar si conviene agregar un LABEL aqui (comienzo del THEN), ya que cuando la condicion tiene un OR hay una rama que salta acá.");} sentenciasCondicional ENDIF {$$ = new ParserVal("IF(" + $3.sval + ")\n" + $6.sval + "\nENDIF"); imprimir("Reglas 44 y 45\n" + $$.sval + "\n");imprimir("APPEND: ENDIF\nDesapilar casillero para direcciones del final del THEN y escribirle el valor actual de Vector Polaca para que haga un salto incondicional. Usar la misma direccion que se desapilo (final del THEN + cte (osea, comienzo del ELSE)) para llenar los casilleros de la/las condiciones (los cuales se encuentran en la pila)");}
+condicional: IF PAR_ABRE condicion PAR_CIERRA {vector.agregar(new EntradaVectorPolaca("@IF")); vector.moverCondicionIF(listaAuxPolaca);} sentenciasCondicional ENDIF {$$ = new ParserVal("IF(" + $3.sval + ")\n" + $6.sval + "\nENDIF"); imprimir("Reglas 44 y 45\n" + $$.sval + "\n");vector.agregar(new EntradaVectorPolaca("@ENDIF"));imprimir("Desapilar casillero para direcciones del final del THEN y escribirle el valor actual de Vector Polaca para que haga un salto incondicional. Usar la misma direccion que se desapilo (final del THEN + cte (osea, comienzo del ELSE)) para llenar los casilleros de la/las condiciones (los cuales se encuentran en la pila)");}
 ;
 sentenciasCondicional: sentencias  {$$ = new ParserVal($1.sval); imprimir("If Simple\n");imprimir("Enviar sentencias al Vector Polaca y apilar la direccion final del mismo (esto se hace por compatibilidad con la regla anterior, ya que si bien no existe el ELSE, la regla de mas arriba intentará levantar un valor de la pila y ahi le seteará un salto incondicional al ENDIF, que en este caso se encuentra pegado a estas sentencias)\n");}
 	 				| sentencias {imprimir("Enviar sentencias al Vector Polaca y apilar la direccion final del mismo\n");} ELSE sentencias {$$ = new ParserVal($1.sval + "\nELSE\n" + $4.sval); imprimir("If Compuesto\n"); imprimir("Enviar sentencias al Vector Polaca\n");}
 ;
-condicion: comparacion {$$ = new ParserVal($1.sval); imprimir("Regla 46\n" + $$.sval + "\n");}
-         | OP_NEGACION PAR_ABRE comparacion PAR_CIERRA {$$ = new ParserVal($3.sval + " _NEGACION"); imprimir("Regla 47\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_NEGACION"));}
-         | comparacion AND comparacion {$$ = new ParserVal($1.sval + " " + $3.sval + " _AND"); imprimir("Regla 48\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_AND"));}
-         | comparacion OR comparacion {$$ = new ParserVal($1.sval + " " + $3.sval + " _OR"); imprimir("Regla 49\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_OR"));}
+condicion: comparacion {$$ = new ParserVal($1.sval); imprimir("Regla 46\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(vector.SIMPLE)); /*Lo agregamos para mantener un estándar y que sea igual a los otros casos*/}
+         | OP_NEGACION PAR_ABRE comparacion PAR_CIERRA {$$ = new ParserVal($3.sval + " _NEGACION"); imprimir("Regla 47\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(vector.NEGACION));}
+         | comparacion AND comparacion {$$ = new ParserVal($1.sval + " " + $3.sval + " _AND"); imprimir("Regla 48\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(vector.AND));}
+         | comparacion OR comparacion {$$ = new ParserVal($1.sval + " " + $3.sval + " _OR"); imprimir("Regla 49\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(vector.OR));}
 ;
-comparacion: expresion OP_IGUAL expresion {$$ = new ParserVal($1.sval + " " + $3.sval + " CMP DIRECCION BNE"); imprimir("Regla 50\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));listaAuxPolaca.add(new EntradaVectorPolaca("BNE"));}
-           | expresion OP_DISTINTO expresion {$$ = new ParserVal($1.sval + " " + $3.sval + " CMP DIRECCION BEQ"); imprimir("Regla 51\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));listaAuxPolaca.add(new EntradaVectorPolaca("BEQ")); }
-           | expresion OP_MAYOR expresion {$$ = new ParserVal($1.sval + " " + $3.sval + " CMP DIRECCION BLE"); imprimir("Regla 52\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));listaAuxPolaca.add(new EntradaVectorPolaca("BLE")); }
-           | expresion OP_MENOR expresion {$$ = new ParserVal($1.sval + " " + $3.sval + " CMP DIRECCION BGE"); imprimir("Regla 53\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));listaAuxPolaca.add(new EntradaVectorPolaca("BGE")); }
-           | expresion OP_MAYOR_IGUAL expresion {$$ = new ParserVal($1.sval + " " + $3.sval + " CMP DIRECCION BLT"); imprimir("Regla 54\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));listaAuxPolaca.add(new EntradaVectorPolaca("BLT")); }
-           | expresion OP_MENOR_IGUAL expresion {$$ = new ParserVal($1.sval + " " + $3.sval + " CMP DIRECCION BGT"); imprimir("Regla 55\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));listaAuxPolaca.add(new EntradaVectorPolaca("BGT")); }
+comparacion: expresion OP_IGUAL expresion {$$ = new ParserVal($1.sval + " " + $3.sval + " _CMP DIRECCION " + vector.DISTINTO); imprimir("Regla 50\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));listaAuxPolaca.add(new EntradaVectorPolaca(vector.DISTINTO));}
+           | expresion OP_DISTINTO expresion {$$ = new ParserVal($1.sval + " " + $3.sval + " _CMP DIRECCION " + vector.IGUAL); imprimir("Regla 51\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));listaAuxPolaca.add(new EntradaVectorPolaca(vector.IGUAL)); }
+           | expresion OP_MAYOR expresion {$$ = new ParserVal($1.sval + " " + $3.sval + " _CMP DIRECCION " + vector.MENOR_O_IGUAL); imprimir("Regla 52\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));listaAuxPolaca.add(new EntradaVectorPolaca(vector.MENOR_O_IGUAL)); }
+           | expresion OP_MENOR expresion {$$ = new ParserVal($1.sval + " " + $3.sval + " _CMP DIRECCION " + vector.MAYOR_O_IGUAL); imprimir("Regla 53\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));listaAuxPolaca.add(new EntradaVectorPolaca(vector.MAYOR_O_IGUAL)); }
+           | expresion OP_MAYOR_IGUAL expresion {$$ = new ParserVal($1.sval + " " + $3.sval + " _CMP DIRECCION " + vector.MENOR); imprimir("Regla 54\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));listaAuxPolaca.add(new EntradaVectorPolaca(vector.MENOR)); }
+           | expresion OP_MENOR_IGUAL expresion {$$ = new ParserVal($1.sval + " " + $3.sval + " _CMP DIRECCION " + vector.MAYOR); imprimir("Regla 55\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));listaAuxPolaca.add(new EntradaVectorPolaca(vector.MAYOR)); }
 ;
 bucle: REPEAT {imprimir("ADD: REPEAT\nApilar Direccion Vector Actual");} sentencias UNTIL PAR_ABRE condicion PAR_CIERRA PUNTO_Y_COMA {$$ = new ParserVal("REPEAT\n" + $3.sval + "\nUNTIL(" + $6.sval + ");"); imprimir("Regla 56\n" + $$.sval + "\n"); imprimir("Tomar la(s) condicion(es) de listaAux, hacer tratamiento y apuntar a la direccion en el tope de la pila\nADD: LABEL FIN");}
 ;
@@ -127,37 +128,42 @@ display_command: DISPLAY PAR_ABRE cte_str PAR_CIERRA PUNTO_Y_COMA {$$ = new Pars
 ;
 average: AVG PAR_ABRE lista_num PAR_CIERRA {$$ = new ParserVal("AVG(" + $3.sval + ")"); imprimir("Regla 58\n" + $$.sval + "\n");}
 ;
-id: ID {$$ = new ParserVal(TablaDeSimbolos.getInstance().getNombre(yylval.ival)); imprimir("Regla 59\n" + $$.sval + "\n");}
+id: ID {$$ = new ParserVal(TS.getNombre(yylval.ival)); imprimir("Regla 59\n" + $$.sval + "\n");}
 ;
-cte_num: CTE_NUM {$$ = new ParserVal(TablaDeSimbolos.getInstance().getNombre(yylval.ival))/* Aca sí o sí necesitamos sacar el nombre y no el valor (aunque aparezcan con un "_"), sino las reglas de mas arriba nunca las van a encontrar en TS */; imprimir("Regla 60\n" + $$.sval + "\n");}
+cte_num: CTE_NUM {$$ = new ParserVal(TS.getNombre(yylval.ival))/* Aca sí o sí necesitamos sacar el nombre y no el valor (aunque aparezcan con un "_"), sino las reglas de mas arriba nunca las van a encontrar en TS */; imprimir("Regla 60\n" + $$.sval + "\n");}
 ;
-cte_str: CTE_STR {$$ = new ParserVal(TablaDeSimbolos.getInstance().getNombre(yylval.ival))/* Aca sí o sí necesitamos sacar el nombre y no el valor (aunque aparezcan con un "_"), sino las reglas de mas arriba nunca las van a encontrar en TS */; imprimir("Regla 61\n" + $$.sval + "\n");}
+cte_str: CTE_STR {$$ = new ParserVal(TS.getNombre(yylval.ival))/* Aca sí o sí necesitamos sacar el nombre y no el valor (aunque aparezcan con un "_"), sino las reglas de mas arriba nunca las van a encontrar en TS */; imprimir("Regla 61\n" + $$.sval + "\n");}
 ;
 
 %%
-	//lo habilitamos o deshabilitamos para debuggear
-	public void imprimir(String valor){
-		System.out.println(valor);
-	}
-	
-	void yyerror(String mensaje) {
-		System.out.println("Error: " + mensaje);
-	}
 	public static final int ESTADO_INICIAL = 0;
 	public static final int ESTADO_FINAL = 36;
 
 	//Manejo de errores lexicos
 	public static int INCOMPLETO=0;
 	public static int ERROR_LEXICO=YYERRCODE;
+
+	public static TablaDeSimbolos TS = TablaDeSimbolos.getInstance();
+	public static VectorPolaca vector = VectorPolaca.getInstance();
+	public static StackAuxiliarPolaca stack = StackAuxiliarPolaca.getInstance();
 	
 	public static ArrayList<String> listaAux = null;
-	
+
 	//Esta lista ya está instanciada y cada elemento que se agrega es luego tomado por la regla correspondiente, por ende nunca contiene basura
 	public static ArrayList<EntradaVectorPolaca> listaAuxPolaca = new ArrayList<EntradaVectorPolaca>();
 
+	//lo habilitamos o deshabilitamos para debuggear
+	public void imprimir(String valor){
+		System.out.println(valor);
+	}
+	
 	int yylex() {
 		Automata automata = Automata.getInstance();
 		return automata.getToken(yylval);
+	}
+
+	void yyerror(String mensaje) {
+		System.out.println("Error: " + mensaje);
 	}
 
 	public static void main(String args[]) {
@@ -166,7 +172,7 @@ cte_str: CTE_STR {$$ = new ParserVal(TablaDeSimbolos.getInstance().getNombre(yyl
 		archivo.abrirArhivo(args[0]);
 		par.yyparse();
 		archivo.cerrarArhivo();
-		System.out.println("\n\nTABLA DE SIMBOLOS\n\n" + TablaDeSimbolos.getInstance().toString());
-		System.out.println("\n\nVECTOR POLACA\n\n" + VectorPolaca.getInstance().toString());
-		System.out.println("VECTOR POLACA\n"); VectorPolaca.getInstance().imprimirVector();
+		System.out.println("\n\nTABLA DE SIMBOLOS\n\n" + TS.toString());
+		System.out.println("\n\nVECTOR POLACA\n\n" + vector.toString());
+		System.out.println("VECTOR POLACA\n"); vector.imprimirVector();
 	}
