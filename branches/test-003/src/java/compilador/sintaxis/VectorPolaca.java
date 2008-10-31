@@ -113,6 +113,52 @@ public class VectorPolaca {
 		moverLista(lista);
 	}
 	
+	public void moverCondicionREPEAT(ArrayList<EntradaVectorPolaca> lista) {
+		if(!lista.isEmpty()) {
+			
+			//Tomamos el ultimo elemento de la lista que nos dice que tipo de condicion es 
+			String tipoCondicion = lista.remove(lista.size() -1).getNombre();
+			//indica si se encuentra en la primer condicion o en la segunda (para condiciones compuestas)
+			boolean primerCondicion = true;
+			//tomamos la direccion de inicio de las sentencias colocada en la pila anteriormente por YACC
+			int posicionComienzoSentencias = StackAuxiliarPolaca.getInstance().pop();
+
+			for(int x=0; x<lista.size();x++) {
+				if(lista.get(x).getNombre().equals("_CMP")) {
+
+					//avanzamos la x una posicion para obtener el campo donde se encuentra la comparacion
+					x++;
+					EntradaVectorPolaca comparacion = lista.get(x);
+					
+					//avanzamos la x una posicion más para obtener el casillero para direcciones
+					x++;
+					EntradaVectorPolaca direccionSalto = lista.get(x);
+
+					//En todos estos casos negamos la condicion (en el caso del OR la 1era y la 2da) y saltamos al inicio
+					if(tipoCondicion.equals(SIMPLE) || tipoCondicion.equals(OR) || (tipoCondicion.equals(AND) && !primerCondicion)) {
+						comparacion.setNombre(negarCondicion(comparacion.getNombre()));
+						direccionSalto.setNombre(String.valueOf(posicionComienzoSentencias));
+					}
+					
+					//Aca no negamos, solo saltamos al inicio
+					if(tipoCondicion.equals(NEGACION)) {
+						direccionSalto.setNombre(String.valueOf(posicionComienzoSentencias));
+					}
+					
+					//este es el unico caso que salta al final cuando evalúa por verdadero
+					if(tipoCondicion.equals(AND) && primerCondicion) {
+						direccionSalto.setNombre(String.valueOf(vector.size() + lista.size()));
+					}
+					
+					primerCondicion = false;
+
+				}
+			}
+		}
+		//pasamos la lista al vector y la vaciamos
+		moverLista(lista);
+	}
+	
 	public static String negarCondicion(String condicionActual) {
 		
 		if(condicionActual.equals(IGUAL)) {
