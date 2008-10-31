@@ -803,7 +803,7 @@ case 45:
 break;
 case 46:
 //#line 108 "input.y"
-{vector.agregar(new EntradaVectorPolaca("@IF")); vector.moverCondicionIF(listaAuxPolaca);vector.agregar(new EntradaVectorPolaca("@THEN"));}
+{vector.agregar(new EntradaVectorPolaca("@IF")); vector.moverCondicionIF(listaAuxPolaca); vector.agregar(new EntradaVectorPolaca("@THEN"));}
 break;
 case 47:
 //#line 108 "input.y"
@@ -863,11 +863,11 @@ case 60:
 break;
 case 61:
 //#line 125 "input.y"
-{imprimir("ADD: REPEAT\nApilar Direccion Vector Actual");}
+{vector.agregar(new EntradaVectorPolaca("@REPEAT")); stack.push(vector.getPosicionActual());}
 break;
 case 62:
 //#line 125 "input.y"
-{yyval = new ParserVal("REPEAT\n" + val_peek(5).sval + "\nUNTIL(" + val_peek(2).sval + ");"); imprimir("Regla 56\n" + yyval.sval + "\n"); imprimir("Tomar la(s) condicion(es) de listaAux, hacer tratamiento y apuntar a la direccion en el tope de la pila\nADD: LABEL FIN");}
+{yyval = new ParserVal("REPEAT\n" + val_peek(5).sval + "\nUNTIL(" + val_peek(2).sval + ");"); imprimir("Regla 56\n" + yyval.sval + "\n"); vector.agregar(new EntradaVectorPolaca("@UNTIL")); vector.moverCondicionREPEAT(listaAuxPolaca); vector.agregar(new EntradaVectorPolaca("@END REPEAT-UNTIL"));}
 break;
 case 63:
 //#line 127 "input.y"

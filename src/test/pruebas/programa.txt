@@ -1,44 +1,73 @@
-#%TYPE frutas AS ["manzana","naranja","cualquiera"];
+TYPE frutas AS ["manzana","naranja","cualquiera"];
 TYPE valores AS [12.3, 14.2, 55, .64];
 DEFVAR
-	jose, esteban, raul: FLOAT;
-	roberto, julian: STRING;
-	otraVariable: POINTER;
-	tipoExtra: frutas;
-	otraMas: valores;
-ENDDEF%#
+	a, b, c, d: FLOAT;
+	probando, then, else, repeat: STRING;
+ENDDEF
 BEGIN 
-	#%jose = 25 * esteban + raul;
-	roberto = "HOLA CHICHEEE";
-	tipoExtra = "manzana";
-	otraMas = 12.3;
+
+	#%Comiezo de IFs simples%#
 	
-	probando = 3;
-	sigo = viendo + si + anda;%#
-	
-	IF(hola == chiche)	
-		probando = a + full; 
+	IF(a == b)	
+		probando = then; 
 	ENDIF
 	
-	IF(!(cuatro != 5))	
-		yo = soy + pablo;
-		otra = sentencia;
+	IF(!(a == b))	
+		probando = then; 
 	ENDIF
 	
-	IF(te <= aburris || no == entendes)	
-		lo = siento;
-		mucho = mucho;
+	IF(a == b && c == d)	
+		probando = then; 
+	ENDIF
+	
+	IF(a == b || c ==d)	
+		probando = then; 
+	ENDIF
+	
+	
+	#%Comiezo de IFs compuestos%#
+	
+	IF(a == b)	
+		probando = then;
 	ELSE
-		me = alegro;
-		un = monton;	
+		probando = else;	 
 	ENDIF
 	
-	rellenamos = un - poco;
+	IF(!(a == b))	
+		probando = mucho;
+	ELSE
+		probando = else;		 
+	ENDIF
+	
+	IF(a == b && c == d)	
+		probando = mucho;
+	ELSE
+		probando = else;		 
+	ENDIF
+	
+	IF(a == b || c ==d)	
+		probando = mucho;
+	ELSE
+		probando = else;		 
+	ENDIF
+	
+	#%Comiezo de REPEAT-UNTIL%#
 	
 	REPEAT
-		seguimos = un + poco + mas;
-		ya = estamos;
-	UNTIL(the / end + of >= the * world);
+		probando = repeat;
+	UNTIL(a == b);
+	
+	REPEAT
+		probando = repeat;
+	UNTIL(!(a == b));
+	
+	REPEAT
+		probando = repeat;
+	UNTIL(a == b && c == d);
+	
+	REPEAT
+		probando = repeat;
+	UNTIL(a == b || c == d);
 	
 	
 END
