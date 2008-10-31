@@ -27,4 +27,8 @@ public class StackAuxiliarPolaca {
 	public int getTamanio() {
 		return stack.size();
 	}
+	
+	public boolean isEmpty() {
+		return stack.isEmpty();
+	}
 }

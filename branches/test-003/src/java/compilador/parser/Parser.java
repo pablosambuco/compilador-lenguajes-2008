@@ -466,7 +466,7 @@ final static String yyrule[] = {
 		archivo.cerrarArhivo();
 		System.out.println("\n\nTABLA DE SIMBOLOS\n\n" + TS.toString());
 		System.out.println("\n\nVECTOR POLACA\n\n" + vector.toString());
-		System.out.println("VECTOR POLACA\n"); vector.imprimirVector();
+		//System.out.println("VECTOR POLACA\n"); vector.imprimirVector();
 	}
 //#line 408 "Parser.java"
 //###############################################################
@@ -803,23 +803,23 @@ case 45:
 break;
 case 46:
 //#line 108 "input.y"
-{vector.agregar(new EntradaVectorPolaca("@IF")); vector.moverCondicionIF(listaAuxPolaca);}
+{vector.agregar(new EntradaVectorPolaca("@IF")); vector.moverCondicionIF(listaAuxPolaca);vector.agregar(new EntradaVectorPolaca("@THEN"));}
 break;
 case 47:
 //#line 108 "input.y"
-{yyval = new ParserVal("IF(" + val_peek(4).sval + ")\n" + val_peek(1).sval + "\nENDIF"); imprimir("Reglas 44 y 45\n" + yyval.sval + "\n");vector.agregar(new EntradaVectorPolaca("@ENDIF"));imprimir("Desapilar casillero para direcciones del final del THEN y escribirle el valor actual de Vector Polaca para que haga un salto incondicional. Usar la misma direccion que se desapilo (final del THEN + cte (osea, comienzo del ELSE)) para llenar los casilleros de la/las condiciones (los cuales se encuentran en la pila)");}
+{yyval = new ParserVal("IF(" + val_peek(4).sval + ")\n" + val_peek(1).sval + "\nENDIF"); imprimir("Reglas 44 y 45\n" + yyval.sval + "\n");vector.agregar(new EntradaVectorPolaca("@ENDIF"));}
 break;
 case 48:
 //#line 110 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); imprimir("If Simple\n");imprimir("Enviar sentencias al Vector Polaca y apilar la direccion final del mismo (esto se hace por compatibilidad con la regla anterior, ya que si bien no existe el ELSE, la regla de mas arriba intentará levantar un valor de la pila y ahi le seteará un salto incondicional al ENDIF, que en este caso se encuentra pegado a estas sentencias)\n");}
+{yyval = new ParserVal(val_peek(0).sval); /* Al final del THEN (el ENDIF) es donde van a saltar todas las condiciones de este IF que se encuentren en la pila */ vector.agregar((new EntradaVectorPolaca(String.valueOf(vector.getPosicionActual()))), stack.pop()); /*si la condicion es compuesta son dos casilleros */ if(!stack.isEmpty()) vector.agregar((new EntradaVectorPolaca(String.valueOf(vector.getPosicionActual()))), stack.pop());}
 break;
 case 49:
 //#line 111 "input.y"
-{imprimir("Enviar sentencias al Vector Polaca y apilar la direccion final del mismo\n");}
+{vector.agregar(new EntradaVectorPolaca(VectorPolaca.SIEMPRE)); /* Al comienzo del ELSE (posicion actual del vector + 1 debido al casillero de direccion) es donde van a saltar todas las condiciones de este IF que se encuentren en la pila */ vector.agregar((new EntradaVectorPolaca(String.valueOf(vector.getPosicionActual() + 1))), stack.pop()); /*si la condicion es compuesta son dos casilleros */ if(!stack.isEmpty()) vector.agregar((new EntradaVectorPolaca(String.valueOf(vector.getPosicionActual() + 1))), stack.pop()); stack.push(vector.getPosicionActual())/*Apilamos el casillero para direccion de salto que está al final de este bloque (THEN) */; vector.agregar(new EntradaVectorPolaca("DIRECCION")); vector.agregar(new EntradaVectorPolaca("@ELSE"));}
 break;
 case 50:
 //#line 111 "input.y"
-{yyval = new ParserVal(val_peek(3).sval + "\nELSE\n" + val_peek(0).sval); imprimir("If Compuesto\n"); imprimir("Enviar sentencias al Vector Polaca\n");}
+{yyval = new ParserVal(val_peek(3).sval + "\nELSE\n" + val_peek(0).sval); vector.agregar((new EntradaVectorPolaca(String.valueOf(vector.getPosicionActual()))), stack.pop()); /*En el casillero que está al final del THEN, le seteamos la direccion del ENDIF*/}
 break;
 case 51:
 //#line 113 "input.y"
@@ -839,27 +839,27 @@ case 54:
 break;
 case 55:
 //#line 118 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _CMP DIRECCION " + vector.DISTINTO); imprimir("Regla 50\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));listaAuxPolaca.add(new EntradaVectorPolaca(vector.DISTINTO));}
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _CMP " + vector.DISTINTO + " DIRECCION"); imprimir("Regla 50\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(vector.DISTINTO));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
 break;
 case 56:
 //#line 119 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _CMP DIRECCION " + vector.IGUAL); imprimir("Regla 51\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));listaAuxPolaca.add(new EntradaVectorPolaca(vector.IGUAL)); }
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _CMP " + vector.IGUAL + " DIRECCION"); imprimir("Regla 51\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(vector.IGUAL));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
 break;
 case 57:
 //#line 120 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _CMP DIRECCION " + vector.MENOR_O_IGUAL); imprimir("Regla 52\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));listaAuxPolaca.add(new EntradaVectorPolaca(vector.MENOR_O_IGUAL)); }
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _CMP " + vector.MENOR_O_IGUAL + " DIRECCION"); imprimir("Regla 52\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(vector.MENOR_O_IGUAL));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
 break;
 case 58:
 //#line 121 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _CMP DIRECCION " + vector.MAYOR_O_IGUAL); imprimir("Regla 53\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));listaAuxPolaca.add(new EntradaVectorPolaca(vector.MAYOR_O_IGUAL)); }
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _CMP " + vector.MAYOR_O_IGUAL + " DIRECCION"); imprimir("Regla 53\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(vector.MAYOR_O_IGUAL));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
 break;
 case 59:
 //#line 122 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _CMP DIRECCION " + vector.MENOR); imprimir("Regla 54\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));listaAuxPolaca.add(new EntradaVectorPolaca(vector.MENOR)); }
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _CMP " + vector.MENOR + " DIRECCION"); imprimir("Regla 54\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(vector.MENOR));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
 break;
 case 60:
 //#line 123 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _CMP DIRECCION " + vector.MAYOR); imprimir("Regla 55\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));listaAuxPolaca.add(new EntradaVectorPolaca(vector.MAYOR)); }
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _CMP " + vector.MAYOR + " DIRECCION"); imprimir("Regla 55\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(vector.MAYOR));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
 break;
 case 61:
 //#line 125 "input.y"
