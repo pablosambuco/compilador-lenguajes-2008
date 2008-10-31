@@ -799,7 +799,7 @@ case 44:
 break;
 case 45:
 //#line 106 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); yyval.obj = new ArrayList<String>(); ((ArrayList<String>)yyval.obj).add(new String(TablaDeSimbolos.TIPO_AVG)); imprimir("Regla 43\n" + yyval.sval + "\n");}
+{yyval = new ParserVal(val_peek(0).sval); yyval.obj = new ArrayList<String>(); ((ArrayList<String>)yyval.obj).add(new String(TablaDeSimbolos.TIPO_AVG)); imprimir("Regla 43\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("@AVG")); listaAuxPolaca.addAll(TS.generarListaPolaca(listaAux)); listaAuxPolaca.add(new EntradaVectorPolaca("@AVG"));}
 break;
 case 46:
 //#line 108 "input.y"
@@ -823,43 +823,43 @@ case 50:
 break;
 case 51:
 //#line 113 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); imprimir("Regla 46\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(vector.SIMPLE)); /*Lo agregamos para mantener un estándar y que sea igual a los otros casos*/}
+{yyval = new ParserVal(val_peek(0).sval); imprimir("Regla 46\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.SIMPLE)); /*Lo agregamos para mantener un estándar y que sea igual a los otros casos*/}
 break;
 case 52:
 //#line 114 "input.y"
-{yyval = new ParserVal(val_peek(1).sval + " _NEGACION"); imprimir("Regla 47\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(vector.NEGACION));}
+{yyval = new ParserVal(val_peek(1).sval + " _NEGACION"); imprimir("Regla 47\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.NEGACION));}
 break;
 case 53:
 //#line 115 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _AND"); imprimir("Regla 48\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(vector.AND));}
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _AND"); imprimir("Regla 48\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.AND));}
 break;
 case 54:
 //#line 116 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _OR"); imprimir("Regla 49\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(vector.OR));}
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _OR"); imprimir("Regla 49\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.OR));}
 break;
 case 55:
 //#line 118 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _CMP " + vector.DISTINTO + " DIRECCION"); imprimir("Regla 50\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(vector.DISTINTO));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _CMP " + VectorPolaca.DISTINTO + " DIRECCION"); imprimir("Regla 50\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.DISTINTO));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
 break;
 case 56:
 //#line 119 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _CMP " + vector.IGUAL + " DIRECCION"); imprimir("Regla 51\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(vector.IGUAL));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _CMP " + VectorPolaca.IGUAL + " DIRECCION"); imprimir("Regla 51\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.IGUAL));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
 break;
 case 57:
 //#line 120 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _CMP " + vector.MENOR_O_IGUAL + " DIRECCION"); imprimir("Regla 52\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(vector.MENOR_O_IGUAL));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _CMP " + VectorPolaca.MENOR_O_IGUAL + " DIRECCION"); imprimir("Regla 52\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.MENOR_O_IGUAL));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
 break;
 case 58:
 //#line 121 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _CMP " + vector.MAYOR_O_IGUAL + " DIRECCION"); imprimir("Regla 53\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(vector.MAYOR_O_IGUAL));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _CMP " + VectorPolaca.MAYOR_O_IGUAL + " DIRECCION"); imprimir("Regla 53\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.MAYOR_O_IGUAL));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
 break;
 case 59:
 //#line 122 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _CMP " + vector.MENOR + " DIRECCION"); imprimir("Regla 54\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(vector.MENOR));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _CMP " + VectorPolaca.MENOR + " DIRECCION"); imprimir("Regla 54\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.MENOR));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
 break;
 case 60:
 //#line 123 "input.y"
-{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _CMP " + vector.MAYOR + " DIRECCION"); imprimir("Regla 55\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(vector.MAYOR));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
+{yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _CMP " + VectorPolaca.MAYOR + " DIRECCION"); imprimir("Regla 55\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.MAYOR));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
 break;
 case 61:
 //#line 125 "input.y"
@@ -871,7 +871,7 @@ case 62:
 break;
 case 63:
 //#line 127 "input.y"
-{yyval = new ParserVal("DISPLAY(" + val_peek(2).sval + ");"); imprimir("Regla 57\n" + yyval.sval + "\n");}
+{yyval = new ParserVal("DISPLAY(" + val_peek(2).sval + ");"); imprimir("Regla 57\n" + yyval.sval + "\n"); vector.agregar(new EntradaVectorPolaca("@DISPLAY")); vector.agregar(new EntradaVectorPolaca(TS.getEntrada(val_peek(2).sval).getValor())); vector.agregar(new EntradaVectorPolaca(";"));}
 break;
 case 64:
 //#line 129 "input.y"

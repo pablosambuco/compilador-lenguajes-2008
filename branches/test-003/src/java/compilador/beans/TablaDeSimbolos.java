@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import compilador.sintaxis.EntradaVectorPolaca;
+
 public class TablaDeSimbolos {
 
 	//TODO consultar esta variable antes de continuar con el pasaje a Assembler
@@ -211,6 +213,17 @@ public class TablaDeSimbolos {
 				}
 			}
 		}		
+	}
+	
+	public ArrayList<EntradaVectorPolaca> generarListaPolaca(ArrayList<String> listaDeNombres) {
+		ArrayList<EntradaVectorPolaca> nuevaLista = new ArrayList<EntradaVectorPolaca>();
+		Iterator<String> iter = listaDeNombres.iterator();
+		while(iter.hasNext()) {
+			EntradaTS entradaTS = this.getEntrada(iter.next()); 
+			nuevaLista.add(new EntradaVectorPolaca(entradaTS.getValor(), entradaTS.getTipo()));
+		}
+		
+		return nuevaLista;
 	}
 	
 	/**
