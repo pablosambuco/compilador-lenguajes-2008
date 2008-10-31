@@ -21,6 +21,7 @@ public class VectorPolaca {
 	public static String MAYOR = "BGT";
 	public static String MENOR_O_IGUAL = "BLE";
 	public static String MAYOR_O_IGUAL = "BGE";
+	public static String SIEMPRE = "BI";
 
 	private static VectorPolaca instance;
 	public static VectorPolaca getInstance() {
@@ -67,23 +68,44 @@ public class VectorPolaca {
 		if(!lista.isEmpty()) {
 			//Tomamos el ultimo elemento de la lista que nos dice que tipo de condicion es 
 			String tipoCondicion = lista.remove(lista.size() -1).getNombre();
-			//aca vamos a apilar las posiciones (dentro del vecto polaca) de los casilleros a completar en la condicion
+			//aca vamos a apilar las posiciones (dentro del vector polaca) de los casilleros a completar en la condicion
 			StackAuxiliarPolaca stack = StackAuxiliarPolaca.getInstance();
 			//indica si se encuentra en la primer condicion o en la segunda (para condiciones compuestas)
 			boolean primerCondicion = true;
 			for(int x=0; x<lista.size();x++) {
 				if(lista.get(x).getNombre().equals("_CMP")) {
-					 /* Apilamos la dirección del proximo elemento que es el casillero para direcciones.
-					 * Ya guardamos su posición futura dentro del vector, y NO su posicion dentro de la
-					 * lista en la que se encuentra (la cual es temporal)*/
-					stack.push(vector.size()+x+1);
-					x = x + 2; //avanzamos dos (uno es el casillero de direcciones y el otro es el de la comparacion en sí)
+
+					//avanzamos la x una posicion para obtener el campo donde se encuentra la comparacion
+					x++;
 					EntradaVectorPolaca comparacion = lista.get(x);
+					
+					//avanzamos la x una posicion más para obtener el casillero para direcciones
+					x++;
+					//Apilamos la dirección de dicho casillero (ya guardamos su posición futura dentro del vector,
+					// y NO su posición dentro de la lista en la que se encuentra, la cual es temporal)
+					stack.push(vector.size()+x);
+					
 					//El OR (en su primer condicion) y el operador != requieren que se niegue la condicion
-					if(tipoCondicion.equals(NEGACION) || (tipoCondicion.equals(OR) && primerCondicion)) {
+					if(tipoCondicion.equals(NEGACION)) {
 						comparacion.setNombre(negarCondicion(comparacion.getNombre()));
 					}
+					if(tipoCondicion.equals(OR) && primerCondicion) {
+						comparacion.setNombre(negarCondicion(comparacion.getNombre()));
+						/*
+						 * El OR en su primer condicion es el unico que salta al THEN (y no al ELSE) en caso
+						 * de que evalúe por verdad. Por eso completamos la direccion de salto directamente acá.
+						 * Esto es así porque aca mismo ya contamos con dicha direccion (viene inmediatamente despues
+						 * de la condicion); mientras que la direccion del comienzo del ELSE solo la sabemos en
+						 * YACC y debemos completarla ahí.
+						 */
+						 EntradaVectorPolaca direccionSalto = lista.get(x);
+						 direccionSalto.setNombre(String.valueOf(vector.size() + lista.size()));
+						 //desapilamos el valor anterior ya que fue completado aca y no lo necesitamos 
+						 stack.pop();
+					}
+					
 					primerCondicion = false;
+
 				}
 			}
 		}
