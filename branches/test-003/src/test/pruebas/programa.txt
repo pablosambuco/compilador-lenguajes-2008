@@ -10,7 +10,7 @@ BEGIN
 
 	#%Comiezo de IFs simples%#
 	
-	IF(a == b)	
+	#%IF(a == b)	
 		probando = then; 
 		DISPLAY("FUNCIONA");
 		changuito = "manzana";
@@ -97,6 +97,46 @@ BEGIN
 	REPEAT
 		probando = repeat;
 		DISPLAY("FUNCIONA");
+		constantes = 5 + 8 + 3.9;		
+	UNTIL(a == b || c == d); %#
+	
+	#%ANIDAMIENTO%#
+	
+	REPEAT
+		probando = repeat;
+		DISPLAY("FUNCIONA");
+		
+		IF(a == b && c ==d)	
+			probando = mucho;
+			DISPLAY("FUNCIONA");
+			
+			REPEAT
+				probando = repeat;
+				DISPLAY("FUNCIONA");
+				
+				IF(a == b && c ==d)	
+					probando = mucho;
+					DISPLAY("FUNCIONA"); 		
+					constantes = 5 + 8 + 3.9;		
+				ELSE
+					probando = else;
+					DISPLAY("FUNCIONA"); 		
+					constantes = 5 + 8 + 3.9;				 
+				ENDIF
+				
+				constantes = 5 + 8 + 3.9;		
+			UNTIL(a == b || c == d);	
+				 		
+			constantes = 5 + 8 + 3.9;		
+		ELSE
+			probando = else;
+			DISPLAY("FUNCIONA");
+			IF(a != b)
+				DISPLAY("FUNCIONA");	
+			ENDIF
+			constantes = 5 + 8 + 3.9;				 
+		ENDIF
+		
 		constantes = 5 + 8 + 3.9;		
 	UNTIL(a == b || c == d);
 	

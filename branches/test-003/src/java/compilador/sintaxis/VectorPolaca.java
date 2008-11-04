@@ -108,6 +108,23 @@ public class VectorPolaca {
 
 				}
 			}
+			
+			/*
+			 * Ponemos en el stack la cantidad de casilleros que se deben completar en el paso siguiente.
+			 * Hacemos esto para que llegado al final del THEN, Yacc tome este valor y sepa si tiene que
+			 * decrementar la pila 1 o 2 posiciones más (esta es la única forma de saberlo, ya que la pila
+			 * puede contener otros valores que no pertenecen a la condicion del IF).
+			 */
+			
+			if(tipoCondicion.equals(AND)) {
+				stack.push(2);
+			} else {
+				/*
+				 * Todas las otras tienen pendiente de resolucion 1 sola direccion (incluso el OR,
+				 * porque si bien es compuesta, uno de los saltos ya fue resuelto aca mismo)
+				 */	
+				stack.push(1);
+			}
 		}
 		//pasamos la lista al vector y la vaciamos
 		moverLista(lista);
@@ -157,6 +174,19 @@ public class VectorPolaca {
 		}
 		//pasamos la lista al vector y la vaciamos
 		moverLista(lista);
+	}
+	
+	/*
+	 * Toma del stack tantos elementos como indique 'cantCasilleros',
+	 * y a cada una de las posiciones del vector indicada por esos elementos,
+	 * le setea 'posicionASaltar'
+	 */
+	public void resolverSaltos(int posicionASaltar, int cantCasilleros) {
+		StackAuxiliarPolaca stack = StackAuxiliarPolaca.getInstance();
+		while(cantCasilleros > 0) {
+			agregar(new EntradaVectorPolaca(String.valueOf(posicionASaltar)), stack.pop());
+			cantCasilleros--;
+		}
 	}
 	
 	public static String negarCondicion(String condicionActual) {
