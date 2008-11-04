@@ -811,11 +811,11 @@ case 47:
 break;
 case 48:
 //#line 110 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); /* Al final del THEN (el ENDIF) es donde van a saltar todas las condiciones de este IF que se encuentren en la pila */ vector.agregar((new EntradaVectorPolaca(String.valueOf(vector.getPosicionActual()))), stack.pop()); /*si la condicion es compuesta son dos casilleros */ if(!stack.isEmpty()) vector.agregar((new EntradaVectorPolaca(String.valueOf(vector.getPosicionActual()))), stack.pop());}
+{yyval = new ParserVal(val_peek(0).sval); vector.resolverSaltos(vector.getPosicionActual(), stack.pop()) /* Al final del THEN (el ENDIF) es donde van a saltar todas las condiciones de este IF que se encuentren en la pila. Si hay una o dos condiciones, eso lo sabemos por el valor que sacamos del stack y que fue puesto en 'moverCondicionIF()'*/;}
 break;
 case 49:
 //#line 111 "input.y"
-{vector.agregar(new EntradaVectorPolaca(VectorPolaca.SIEMPRE)); /* Al comienzo del ELSE (posicion actual del vector + 1 debido al casillero de direccion) es donde van a saltar todas las condiciones de este IF que se encuentren en la pila */ vector.agregar((new EntradaVectorPolaca(String.valueOf(vector.getPosicionActual() + 1))), stack.pop()); /*si la condicion es compuesta son dos casilleros */ if(!stack.isEmpty()) vector.agregar((new EntradaVectorPolaca(String.valueOf(vector.getPosicionActual() + 1))), stack.pop()); stack.push(vector.getPosicionActual())/*Apilamos el casillero para direccion de salto que está al final de este bloque (THEN) */; vector.agregar(new EntradaVectorPolaca("DIRECCION")); vector.agregar(new EntradaVectorPolaca("@ELSE"));}
+{vector.agregar(new EntradaVectorPolaca(VectorPolaca.SIEMPRE)); vector.resolverSaltos(vector.getPosicionActual() + 1, stack.pop());/* Al comienzo del ELSE (posicion actual del vector + 1 debido al casillero de direccion) es donde van a saltar todas las condiciones de este IF que se encuentren en la pila. Si hay una o dos condiciones, eso lo sabemos por el valor que sacamos del stack y que fue puesto en 'moverCondicionIF()'*/ ; stack.push(vector.getPosicionActual())/*Apilamos el casillero para direccion de salto que está al final de este bloque (THEN) */; vector.agregar(new EntradaVectorPolaca("DIRECCION")); vector.agregar(new EntradaVectorPolaca("@ELSE"));}
 break;
 case 50:
 //#line 111 "input.y"
