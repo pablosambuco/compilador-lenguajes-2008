@@ -25,7 +25,6 @@ public class TablaDeSimbolos {
 	public static final String TIPO_CTE_REAL = "_CteReal";
 	public static final String TIPO_CTE_STRING = "_CteString";
 	public static final String TIPO_TYPE = "_Type";
-	public static final String TIPO_AVG = "_AVG"; //Tipo ficticio que nunca se guarda en TS pero se utiliza para comparaciones
 
 	private static TablaDeSimbolos instance;
 
@@ -179,23 +178,15 @@ public class TablaDeSimbolos {
 		 */
 		if(valoresLadoDerecho.size() == 1) {
 			String valorLadoDerecho = valoresLadoDerecho.get(0);
-			//Antes que nada verificamos si el valor a la derecha es un AVG, ya que al no estar en tabla de símbolos nos traería problemas al buscar la compatibilidad de tipos
-			if(valorLadoDerecho.equals(TIPO_AVG)) {
-				if(entradaLadoIzquierdo.getTipo() == null || !entradaLadoIzquierdo.getTipo().equals(TIPO_FLOAT)) {
-					imprimirError("Error en asignación a la variable \"" + idLadoIzquierdo + "\": incompatibilidad de tipos");
-				}
-			} else {
-				//una vez que sabemos que no es AVG, nos fijamos la compatibilidad mirando la TS
-				if(!sonTiposCompatibles(entradaLadoIzquierdo, getEntrada(valorLadoDerecho))) {
-					imprimirError("Error en asignación a la variable \"" + idLadoIzquierdo + "\": incompatibilidad de tipos");
-				}
+			//Nos fijamos la compatibilidad mirando la TS
+			if(!sonTiposCompatibles(entradaLadoIzquierdo, getEntrada(valorLadoDerecho))) {
+				imprimirError("Error en asignación a la variable \"" + idLadoIzquierdo + "\": incompatibilidad de tipos");
 			}
-			
 		} else {
 		/*
 		 * Cuando en el lado derecho tengo más de un elemento, significa que es una expresión
-		 * y las expresiones sólo permiten operaciones entre variables FLOAT, Ctes. Numéricas y
-		 * AVG. Por eso no sólo debo verificar que todas se adecuén a alguno de esos tipos, sino
+		 * y las expresiones sólo permiten operaciones entre variables FLOAT y Ctes Numéricas.
+		 * Por eso no sólo debo verificar que todas se adecuén a alguno de esos tipos, sino
 		 * que también debo validar que el id del lado izquierdo también sea FLOAT.
 		 */
 					
@@ -205,9 +196,9 @@ public class TablaDeSimbolos {
 			
 			Iterator<String> iter = valoresLadoDerecho.iterator();
 			while (iter.hasNext()) {
-				String aux = iter.next(); //contiene un ID, Cte Numerica o la palabra AVG (esta ultima no se encuentra en TS)
-				String tipoValorLadoDerecho = aux.equals(TIPO_AVG) ? TIPO_AVG : getEntrada(aux).getTipo();
-				if(tipoValorLadoDerecho == null || (!tipoValorLadoDerecho.equals(TIPO_FLOAT) && !tipoValorLadoDerecho.equals(TIPO_CTE_REAL) && !tipoValorLadoDerecho.equals(TIPO_AVG))) {
+				String aux = iter.next(); //contiene un ID o una Cte Numerica
+				String tipoValorLadoDerecho = getEntrada(aux).getTipo();
+				if(tipoValorLadoDerecho == null || (!tipoValorLadoDerecho.equals(TIPO_FLOAT) && !tipoValorLadoDerecho.equals(TIPO_CTE_REAL))) {
 					imprimirError("Error en expresión: sólo se permite utilizar tipos numéricos");
 					break; //cortamos porque sino tira siempre el mismo error
 				}
@@ -215,12 +206,37 @@ public class TablaDeSimbolos {
 		}		
 	}
 	
-	public ArrayList<EntradaVectorPolaca> generarListaPolaca(ArrayList<String> listaDeNombres) {
+	public ArrayList<EntradaVectorPolaca> convertirAverageEnPolaca(ArrayList<String> listaDeNombres){
 		ArrayList<EntradaVectorPolaca> nuevaLista = new ArrayList<EntradaVectorPolaca>();
 		Iterator<String> iter = listaDeNombres.iterator();
+		
+		//metemos el primer elemento en la nueva lista
+		if(iter.hasNext()) {
+			EntradaTS entradaTS = this.getEntrada(iter.next()); 
+			nuevaLista.add(new EntradaVectorPolaca(entradaTS.getValor(), entradaTS.getTipo()));
+		}
+		
+		boolean agregarDivision = false;
+		//si hay mas elementos, los vamos agregando con un '+' al final
 		while(iter.hasNext()) {
 			EntradaTS entradaTS = this.getEntrada(iter.next()); 
 			nuevaLista.add(new EntradaVectorPolaca(entradaTS.getValor(), entradaTS.getTipo()));
+			
+			nuevaLista.add(new EntradaVectorPolaca("+"));
+			agregarDivision = true;
+		}
+		
+		//solo agregamos la division al final si la lista tenía más de un elemento
+		if(agregarDivision) {
+
+			//el valor por el cual vamos a dividir, debe estar en tabla de simbolos porque es una constante más
+			EntradaTS entrada = new EntradaTS("_"+String.valueOf(listaDeNombres.size()));
+			entrada.setTipo(TablaDeSimbolos.TIPO_CTE_REAL);
+			entrada.setValor(String.valueOf(listaDeNombres.size()));
+			TablaDeSimbolos.getInstance().agregar(entrada); //si la cte ya existia, este metodo simplemente no la agrega
+			
+			nuevaLista.add(new EntradaVectorPolaca(entrada.getValor(), entrada.getTipo()));
+			nuevaLista.add(new EntradaVectorPolaca("/"));
 		}
 		
 		return nuevaLista;
