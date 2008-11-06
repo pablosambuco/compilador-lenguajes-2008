@@ -1,12 +1,12 @@
 TYPE frutas AS ["manzana","naranja","cualquiera"];
-TYPE valores AS [12.3, 14.2, 55, .64];
+TYPE valores AS [12.3, 14.2, 55, .64, 4, 768];
 DEFVAR
 	a, b, c, d, constantes: FLOAT;
 	probando, then, else, repeat: STRING;
 	changuito: frutas;
 ENDDEF
 BEGIN 
-
+	#%
 	#%Comiezo de IFs simples%#
 	
 	IF(a == b)	
@@ -138,5 +138,7 @@ BEGIN
 		
 		constantes = 5 + 8 + 3.9;		
 	UNTIL(a == b || c == d);
+	%#
 	
+	probando = 3 + AVG([234,443.1,22,768]) / AVG([43, 23, 85]);
 END

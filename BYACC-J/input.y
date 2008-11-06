@@ -97,13 +97,12 @@ termino: factor {$$ = new ParserVal($1.sval); $$.obj = new ArrayList<String>(); 
 En esta sección se verificará que cualquier ID que se use en una expresion haya sido instanciado antes
 Por otro lado, se seteará en el $$.obj un ArrayList de Strings con el ID o la constante utilizada, para que la regla
 de más arriba la tome y pueda ir armando una lista de las mismas que finalmente se evaluarán en la asignacion.
-Para el caso de average, se seteará la palabra reservada AVG. Se utiliza un ArrayList y no simplemente un String,
-porque la regla 42 contiene una expresion que puede ya venir con varios elementos en vez de uno solo.
+Se utiliza un ArrayList y no simplemente un String, porque las reglas 42 y 43 ya vienen con varios elementos en vez de uno solo.
 */
 factor: id {$$ = new ParserVal($1.sval); TS.verificarDeclaracion($1.sval); $$.obj = new ArrayList<String>(); ((ArrayList<String>)$$.obj).add($1.sval); imprimir("Regla 40\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca($1.sval, TS.getEntrada($1.sval).getTipo()));}
       | cte_num {$$ = new ParserVal($1.sval); $$.obj = new ArrayList<String>(); ((ArrayList<String>)$$.obj).add($1.sval); imprimir("Regla 41\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(TS.getEntrada($1.sval).getValor(), TS.getEntrada($1.sval).getTipo()));}
       | PAR_ABRE expresion PAR_CIERRA {$$ = new ParserVal($2.sval); $$.obj = $2.obj; imprimir("Regla 42\n" + $$.sval + "\n");}
-      | average {$$ = new ParserVal($1.sval); $$.obj = new ArrayList<String>(); ((ArrayList<String>)$$.obj).add(new String(TablaDeSimbolos.TIPO_AVG)); imprimir("Regla 43\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("@AVG")); listaAuxPolaca.addAll(TS.generarListaPolaca(listaAux)); listaAuxPolaca.add(new EntradaVectorPolaca("@AVG"));}
+      | average {$$ = new ParserVal($1.sval); $$.obj = new ArrayList<String>(); ((ArrayList<String>)$$.obj).addAll(listaAux) /* Agregamos todas las CTES que ya trae el average para hacer validacion de tipos despues */; imprimir("Regla 43\n" + $$.sval + "\n");}
 ;
 condicional: IF PAR_ABRE condicion PAR_CIERRA {vector.agregar(new EntradaVectorPolaca("@IF")); vector.moverCondicionIF(listaAuxPolaca); vector.agregar(new EntradaVectorPolaca("@THEN"));} sentenciasCondicional ENDIF {$$ = new ParserVal("IF(" + $3.sval + ")\n" + $6.sval + "\nENDIF"); imprimir("Reglas 44 y 45\n" + $$.sval + "\n");vector.agregar(new EntradaVectorPolaca("@ENDIF"));}
 ;
@@ -126,7 +125,7 @@ bucle: REPEAT {vector.agregar(new EntradaVectorPolaca("@REPEAT")); stack.push(ve
 ;
 display_command: DISPLAY PAR_ABRE cte_str PAR_CIERRA PUNTO_Y_COMA {$$ = new ParserVal("DISPLAY(" + $3.sval + ");"); imprimir("Regla 57\n" + $$.sval + "\n"); vector.agregar(new EntradaVectorPolaca("@DISPLAY")); vector.agregar(new EntradaVectorPolaca(TS.getEntrada($3.sval).getValor())); vector.agregar(new EntradaVectorPolaca(";"));}
 ;
-average: AVG PAR_ABRE lista_num PAR_CIERRA {$$ = new ParserVal("AVG(" + $3.sval + ")"); imprimir("Regla 58\n" + $$.sval + "\n");}
+average: AVG PAR_ABRE lista_num PAR_CIERRA {$$ = new ParserVal("AVG(" + $3.sval + ")"); imprimir("Regla 58\n" + $$.sval + "\n"); listaAuxPolaca.addAll(TS.convertirAverageEnPolaca(listaAux));}
 ;
 id: ID {$$ = new ParserVal(TS.getNombre(yylval.ival)); imprimir("Regla 59\n" + $$.sval + "\n");}
 ;
@@ -154,7 +153,7 @@ cte_str: CTE_STR {$$ = new ParserVal(TS.getNombre(yylval.ival))/* Aca sí o sí ne
 
 	//lo habilitamos o deshabilitamos para debuggear
 	public void imprimir(String valor){
-		System.out.println(valor);
+		//System.out.println(valor);
 	}
 	
 	int yylex() {
@@ -175,5 +174,5 @@ cte_str: CTE_STR {$$ = new ParserVal(TS.getNombre(yylval.ival))/* Aca sí o sí ne
 		System.out.println("\n\nTABLA DE SIMBOLOS\n\n" + TS.toString());
 		System.out.println("\n\nVECTOR POLACA\n\n" + vector.toString());
 		//System.out.println("VECTOR POLACA\n"); vector.imprimirVector();
-		System.out.println("\n\nSALIDA ASSEMBLER\n\n" + vector.toASM());
+		//System.out.println("\n\nSALIDA ASSEMBLER\n\n" + vector.toASM());
 	}
