@@ -467,8 +467,9 @@ final static String yyrule[] = {
 		System.out.println("\n\nTABLA DE SIMBOLOS\n\n" + TS.toString());
 		System.out.println("\n\nVECTOR POLACA\n\n" + vector.toString());
 		//System.out.println("VECTOR POLACA\n"); vector.imprimirVector();
+		System.out.println("\n\nSALIDA ASSEMBLER\n\n" + vector.toASM());
 	}
-//#line 408 "Parser.java"
+//#line 409 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -889,7 +890,7 @@ case 67:
 //#line 135 "input.y"
 {yyval = new ParserVal(TS.getNombre(yylval.ival))/* Aca sí o sí necesitamos sacar el nombre y no el valor (aunque aparezcan con un "_"), sino las reglas de mas arriba nunca las van a encontrar en TS */; imprimir("Regla 61\n" + yyval.sval + "\n");}
 break;
-//#line 824 "Parser.java"
+//#line 825 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

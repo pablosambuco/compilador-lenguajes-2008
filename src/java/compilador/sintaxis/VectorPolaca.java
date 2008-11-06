@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
 
+import compilador.beans.TablaDeSimbolos;
+
 public class VectorPolaca {
 
 	private java.util.Vector<EntradaVectorPolaca> vector;
@@ -225,7 +227,6 @@ public class VectorPolaca {
 		}
 	}
 	
-	
 	public String toString() {
 		String out = new String();
 		for (int posicion = 0; posicion < vector.size(); posicion++) {
@@ -241,6 +242,94 @@ public class VectorPolaca {
 	
 	public int getPosicionActual() {
 		return vector.size();
+	}
+	
+	public String toASM() {
+		String out = new String();
+		
+		out = TablaDeSimbolos.getInstance().toASM();
+		
+		out = out + "Aca empieza a ejecutar!\n";
+		
+		for (int posicion = 0; posicion < vector.size(); posicion++) {
+			EntradaVectorPolaca actual = vector.get(posicion);
+			String tipo = actual.getTipo();
+			String nombre = actual.getNombre();
+			/* Variables y Constantes */
+			if(tipo == TablaDeSimbolos.TIPO_CTE_REAL)
+				out = out + "    Apilo en PilaPolaca CTE: " + nombre + "\n";
+			else if (tipo == TablaDeSimbolos.TIPO_FLOAT)
+				out = out + "    Apilo en PilaPolaca VAR: " + nombre + "\n";
+			else if (tipo == TablaDeSimbolos.TIPO_CTE_STRING)
+				out = out + "    Apilo en PilaPolaca CTE STRING: " + nombre + "\n";
+			else if (tipo == TablaDeSimbolos.TIPO_STRING)
+				out = out + "    Apilo en PilaPolaca VAR STRING: " + nombre + "\n";
+			else
+				/* Operaciones */
+				if(nombre == "+")
+					out = out + "    Desapilo 2 de PilaPolaca, apilo auxiliar y genero ASM de suma (si son 2 CTE, podemos optimizar y apilar el resultado)\n";
+				else if(nombre == "-")
+					out = out + "    Desapilo 2 de PilaPolaca, apilo auxiliar y genero ASM de resta (si son 2 CTE, podemos optimizar y apilar el resultado)\n";
+				else if(nombre == "/")
+					out = out + "    Desapilo 2 de PilaPolaca, apilo auxiliar y genero ASM de division (si son 2 CTE, podemos optimizar y apilar el resultado)\n";
+				else if(nombre == "*")
+					out = out + "    Desapilo 2 de PilaPolaca, apilo auxiliar y genero ASM de multiplicacion (si son 2 CTE, podemos optimizar y apilar el resultado)\n";
+			
+				/* Asignacion */
+				else if(nombre == "=")
+					out = out + "    Desapilo 2 de PilaPolaca y genero ASM de asignacion (depende del tipo del 1er desapilado)\n";
+						
+			    /* Comparaciones */
+				else if(nombre == "_CMP")
+				{	
+					posicion++; //Condicion
+					String condicion = vector.get(posicion).getNombre();
+					
+					posicion++; //Salto
+					String salto = vector.get(posicion).getNombre();
+					
+					out = out + "    Desapilo 2 de PilaPolaca y genero ASM de comparacion por ";
+					if(condicion == DISTINTO)
+						out = out + "DISTINTO";
+					else if(condicion == IGUAL)
+						out = out + "IGUAL";
+					else if(condicion == MAYOR)
+						out = out + "MAYOR";
+					else if(condicion == MAYOR_O_IGUAL)
+						out = out + "MAYOR_O_IGUAL";
+					else if(condicion == MENOR)
+						out = out + "MENOR";
+					else if(condicion == MENOR_O_IGUAL)
+						out = out + "MENOR_O_IGUAL";
+					out = out + " con un salto a \"_etiqueta_" + salto + "\"\n";
+				}
+				else if(nombre == SIEMPRE)
+				{	posicion++; //Salto
+					String salto = vector.get(posicion).getNombre();
+					out = out + "    Salto sin condicion a \"_etiqueta_" + salto + "\"\n";
+				}
+
+				else if(nombre == "@IF")
+					{} //No hace falta etiquetar el IF
+				else if(nombre == "@THEN") 
+					out = out + "_etiqueta_" + posicion + ": (THEN)\n"; 
+				else if(nombre == "@ELSE")
+					out = out + "_etiqueta_" + posicion + ": (ELSE)\n"; 
+				else if(nombre == "@ENDIF")
+					out = out + "_etiqueta_" + posicion + ": (ENDIF)\n";
+				else if(nombre == "@REPEAT")
+					out = out + "_etiqueta_" + (posicion+1) + ": (REPEAT)\n"; //XXX Por qué se adelanta?
+				else if(nombre == "@UNTIL")
+					{} //No hace falta etiquetar el UNTIL
+				else if(nombre == "@END REPEAT-UNTIL") 
+					{} //No hace falta etiquetar el final del REPEAT
+				
+				/* Otros */
+				else if(nombre == "@DISPLAY")
+					out = out + "    ***Aca hay un display() y no se como se trata***\n";
+		}
+		out = out + "Aca termina :P\n";
+		return out;
 	}
 	
 }

@@ -175,4 +175,5 @@ cte_str: CTE_STR {$$ = new ParserVal(TS.getNombre(yylval.ival))/* Aca sí o sí ne
 		System.out.println("\n\nTABLA DE SIMBOLOS\n\n" + TS.toString());
 		System.out.println("\n\nVECTOR POLACA\n\n" + vector.toString());
 		//System.out.println("VECTOR POLACA\n"); vector.imprimirVector();
+		System.out.println("\n\nSALIDA ASSEMBLER\n\n" + vector.toASM());
 	}

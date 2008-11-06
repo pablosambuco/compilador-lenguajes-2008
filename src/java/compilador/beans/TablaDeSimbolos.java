@@ -284,5 +284,10 @@ public class TablaDeSimbolos {
 		System.err.println(error);
 		abortarCompilacion = true; //seteamos en true el flag para que no se continue con el paso siguiente (pasaje a Assembler)
 	}
+
+	public String toASM() {
+		String out = new String();
+		return out;
+	}
 	
 }

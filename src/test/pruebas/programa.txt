@@ -7,10 +7,9 @@ DEFVAR
 ENDDEF
 BEGIN 
 
-
 	#%Comiezo de IFs simples%#
 	
-	#%IF(a == b)	
+	IF(a == b)	
 		probando = then; 
 		DISPLAY("FUNCIONA");
 		changuito = "manzana";
@@ -98,8 +97,8 @@ BEGIN
 		probando = repeat;
 		DISPLAY("FUNCIONA");
 		constantes = 5 + 8 + 3.9;		
-	UNTIL(a == b || c == d); %#
-	
+	UNTIL(a == b || c == d); 
+
 	#%ANIDAMIENTO%#
 	
 	REPEAT
@@ -139,6 +138,5 @@ BEGIN
 		
 		constantes = 5 + 8 + 3.9;		
 	UNTIL(a == b || c == d);
-	
 	
 END
