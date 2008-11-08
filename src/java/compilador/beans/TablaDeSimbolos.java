@@ -341,7 +341,7 @@ public class TablaDeSimbolos {
 		for(int x = 0; x < simbolos.size(); x++) {
 			EntradaTS entrada = simbolos.get(x);
 			if(entrada.getTipo().equals(TIPO_CTE_REAL)) // No hacemos nada!
-				out.append("__" + entrada.getNombre().replace(".","_") + "\t dd \t " + entrada.getValor() + " ;Constante Real\n");
+				out.append("__" + entrada.getNombre().replace(".","_") + "\t dd \t " + Float.parseFloat(entrada.getValor()) + " ;Constante Real\n");
 			else if(getTipoNativo(entrada.getTipo()).equals(TIPO_FLOAT))
 				out.append("__" + entrada.getNombre() + "\t dd \t ?" + " ;Variable Real\n");
 			else if(entrada.getTipo().equals(TIPO_CTE_STRING))

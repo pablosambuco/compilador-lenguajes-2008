@@ -9,7 +9,8 @@ DEFVAR
 ENDDEF
 BEGIN
 	b = 8; 
-	a = 1 + 2 + 3.2 + b;
+	a = b;
+	a = 8 / 2 - 2 * 2.5 + 7 + b;
 	DISPLAY("mandioca");
 	repeat = "_mandioca";
 	repeat = "_repeat";

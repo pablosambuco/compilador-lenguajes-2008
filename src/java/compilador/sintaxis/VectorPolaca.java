@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.Stack;
 import java.util.Vector;
 
+import sun.misc.FpUtils;
+
 import compilador.beans.TablaDeSimbolos;
 
 public class VectorPolaca {
@@ -25,6 +27,10 @@ public class VectorPolaca {
 	public static String MENOR_O_IGUAL = "JBE";
 	public static String MAYOR_O_IGUAL = "JAE";
 	public static String SIEMPRE = "JMP";
+	
+	//Este objeto se utiliza al pasar a assembler. Cuando el resultado esta en FPU, ponemos este objeto en nuestra pila polaca 
+	public static String RESULTADO_EN_FPU = "RESULTADO_EN_FPU";
+	private static EntradaVectorPolaca resultadoEnFPU = new EntradaVectorPolaca("Resultado en FPU",RESULTADO_EN_FPU);  
 
 	private static VectorPolaca instance;
 	public static VectorPolaca getInstance() {
@@ -253,6 +259,7 @@ public class VectorPolaca {
 		if (!TablaDeSimbolos.abortarCompilacion) {
 
 			out.append(".MODEL LARGE\n");
+			out.append(".386\n");
 			out.append(".STACK 200h\n\n");
 			
 			out.append(TablaDeSimbolos.getInstance().toASM());
@@ -269,44 +276,42 @@ public class VectorPolaca {
 				String tipo = actual.getTipo();
 				String nombre = actual.getNombre();
 				/* Variables y Constantes */
-				if(tipo == TablaDeSimbolos.TIPO_CTE_REAL) {
-					pilaPolaca.push(actual);
-					//out.append("    Apilo en PilaPolaca CTE: " + nombre + "\n");
-				}
-				else if (tipo == TablaDeSimbolos.TIPO_FLOAT) {
-					pilaPolaca.push(actual);
-					//out.append("    Apilo en PilaPolaca VAR: " + nombre + "\n");
-				}
-				else if (tipo == TablaDeSimbolos.TIPO_CTE_STRING) {
-					pilaPolaca.push(actual);
-					//out.append("    Apilo en PilaPolaca CTE STRING: " + nombre + "\n");
-				}
-				else if (tipo == TablaDeSimbolos.TIPO_STRING) {
-					pilaPolaca.push(actual);
-					//out.append("    Apilo en PilaPolaca VAR STRING: " + nombre + "\n");
+				if( tipo == TablaDeSimbolos.TIPO_CTE_REAL ||
+					tipo == TablaDeSimbolos.TIPO_FLOAT ||
+					tipo == TablaDeSimbolos.TIPO_CTE_STRING ||
+					tipo == TablaDeSimbolos.TIPO_STRING) {
+						pilaPolaca.push(actual);
 				}
 				else
 					/* Operaciones */
-					if(nombre == "+") {
-						EntradaVectorPolaca aux1 = pilaPolaca.pop();
-						EntradaVectorPolaca aux2 = pilaPolaca.pop();
-						//Si son constantes, optimizo
-						if(aux1.getTipo() == TablaDeSimbolos.TIPO_CTE_REAL && aux2.getTipo() == TablaDeSimbolos.TIPO_CTE_REAL) {
-							pilaPolaca.push(new EntradaVectorPolaca(String.valueOf(Float.parseFloat(aux1.getNombre()) + Float.parseFloat(aux2.getNombre())),TablaDeSimbolos.TIPO_CTE_REAL));
+					if( nombre == "+" ||
+						nombre == "-" ||
+						nombre == "/" ||
+						nombre == "*") {
+						EntradaVectorPolaca operandoLadoDerecho = pilaPolaca.pop();
+						EntradaVectorPolaca operandoLadoIzquierdo = pilaPolaca.pop();
+						
+						out.append(operacionFPU(operandoLadoDerecho, operandoLadoIzquierdo,nombre.charAt(0)));
+						//despues de operar, el resultado queda en FPU y apilamos este "PlaceHolder"
+						pilaPolaca.push(resultadoEnFPU);
+						
+						//FIXME NOS esta trayendo problemas la optimizacion Si son constantes, optimizo
+						/*if(aux1.getTipo() == TablaDeSimbolos.TIPO_CTE_REAL && aux2.getTipo() == TablaDeSimbolos.TIPO_CTE_REAL) {
+							pilaPolaca.push(optimizar(aux1, aux2, nombre.charAt(0)));
 						} else {
-							out.append("\tgenero alto codigo de suma entre" + aux1.getNombre() + " y " + aux2.getNombre() + "\n"); //TODO pepe y lala
-						}
+							out.append(operacionFPU(aux1,aux2,nombre.charAt(0)));
+							//despues de operar, el resultado queda en FPU y apilamos este "PlaceHolder"
+							pilaPolaca.push(resultadoEnFPU);
+						}*/	
 					}
-					else if(nombre == "-")
-						out.append("    Desapilo 2 de PilaPolaca, apilo auxiliar y genero ASM de resta (si son 2 CTE, podemos optimizar y apilar el resultado)\n");
-					else if(nombre == "/")
-						out.append("    Desapilo 2 de PilaPolaca, apilo auxiliar y genero ASM de division (si son 2 CTE, podemos optimizar y apilar el resultado)\n");
-					else if(nombre == "*")
-						out.append("    Desapilo 2 de PilaPolaca, apilo auxiliar y genero ASM de multiplicacion (si son 2 CTE, podemos optimizar y apilar el resultado)\n");
 				
 				/* Asignacion */
-					else if(nombre == "=")
-						out.append("    Desapilo 2 de PilaPolaca y genero ASM de asignacion (depende del tipo del 1er desapilado)\n");
+					else if(nombre == "=") {
+						EntradaVectorPolaca aux1 = pilaPolaca.pop();
+						EntradaVectorPolaca aux2 = pilaPolaca.pop();
+						out.append(asignar(aux1,aux2));
+					}
+				
 				
 				/* Comparaciones */
 					else if(nombre == "_CMP")
@@ -365,5 +370,86 @@ public class VectorPolaca {
 		}
 		return out.toString();
 	}
+
+	private String operacionFPU(EntradaVectorPolaca operandoLadoDerecho, EntradaVectorPolaca operandoLadoIzquierdo, char operador) {
+		
+		String out = new String();
+		//si operando izquierdo no esta en FPU lo cargo
+		if(operandoLadoIzquierdo != resultadoEnFPU) {
+			out = out + "\t fld \t " + "__" + (operandoLadoIzquierdo.getTipo() == TablaDeSimbolos.TIPO_FLOAT ? operandoLadoIzquierdo.getNombre() : operandoLadoIzquierdo.getNombre().replace(".", "_")) + "\n";
+		}
+		//si operando derecho no esta en FPU lo cargo
+		if(operandoLadoDerecho != resultadoEnFPU) {
+			out = out + "\t fld \t " + "__" + (operandoLadoDerecho.getTipo() == TablaDeSimbolos.TIPO_FLOAT ? operandoLadoDerecho.getNombre() : operandoLadoDerecho.getNombre().replace(".", "_")) + "\n";
+		}
+
+		//Opero
+		switch (operador) {
+		case '+':
+			out = out + "\t faddp \n";
+			break;
+		case '-':
+			out = out + "\t fsubp \n";
+			break;
+		case '*':
+			out = out + "\t fmulp \n";
+			break;
+		case '/':
+			out = out + "\t fdivp \n";
+			break;			
+		}
+		return out;
+	}
 	
+	private EntradaVectorPolaca optimizar(EntradaVectorPolaca operandoLadoDerecho, EntradaVectorPolaca operandoLadoIzquierdo, char operador) {
+	
+		/*
+		 * FIXME El problema al optimizar es que nos esta quedando un valor que no esta en el .DATA, y no se puede
+		 * cargar como valor inmediato a la pila del FPU
+		 */
+		
+		float resultado = 0;
+		float operando1 = Float.parseFloat(operandoLadoIzquierdo.getNombre());
+		float operando2 = Float.parseFloat(operandoLadoDerecho.getNombre());
+		
+		switch (operador) {
+		case '+':
+			resultado = operando1 + operando2;
+			break;
+		case '-':
+			resultado = operando1 - operando2;
+			break;
+		case '*':
+			resultado = operando1 * operando2;
+			break;
+		case '/':
+			resultado = operando1 / operando2;
+			break;			
+		}	
+		return new EntradaVectorPolaca(String.valueOf(resultado),TablaDeSimbolos.TIPO_CTE_REAL);
+	}
+	
+
+	private String asignar(EntradaVectorPolaca operandoLadoDerecho, EntradaVectorPolaca operandoLadoIzquierdo){
+		StringBuffer out = new StringBuffer();
+		String tipoLadoDer = operandoLadoDerecho.getTipo(); 
+		
+		if(tipoLadoDer == TablaDeSimbolos.TIPO_FLOAT){
+			out.append("\t mov \t eax, __" + operandoLadoDerecho.getNombre() + "\n" +
+					   "\t mov \t __" + operandoLadoIzquierdo.getNombre() + ", eax \n");
+		} else if(tipoLadoDer == TablaDeSimbolos.TIPO_CTE_REAL){
+			out.append("\t mov \t eax," + "__" + operandoLadoDerecho.getNombre().replace(".","_") + "\n" +
+					   "\t mov \t __" + operandoLadoIzquierdo.getNombre() + ", eax \n");
+		} else if(tipoLadoDer == TablaDeSimbolos.TIPO_STRING){
+			out.append("\t xxx" + "\n");
+		} else if(tipoLadoDer == TablaDeSimbolos.TIPO_CTE_STRING){
+			out.append("\t xxx" + "\n");
+		} else if(tipoLadoDer == TablaDeSimbolos.TIPO_POINTER){
+			//TODO arreglar por todos lados
+		} else if(tipoLadoDer == RESULTADO_EN_FPU){
+			out.append("\t fstp \t __" + operandoLadoIzquierdo.getNombre() + "\n");
+		}
+		
+		return out.toString();
+	}
 }
