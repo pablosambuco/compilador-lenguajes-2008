@@ -25,10 +25,10 @@ programa: def_tipos def_var ejecucion  {$$ = new ParserVal($1.sval + "\n" + $2.s
 def_tipos: def_tipo {$$ = new ParserVal($1.sval); imprimir("Regla 05\n" + $$.sval + "\n");}
          | def_tipos def_tipo {$$ = new ParserVal($1.sval + "\n" + $2.sval); imprimir("Regla 06\n" + $$.sval + "\n");}
 ;
-def_tipo: TYPE id {TS.crearNuevoTipo($2.sval);} AS lista PUNTO_Y_COMA {$$ = new ParserVal("TYPE " + $2.sval + " AS " + $5.sval + ";"); TS.setTypedefs(listaAux,$2.sval) /* Tomamos la Tabla de símbolos y en el campo TYPEDEF de las variables recibidas en la lista, le seteamos el tipo creado (verificando que no exista ya) */; imprimir("Regla 07\n" + $$.sval + "\n");}
+def_tipo: TYPE id AS lista PUNTO_Y_COMA {$$ = new ParserVal("TYPE " + $2.sval + " AS " + $4.sval + ";"); TS.crearNuevoTipo($2.sval, $4.ival); TS.setTypedefs(listaAux,$2.sval) /* Tomamos la Tabla de símbolos y en el campo TYPEDEF de las variables recibidas en la lista, le seteamos el tipo creado (verificando que no exista ya) */; imprimir("Regla 07\n" + $$.sval + "\n");}
 ;
-lista: lista_num {$$ = new ParserVal($1.sval); imprimir("Regla 08\n" + $$.sval + "\n");}
-     | lista_str {$$ = new ParserVal($1.sval); imprimir("Regla 09\n" + $$.sval + "\n");}
+lista: lista_num {$$ = new ParserVal($1.sval); $$.ival = CTE_NUM; imprimir("Regla 08\n" + $$.sval + "\n");}
+     | lista_str {$$ = new ParserVal($1.sval); $$.ival = CTE_STR; imprimir("Regla 09\n" + $$.sval + "\n");}
 ;
 lista_num: COR_ABRE lis_num_c COR_CIERRA {$$ = new ParserVal("[" + $2.sval + "]"); imprimir("Regla 10\n" + $$.sval + "\n");}
 ;
@@ -78,12 +78,12 @@ Si la lista contiene solamente ID, entonces se verificará que el tipo izquierdo 
 en la lista, debemos verificar que todos los IDs que aparezcan sean constantes FLOAT, ya que solo se permiten expresiones numéricas
 en el lenguaje.
 */
-asignacion: id OP_ASIG expresion PUNTO_Y_COMA {$$ = new ParserVal($1.sval + " " + $3.sval + " = " + ";"); TS.verificarDeclaracion($1.sval); TS.verificarAsignacion($1.sval, (ArrayList<String>)$3.obj); imprimir("Regla 33\n" + $$.sval + "\n"); vector.agregar(new EntradaVectorPolaca($1.sval, TS.getEntrada($1.sval).getTipo())); vector.moverLista(listaAuxPolaca);vector.agregar(new EntradaVectorPolaca("="));vector.agregar(new EntradaVectorPolaca(";"));}
+asignacion: id OP_ASIG expresion PUNTO_Y_COMA {$$ = new ParserVal($1.sval + " " + $3.sval + " = " + ";"); TS.verificarDeclaracion($1.sval); TS.inicializarVariable($1.sval); TS.verificarAsignacion($1.sval, (ArrayList<String>)$3.obj); imprimir("Regla 33\n" + $$.sval + "\n"); vector.agregar(new EntradaVectorPolaca($1.sval, TS.getTipoNativo(TS.getEntrada($1.sval).getTipo()))); vector.moverLista(listaAuxPolaca);vector.agregar(new EntradaVectorPolaca("="));vector.agregar(new EntradaVectorPolaca(";"));}
 ;
 /**
 Este tipo de asignación a una Constante String existe para que se puedan realizar asignaciones a tipos definidos con TYPE. Ej: var1 = "EUR"; (donde var1 es del tipo "moneda" el cual tiene entre su lista de valores posibles la palabra "EUR")
 */
-asignacion: id OP_ASIG cte_str PUNTO_Y_COMA {$$ = new ParserVal($1.sval + " " + $3.sval + " = " + ";"); TS.verificarDeclaracion($1.sval); listaAux = new ArrayList<String>(); listaAux.add($3.sval); TS.verificarAsignacion($1.sval, listaAux); imprimir("Regla 33\n" + $$.sval + "\n"); vector.agregar(new EntradaVectorPolaca($1.sval, TS.getEntrada($1.sval).getTipo())); vector.agregar(new EntradaVectorPolaca($3.sval, TS.getEntrada($3.sval).getTipo())); vector.agregar(new EntradaVectorPolaca("="));vector.agregar(new EntradaVectorPolaca(";"));}
+asignacion: id OP_ASIG cte_str PUNTO_Y_COMA {$$ = new ParserVal($1.sval + " " + $3.sval + " = " + ";"); TS.verificarDeclaracion($1.sval); TS.inicializarVariable($1.sval); listaAux = new ArrayList<String>(); listaAux.add($3.sval); TS.verificarAsignacion($1.sval, listaAux); imprimir("Regla 33\n" + $$.sval + "\n"); vector.agregar(new EntradaVectorPolaca($1.sval, TS.getTipoNativo(TS.getEntrada($1.sval).getTipo()))); vector.agregar(new EntradaVectorPolaca($3.sval, TS.getEntrada($3.sval).getTipo())); vector.agregar(new EntradaVectorPolaca("="));vector.agregar(new EntradaVectorPolaca(";"));}
 ;
 expresion: termino {$$ = new ParserVal($1.sval); $$.obj = $1.obj; imprimir("Regla 34\n" + $$.sval + "\n");}
          | expresion OP_SUMA termino {$$ = new ParserVal($1.sval + " " + $3.sval + " +"); $$.obj = $1.obj; ((ArrayList<String>)$$.obj).addAll((Collection)$3.obj); imprimir("Regla 35\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("+"));}
@@ -99,7 +99,7 @@ Por otro lado, se seteará en el $$.obj un ArrayList de Strings con el ID o la co
 de más arriba la tome y pueda ir armando una lista de las mismas que finalmente se evaluarán en la asignacion.
 Se utiliza un ArrayList y no simplemente un String, porque las reglas 42 y 43 ya vienen con varios elementos en vez de uno solo.
 */
-factor: id {$$ = new ParserVal($1.sval); TS.verificarDeclaracion($1.sval); $$.obj = new ArrayList<String>(); ((ArrayList<String>)$$.obj).add($1.sval); imprimir("Regla 40\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca($1.sval, TS.getEntrada($1.sval).getTipo()));}
+factor: id {$$ = new ParserVal($1.sval); TS.verificarDeclaracion($1.sval); TS.verificarInicializacionVariable($1.sval); $$.obj = new ArrayList<String>(); ((ArrayList<String>)$$.obj).add($1.sval); imprimir("Regla 40\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca($1.sval, TS.getEntrada($1.sval).getTipo()));}
       | cte_num {$$ = new ParserVal($1.sval); $$.obj = new ArrayList<String>(); ((ArrayList<String>)$$.obj).add($1.sval); imprimir("Regla 41\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(TS.getEntrada($1.sval).getValor(), TS.getEntrada($1.sval).getTipo()));}
       | PAR_ABRE expresion PAR_CIERRA {$$ = new ParserVal($2.sval); $$.obj = $2.obj; imprimir("Regla 42\n" + $$.sval + "\n");}
       | average {$$ = new ParserVal($1.sval); $$.obj = new ArrayList<String>(); ((ArrayList<String>)$$.obj).addAll(listaAux) /* Agregamos todas las CTES que ya trae el average para hacer validacion de tipos despues */; imprimir("Regla 43\n" + $$.sval + "\n");}
@@ -123,7 +123,7 @@ comparacion: expresion OP_IGUAL expresion {$$ = new ParserVal($1.sval + " " + $3
 ;
 bucle: REPEAT {vector.agregar(new EntradaVectorPolaca("@REPEAT")); stack.push(vector.getPosicionActual()-1);} sentencias UNTIL PAR_ABRE condicion PAR_CIERRA PUNTO_Y_COMA {$$ = new ParserVal("REPEAT\n" + $3.sval + "\nUNTIL(" + $6.sval + ");"); imprimir("Regla 56\n" + $$.sval + "\n"); vector.agregar(new EntradaVectorPolaca("@UNTIL")); vector.moverCondicionREPEAT(listaAuxPolaca); vector.agregar(new EntradaVectorPolaca("@END REPEAT-UNTIL"));}
 ;
-display_command: DISPLAY PAR_ABRE cte_str PAR_CIERRA PUNTO_Y_COMA {$$ = new ParserVal("DISPLAY(" + $3.sval + ");"); imprimir("Regla 57\n" + $$.sval + "\n"); vector.agregar(new EntradaVectorPolaca("@DISPLAY")); vector.agregar(new EntradaVectorPolaca(TS.getEntrada($3.sval).getValor())); vector.agregar(new EntradaVectorPolaca(";"));}
+display_command: DISPLAY PAR_ABRE cte_str PAR_CIERRA PUNTO_Y_COMA {$$ = new ParserVal("DISPLAY(" + $3.sval + ");"); imprimir("Regla 57\n" + $$.sval + "\n"); vector.agregar(new EntradaVectorPolaca("@DISPLAY")); vector.agregar(new EntradaVectorPolaca(TS.getEntrada($3.sval).getNombre(),TS.getEntrada($3.sval).getTipo())); vector.agregar(new EntradaVectorPolaca(";"));}
 ;
 average: AVG PAR_ABRE lista_num PAR_CIERRA {$$ = new ParserVal("AVG(" + $3.sval + ")"); imprimir("Regla 58\n" + $$.sval + "\n"); listaAuxPolaca.addAll(TS.convertirAverageEnPolaca(listaAux));}
 ;

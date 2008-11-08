@@ -2,6 +2,7 @@ package compilador.sintaxis;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Stack;
 import java.util.Vector;
 
 import compilador.beans.TablaDeSimbolos;
@@ -245,91 +246,124 @@ public class VectorPolaca {
 	}
 	
 	public String toASM() {
-		String out = new String();
 		
-		out = TablaDeSimbolos.getInstance().toASM();
-		
-		out = out + "Aca empieza a ejecutar!\n";
-		
-		for (int posicion = 0; posicion < vector.size(); posicion++) {
-			EntradaVectorPolaca actual = vector.get(posicion);
-			String tipo = actual.getTipo();
-			String nombre = actual.getNombre();
-			/* Variables y Constantes */
-			if(tipo == TablaDeSimbolos.TIPO_CTE_REAL)
-				out = out + "    Apilo en PilaPolaca CTE: " + nombre + "\n";
-			else if (tipo == TablaDeSimbolos.TIPO_FLOAT)
-				out = out + "    Apilo en PilaPolaca VAR: " + nombre + "\n";
-			else if (tipo == TablaDeSimbolos.TIPO_CTE_STRING)
-				out = out + "    Apilo en PilaPolaca CTE STRING: " + nombre + "\n";
-			else if (tipo == TablaDeSimbolos.TIPO_STRING)
-				out = out + "    Apilo en PilaPolaca VAR STRING: " + nombre + "\n";
-			else
-				/* Operaciones */
-				if(nombre == "+")
-					out = out + "    Desapilo 2 de PilaPolaca, apilo auxiliar y genero ASM de suma (si son 2 CTE, podemos optimizar y apilar el resultado)\n";
-				else if(nombre == "-")
-					out = out + "    Desapilo 2 de PilaPolaca, apilo auxiliar y genero ASM de resta (si son 2 CTE, podemos optimizar y apilar el resultado)\n";
-				else if(nombre == "/")
-					out = out + "    Desapilo 2 de PilaPolaca, apilo auxiliar y genero ASM de division (si son 2 CTE, podemos optimizar y apilar el resultado)\n";
-				else if(nombre == "*")
-					out = out + "    Desapilo 2 de PilaPolaca, apilo auxiliar y genero ASM de multiplicacion (si son 2 CTE, podemos optimizar y apilar el resultado)\n";
-			
-				/* Asignacion */
-				else if(nombre == "=")
-					out = out + "    Desapilo 2 de PilaPolaca y genero ASM de asignacion (depende del tipo del 1er desapilado)\n";
-						
-			    /* Comparaciones */
-				else if(nombre == "_CMP")
-				{	
-					posicion++; //Condicion
-					String condicion = vector.get(posicion).getNombre();
-					
-					posicion++; //Salto
-					String salto = vector.get(posicion).getNombre();
-					
-					out = out + "    Desapilo 2 de PilaPolaca y genero ASM de comparacion por ";
-					if(condicion == DISTINTO)
-						out = out + "DISTINTO";
-					else if(condicion == IGUAL)
-						out = out + "IGUAL";
-					else if(condicion == MAYOR)
-						out = out + "MAYOR";
-					else if(condicion == MAYOR_O_IGUAL)
-						out = out + "MAYOR_O_IGUAL";
-					else if(condicion == MENOR)
-						out = out + "MENOR";
-					else if(condicion == MENOR_O_IGUAL)
-						out = out + "MENOR_O_IGUAL";
-					out = out + " con un salto a \"_etiqueta_" + salto + "\"\n";
-				}
-				else if(nombre == SIEMPRE)
-				{	posicion++; //Salto
-					String salto = vector.get(posicion).getNombre();
-					out = out + "    Salto sin condicion a \"_etiqueta_" + salto + "\"\n";
-				}
+		StringBuffer out = new StringBuffer();
+		Stack<EntradaVectorPolaca> pilaPolaca = new Stack<EntradaVectorPolaca>();
+				
+		if (!TablaDeSimbolos.abortarCompilacion) {
 
-				else if(nombre == "@IF")
+			out.append(".MODEL LARGE\n");
+			out.append(".STACK 200h\n\n");
+			
+			out.append(TablaDeSimbolos.getInstance().toASM());
+			
+			out.append("\n\n");
+			
+			out.append(".CODE\n");
+			
+			out.append("\t mov\t AX,@DATA\t ;Comienzo de la zona de Código\n");
+			out.append("\t mov\t DS,AX\n");
+		
+			for (int posicion = 0; posicion < vector.size(); posicion++) {
+				EntradaVectorPolaca actual = vector.get(posicion);
+				String tipo = actual.getTipo();
+				String nombre = actual.getNombre();
+				/* Variables y Constantes */
+				if(tipo == TablaDeSimbolos.TIPO_CTE_REAL) {
+					pilaPolaca.push(actual);
+					//out.append("    Apilo en PilaPolaca CTE: " + nombre + "\n");
+				}
+				else if (tipo == TablaDeSimbolos.TIPO_FLOAT) {
+					pilaPolaca.push(actual);
+					//out.append("    Apilo en PilaPolaca VAR: " + nombre + "\n");
+				}
+				else if (tipo == TablaDeSimbolos.TIPO_CTE_STRING) {
+					pilaPolaca.push(actual);
+					//out.append("    Apilo en PilaPolaca CTE STRING: " + nombre + "\n");
+				}
+				else if (tipo == TablaDeSimbolos.TIPO_STRING) {
+					pilaPolaca.push(actual);
+					//out.append("    Apilo en PilaPolaca VAR STRING: " + nombre + "\n");
+				}
+				else
+					/* Operaciones */
+					if(nombre == "+") {
+						EntradaVectorPolaca aux1 = pilaPolaca.pop();
+						EntradaVectorPolaca aux2 = pilaPolaca.pop();
+						//Si son constantes, optimizo
+						if(aux1.getTipo() == TablaDeSimbolos.TIPO_CTE_REAL && aux2.getTipo() == TablaDeSimbolos.TIPO_CTE_REAL) {
+							pilaPolaca.push(new EntradaVectorPolaca(String.valueOf(Float.parseFloat(aux1.getNombre()) + Float.parseFloat(aux2.getNombre())),TablaDeSimbolos.TIPO_CTE_REAL));
+						} else {
+							out.append("\tgenero alto codigo de suma entre" + aux1.getNombre() + " y " + aux2.getNombre() + "\n"); //TODO pepe y lala
+						}
+					}
+					else if(nombre == "-")
+						out.append("    Desapilo 2 de PilaPolaca, apilo auxiliar y genero ASM de resta (si son 2 CTE, podemos optimizar y apilar el resultado)\n");
+					else if(nombre == "/")
+						out.append("    Desapilo 2 de PilaPolaca, apilo auxiliar y genero ASM de division (si son 2 CTE, podemos optimizar y apilar el resultado)\n");
+					else if(nombre == "*")
+						out.append("    Desapilo 2 de PilaPolaca, apilo auxiliar y genero ASM de multiplicacion (si son 2 CTE, podemos optimizar y apilar el resultado)\n");
+				
+				/* Asignacion */
+					else if(nombre == "=")
+						out.append("    Desapilo 2 de PilaPolaca y genero ASM de asignacion (depende del tipo del 1er desapilado)\n");
+				
+				/* Comparaciones */
+					else if(nombre == "_CMP")
+					{	
+						posicion++; //Condicion
+						String condicion = vector.get(posicion).getNombre();
+						
+						posicion++; //Salto
+						String salto = vector.get(posicion).getNombre();
+						
+						out.append("    Desapilo 2 de PilaPolaca y genero ASM de comparacion por ");
+						if(condicion == DISTINTO)
+							out.append("DISTINTO");
+						else if(condicion == IGUAL)
+							out.append("IGUAL");
+						else if(condicion == MAYOR)
+							out.append("MAYOR");
+						else if(condicion == MAYOR_O_IGUAL)
+							out.append("MAYOR_O_IGUAL");
+						else if(condicion == MENOR)
+							out.append("MENOR");
+						else if(condicion == MENOR_O_IGUAL)
+							out.append("MENOR_O_IGUAL");
+						out.append(" con un salto a \"_etiqueta_" + salto + "\"\n");
+					}
+					else if(nombre == SIEMPRE)
+					{	posicion++; //Salto
+					String salto = vector.get(posicion).getNombre();
+					out.append("    Salto sin condicion a \"_etiqueta_" + salto + "\"\n");
+					}
+				
+					else if(nombre == "@IF")
 					{} //No hace falta etiquetar el IF
-				else if(nombre == "@THEN") 
-					out = out + "_etiqueta_" + posicion + ": (THEN)\n"; 
-				else if(nombre == "@ELSE")
-					out = out + "_etiqueta_" + posicion + ": (ELSE)\n"; 
-				else if(nombre == "@ENDIF")
-					out = out + "_etiqueta_" + posicion + ": (ENDIF)\n";
-				else if(nombre == "@REPEAT")
-					out = out + "_etiqueta_" + posicion + ": (REPEAT)\n";
-				else if(nombre == "@UNTIL")
+					else if(nombre == "@THEN") 
+						out.append("etiqueta_" + posicion + ": (THEN)\n"); 
+					else if(nombre == "@ELSE")
+						out.append("etiqueta_" + posicion + ": (ELSE)\n"); 
+					else if(nombre == "@ENDIF")
+						out.append("etiqueta_" + posicion + ": (ENDIF)\n");
+					else if(nombre == "@REPEAT")
+						out.append("etiqueta_" + posicion + ": (REPEAT)\n");
+					else if(nombre == "@UNTIL")
 					{} //No hace falta etiquetar el UNTIL
-				else if(nombre == "@END REPEAT-UNTIL") 
+					else if(nombre == "@END REPEAT-UNTIL") 
 					{} //No hace falta etiquetar el final del REPEAT
 				
 				/* Otros */
-				else if(nombre == "@DISPLAY")
-					out = out + "    ***Aca hay un display() y no se como se trata***\n";
+					else if(nombre == "@DISPLAY")
+						out.append("    ***Aca hay un display() y no se como se trata***\n");
+			}
+			out.append("\t mov\t ax,4C00h\t ;Termina la ejecución\n");
+			out.append("\t int\t 21h\n");
+			out.append("END\n");
+		} else {
+			out.append("Verificar salida de error\n");
 		}
-		out = out + "Aca termina :P\n";
-		return out;
+		return out.toString();
 	}
 	
 }

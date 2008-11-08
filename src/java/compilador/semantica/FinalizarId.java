@@ -13,7 +13,7 @@ public class FinalizarId implements IRutinaSemantica {
 		
 		if (pr == Parser.ID) {
 			//Si es un identificador (NO una palabra reservada), se verifica la cantidad de caracteres
-			if(token.length() > TAMANIO_MAXIMO_TOKEN) {
+			if(token.length() > TablaDeSimbolos.TAMANIO_MAXIMO_TOKEN) {
 				System.out.println("(ERROR: Tamanio de Identificador demasiado largo.)");
 				return Parser.ERROR_LEXICO;
 			}

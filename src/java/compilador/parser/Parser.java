@@ -198,136 +198,136 @@ public final static short DISPLAY=295;
 public final static short AVG=296;
 public final static short YYERRCODE=256;
 final static short yylhs[] = {                           -1,
-    0,    1,    1,    1,    2,    2,    7,    5,    8,    8,
-    9,   11,   11,   10,   13,   13,    3,   15,   15,   16,
-   16,   17,   17,   17,   17,    4,    4,   18,   18,   19,
-   19,   19,   19,   20,   20,   24,   24,   24,   25,   25,
-   25,   26,   26,   26,   26,   30,   21,   29,   31,   29,
-   28,   28,   28,   28,   32,   32,   32,   32,   32,   32,
-   33,   22,   23,   27,    6,   12,   14,
+    0,    1,    1,    1,    2,    2,    5,    7,    7,    8,
+   10,   10,    9,   12,   12,    3,   14,   14,   15,   15,
+   16,   16,   16,   16,    4,    4,   17,   17,   18,   18,
+   18,   18,   19,   19,   23,   23,   23,   24,   24,   24,
+   25,   25,   25,   25,   29,   20,   28,   30,   28,   27,
+   27,   27,   27,   31,   31,   31,   31,   31,   31,   32,
+   21,   22,   26,    6,   11,   13,
 };
 final static short yylen[] = {                            2,
-    1,    3,    2,    1,    1,    2,    0,    6,    1,    1,
-    3,    1,    3,    3,    1,    3,    3,    4,    5,    1,
-    3,    1,    1,    1,    1,    3,    2,    1,    2,    1,
-    1,    1,    1,    4,    4,    1,    3,    3,    1,    3,
-    3,    1,    1,    3,    1,    0,    7,    1,    0,    4,
-    1,    4,    3,    3,    3,    3,    3,    3,    3,    3,
-    0,    8,    5,    4,    1,    1,    1,
+    1,    3,    2,    1,    1,    2,    5,    1,    1,    3,
+    1,    3,    3,    1,    3,    3,    4,    5,    1,    3,
+    1,    1,    1,    1,    3,    2,    1,    2,    1,    1,
+    1,    1,    4,    4,    1,    3,    3,    1,    3,    3,
+    1,    1,    3,    1,    0,    7,    1,    0,    4,    1,
+    4,    3,    3,    3,    3,    3,    3,    3,    3,    0,
+    8,    5,    4,    1,    1,    1,
 };
 final static short yydefred[] = {                         0,
-    0,    0,    0,    0,    1,    0,    0,    4,    5,   65,
-   27,    0,   61,    0,    0,    0,   28,   30,   31,   32,
-   33,   20,    0,    0,    7,    0,    6,    3,    0,    0,
-    0,    0,   26,   29,   17,    0,    0,    0,    0,    2,
-   66,    0,    0,    0,   42,   43,    0,    0,   39,   45,
-    0,    0,    0,   67,    0,    0,    0,    0,   21,   23,
-   22,   24,   25,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,    0,    0,    0,    0,    0,   46,    0,
-    0,    0,    0,   35,   34,    0,   18,    0,    0,    9,
-   10,    0,   44,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,   40,   41,    0,   53,   54,    0,   63,
-   19,    0,   12,    0,   15,    8,   52,   64,    0,    0,
-    0,   11,    0,   14,    0,    0,   47,    0,   13,   16,
-    0,   62,    0,
+    0,    0,    0,    0,    1,    0,    0,    4,    5,   64,
+   26,    0,   60,    0,    0,    0,   27,   29,   30,   31,
+   32,   19,    0,    0,    0,    0,    6,    3,    0,    0,
+    0,    0,   25,   28,   16,    0,    0,    0,    0,    2,
+   65,    0,    0,    0,   41,   42,    0,    0,   38,   44,
+    0,    0,    0,   66,    0,    0,    0,    0,   20,   22,
+   21,   23,   24,    0,    0,    0,    8,    9,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,   45,    0,    0,    0,    0,   34,   33,    0,   17,
+    0,   11,    0,   14,    7,    0,   43,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,   39,   40,    0,
+   52,   53,    0,   62,   18,   10,    0,   13,    0,   51,
+   63,    0,    0,    0,   12,   15,    0,   46,    0,    0,
+   61,    0,
 };
 final static short yydgoto[] = {                          4,
-    5,    6,    7,    8,    9,   45,   39,   89,   90,   91,
-  112,   46,  114,   55,   23,   24,   64,   16,   17,   18,
-   19,   20,   21,   47,   48,   49,   50,   51,  120,  106,
-  126,   52,   30,
+    5,    6,    7,    8,    9,   45,   66,   67,   68,   91,
+   46,   93,   55,   23,   24,   64,   16,   17,   18,   19,
+   20,   21,   47,   48,   49,   50,   51,  123,  110,  127,
+   52,   30,
 };
-final static short yysindex[] = {                      -116,
- -227, -250, -250,    0,    0, -260, -271,    0,    0,    0,
-    0, -251,    0, -247, -229, -215,    0,    0,    0,    0,
-    0,    0, -248, -204,    0, -271,    0,    0, -246, -237,
- -221, -240,    0,    0,    0, -201, -250, -198, -241,    0,
-    0, -202, -233, -195,    0,    0, -109, -150,    0,    0,
- -194, -111, -226,    0, -171, -172, -190, -198,    0,    0,
-    0,    0,    0, -165, -153, -233, -161, -139, -233, -233,
- -233, -233, -233, -233, -233, -233, -233, -233,    0, -233,
- -233, -134, -133,    0,    0, -124,    0,  -83, -114,    0,
-    0,  -79,    0,  -76,  -78, -150, -150,  -81,  -81,  -81,
-  -81,  -81,  -81,    0,    0, -237,    0,    0, -246,    0,
-    0,  -93,    0,  -91,    0,    0,    0,    0, -237,  -96,
-  -77,    0,  -76,    0, -221,  -90,    0,  -85,    0,    0,
- -237,    0, -237,
+final static short yysindex[] = {                      -255,
+ -237, -229, -229,    0,    0, -272, -235,    0,    0,    0,
+    0, -240,    0, -224, -211, -215,    0,    0,    0,    0,
+    0,    0, -252, -184, -238, -235,    0,    0, -249, -209,
+ -199, -247,    0,    0,    0, -171, -229, -213, -201,    0,
+    0, -185, -241, -182,    0,    0, -156, -239,    0,    0,
+ -177, -147, -214,    0, -164, -154, -192, -213,    0,    0,
+    0,    0,    0, -150, -136, -139,    0,    0, -241, -176,
+ -126, -241, -241, -241, -241, -241, -241, -241, -241, -241,
+ -241,    0, -241, -241, -108, -123,    0,    0, -107,    0,
+ -132,    0, -116,    0,    0,  -91,    0,  -72,  -80, -239,
+ -239,  -78,  -78,  -78,  -78,  -78,  -78,    0,    0, -209,
+    0,    0, -249,    0,    0,    0,  -72,    0, -199,    0,
+    0, -209,  -94,  -77,    0,    0,  -92,    0,  -81, -209,
+    0, -209,
 };
 final static short yyrindex[] = {                         0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,    0,    0,    0,    0, -177,    0,    0,
+    0,    0,    0,    0,    0,    0,    0, -133,    0,    0,
     0,  -75,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,    0,    0, -144, -127, -164, -156, -108,
-  -97,  -94,  -92,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,    0,    0,    0,    0,    0, -101,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0, -117,
+ -101, -175, -169, -141,  -90,  -88,  -85,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,  -89,
+    0,  -98,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,  -89,
 };
 final static short yygindex[] = {                         0,
-    0,    0,  196,    6,  197,   -1,    0,    0,  136,    0,
-    0,  -80,    0,  -28,    0,  182,  148,  -24,  -13,    0,
-    0,    0,    0,  -27,  121,  115,    0,   98,    0,    0,
-    0,   69,    0,
+    0,    0,  196,    6,  197,   -1,    0,  133,    0,    0,
+  -58,    0,  -26,    0,  182,  148,  -27,  -12,    0,    0,
+    0,    0,  -13,  116,  113,    0,   94,    0,    0,    0,
+   18,    0,
 };
 final static int YYTABLESIZE=207;
 static short yytable[];
 static { yytable();}
 static void yytable(){
 yytable = new short[]{                         15,
-   22,   25,   34,   56,   57,   53,   10,  113,   10,    1,
-   10,   41,   28,  113,   15,   67,   10,   41,   54,   10,
-   42,   22,   29,   10,   41,    2,   31,   43,   15,   10,
-   10,   40,    3,   43,   32,   59,   63,   54,   35,   34,
-   43,   10,  129,   98,   99,  100,  101,  102,  103,   44,
-   12,   15,   65,   13,   11,   44,   63,   14,   10,  115,
-   12,   12,   44,   13,   13,   82,   33,   14,   14,   69,
-   70,   66,   12,   37,   38,   13,   37,   58,   68,   14,
-   79,  119,   36,   36,   60,   61,   62,   36,   36,   85,
-   36,   36,   36,   36,   36,   36,  130,   36,   69,   70,
-   55,   55,   36,   83,   15,   34,  133,   84,   56,   56,
-   55,   77,   78,   93,   87,   37,   37,   15,   56,   34,
-   37,   37,   88,   37,   37,   37,   37,   37,   37,   15,
-   37,   15,   38,   38,   92,   37,   94,   38,   38,  109,
-   38,   38,   38,   38,   38,   38,  110,   38,  107,  108,
-   69,   70,   38,   80,   81,  111,   57,   57,   71,   72,
-   73,   74,   75,   76,    1,  116,   57,   58,   58,    2,
-   59,   59,   60,   60,   41,   54,    3,   58,   69,   70,
-   59,   41,   60,  122,  123,  124,  125,   49,   48,   96,
-   97,  104,  105,  127,  132,  117,  118,  128,  131,   51,
-   50,   26,   27,   95,   36,   86,  121,
+   22,   25,   53,   34,   10,   56,   92,   10,   41,   10,
+   41,   54,   28,    2,   15,   10,   41,   42,   57,   10,
+    3,   22,   80,   81,   43,    1,   43,   10,   15,   70,
+    2,   40,   43,   29,   35,   59,   63,    3,   94,   92,
+   34,   10,   10,   10,   11,    1,   44,   10,   44,   31,
+   12,   15,   32,   13,   44,   39,   63,   14,  125,   54,
+  102,  103,  104,  105,  106,  107,   33,   72,   73,   60,
+   61,   62,   12,   12,   65,   13,   13,   85,   12,   14,
+   14,   13,  122,   72,   73,   14,   96,   88,   69,   54,
+   54,   71,  126,   37,   38,   55,   55,   82,   97,   54,
+  111,  112,  132,   72,   73,   55,   37,   58,   15,   34,
+   86,   74,   75,   76,   77,   78,   79,   83,   84,   34,
+   15,   41,   54,   56,   56,   87,   35,   35,   15,   90,
+   15,   35,   35,   56,   35,   35,   35,   35,   35,   35,
+   95,   35,   36,   36,  116,  117,   35,   36,   36,   98,
+   36,   36,   36,   36,   36,   36,  114,   36,   37,   37,
+  118,  119,   36,   37,   37,  113,   37,   37,   37,   37,
+   37,   37,  115,   37,   57,   57,   58,   58,   37,   59,
+   59,   72,   73,  120,   57,   41,   58,  100,  101,   59,
+   48,   47,  108,  109,  121,  128,  130,  129,  131,   50,
+   49,   26,   27,   99,   36,   89,  124,
 };
 }
 static short yycheck[];
 static { yycheck(); }
 static void yycheck() {
 yycheck = new short[] {                          1,
-    2,    3,   16,   32,   32,   30,  257,   88,  257,  281,
-  257,  258,    7,   94,   16,   43,  257,  258,  259,  257,
-  267,   23,  274,  257,  258,  286,  274,  274,   30,  257,
-  257,   26,  293,  274,  264,   37,   38,  259,  287,   53,
-  274,  257,  123,   71,   72,   73,   74,   75,   76,  296,
-  288,   53,  294,  291,  282,  296,   58,  295,  257,   88,
-  288,  288,  296,  291,  291,  292,  282,  295,  295,  260,
-  261,  274,  288,  278,  279,  291,  278,  279,  274,  295,
-  275,  106,  260,  261,  283,  284,  285,  265,  266,  280,
-  268,  269,  270,  271,  272,  273,  125,  275,  260,  261,
-  265,  266,  280,  275,  106,  119,  131,  280,  265,  266,
-  275,  262,  263,  275,  280,  260,  261,  119,  275,  133,
-  265,  266,  276,  268,  269,  270,  271,  272,  273,  131,
-  275,  133,  260,  261,   66,  280,  276,  265,  266,  274,
-  268,  269,  270,  271,  272,  273,  280,  275,   80,   81,
-  260,  261,  280,  265,  266,  280,  265,  266,  268,  269,
-  270,  271,  272,  273,  281,  280,  275,  265,  266,  286,
-  265,  266,  265,  266,  258,  259,  293,  275,  260,  261,
-  275,  258,  275,  277,  278,  277,  278,  289,  290,   69,
-   70,   77,   78,  290,  280,  275,  275,  275,  289,  275,
-  290,    6,    6,   68,   23,   58,  109,
+    2,    3,   30,   16,  257,   32,   65,  257,  258,  257,
+  258,  259,    7,  286,   16,  257,  258,  267,   32,  257,
+  293,   23,  262,  263,  274,  281,  274,  257,   30,   43,
+  286,   26,  274,  274,  287,   37,   38,  293,   65,   98,
+   53,  257,  257,  257,  282,  281,  296,  257,  296,  274,
+  288,   53,  264,  291,  296,  294,   58,  295,  117,  259,
+   74,   75,   76,   77,   78,   79,  282,  260,  261,  283,
+  284,  285,  288,  288,  276,  291,  291,  292,  288,  295,
+  295,  291,  110,  260,  261,  295,   69,  280,  274,  265,
+  266,  274,  119,  278,  279,  265,  266,  275,  275,  275,
+   83,   84,  130,  260,  261,  275,  278,  279,  110,  122,
+  275,  268,  269,  270,  271,  272,  273,  265,  266,  132,
+  122,  258,  259,  265,  266,  280,  260,  261,  130,  280,
+  132,  265,  266,  275,  268,  269,  270,  271,  272,  273,
+  280,  275,  260,  261,  277,  278,  280,  265,  266,  276,
+  268,  269,  270,  271,  272,  273,  280,  275,  260,  261,
+  277,  278,  280,  265,  266,  274,  268,  269,  270,  271,
+  272,  273,  280,  275,  265,  266,  265,  266,  280,  265,
+  266,  260,  261,  275,  275,  258,  275,   72,   73,  275,
+  289,  290,   80,   81,  275,  290,  289,  275,  280,  275,
+  290,    6,    6,   71,   23,   58,  113,
 };
 }
 final static short YYFINAL=4;
@@ -364,8 +364,7 @@ final static String yyrule[] = {
 "programa : ejecucion",
 "def_tipos : def_tipo",
 "def_tipos : def_tipos def_tipo",
-"$$1 :",
-"def_tipo : TYPE id $$1 AS lista PUNTO_Y_COMA",
+"def_tipo : TYPE id AS lista PUNTO_Y_COMA",
 "lista : lista_num",
 "lista : lista_str",
 "lista_num : COR_ABRE lis_num_c COR_CIERRA",
@@ -403,11 +402,11 @@ final static String yyrule[] = {
 "factor : cte_num",
 "factor : PAR_ABRE expresion PAR_CIERRA",
 "factor : average",
-"$$2 :",
-"condicional : IF PAR_ABRE condicion PAR_CIERRA $$2 sentenciasCondicional ENDIF",
+"$$1 :",
+"condicional : IF PAR_ABRE condicion PAR_CIERRA $$1 sentenciasCondicional ENDIF",
 "sentenciasCondicional : sentencias",
-"$$3 :",
-"sentenciasCondicional : sentencias $$3 ELSE sentencias",
+"$$2 :",
+"sentenciasCondicional : sentencias $$2 ELSE sentencias",
 "condicion : comparacion",
 "condicion : OP_NEGACION PAR_ABRE comparacion PAR_CIERRA",
 "condicion : comparacion AND comparacion",
@@ -418,8 +417,8 @@ final static String yyrule[] = {
 "comparacion : expresion OP_MENOR expresion",
 "comparacion : expresion OP_MAYOR_IGUAL expresion",
 "comparacion : expresion OP_MENOR_IGUAL expresion",
-"$$4 :",
-"bucle : REPEAT $$4 sentencias UNTIL PAR_ABRE condicion PAR_CIERRA PUNTO_Y_COMA",
+"$$3 :",
+"bucle : REPEAT $$3 sentencias UNTIL PAR_ABRE condicion PAR_CIERRA PUNTO_Y_COMA",
 "display_command : DISPLAY PAR_ABRE cte_str PAR_CIERRA PUNTO_Y_COMA",
 "average : AVG PAR_ABRE lista_num PAR_CIERRA",
 "id : ID",
@@ -469,7 +468,7 @@ final static String yyrule[] = {
 		//System.out.println("VECTOR POLACA\n"); vector.imprimirVector();
 		System.out.println("\n\nSALIDA ASSEMBLER\n\n" + vector.toASM());
 	}
-//#line 409 "Parser.java"
+//#line 408 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -648,249 +647,245 @@ case 6:
 break;
 case 7:
 //#line 28 "input.y"
-{TS.crearNuevoTipo(val_peek(0).sval);}
+{yyval = new ParserVal("TYPE " + val_peek(3).sval + " AS " + val_peek(1).sval + ";"); TS.crearNuevoTipo(val_peek(3).sval, val_peek(1).ival); TS.setTypedefs(listaAux,val_peek(3).sval) /* Tomamos la Tabla de símbolos y en el campo TYPEDEF de las variables recibidas en la lista, le seteamos el tipo creado (verificando que no exista ya) */; imprimir("Regla 07\n" + yyval.sval + "\n");}
 break;
 case 8:
-//#line 28 "input.y"
-{yyval = new ParserVal("TYPE " + val_peek(4).sval + " AS " + val_peek(1).sval + ";"); TS.setTypedefs(listaAux,val_peek(4).sval) /* Tomamos la Tabla de símbolos y en el campo TYPEDEF de las variables recibidas en la lista, le seteamos el tipo creado (verificando que no exista ya) */; imprimir("Regla 07\n" + yyval.sval + "\n");}
+//#line 30 "input.y"
+{yyval = new ParserVal(val_peek(0).sval); yyval.ival = CTE_NUM; imprimir("Regla 08\n" + yyval.sval + "\n");}
 break;
 case 9:
-//#line 30 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); imprimir("Regla 08\n" + yyval.sval + "\n");}
+//#line 31 "input.y"
+{yyval = new ParserVal(val_peek(0).sval); yyval.ival = CTE_STR; imprimir("Regla 09\n" + yyval.sval + "\n");}
 break;
 case 10:
-//#line 31 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); imprimir("Regla 09\n" + yyval.sval + "\n");}
-break;
-case 11:
 //#line 33 "input.y"
 {yyval = new ParserVal("[" + val_peek(1).sval + "]"); imprimir("Regla 10\n" + yyval.sval + "\n");}
 break;
-case 12:
+case 11:
 //#line 35 "input.y"
 {yyval = new ParserVal(val_peek(0).sval); listaAux = new ArrayList<String>(); listaAux.add(val_peek(0).sval) /* Vamos agregando los valores en una lista para usarlos mas arriba */; imprimir("Regla 11\n" + yyval.sval + "\n");}
 break;
-case 13:
+case 12:
 //#line 36 "input.y"
 {yyval = new ParserVal(val_peek(2).sval + "," + val_peek(0).sval); listaAux.add(val_peek(0).sval) /*Esta regla siempre se ejecuta despues que la de arriba, por eso el ArrayList ya fue instanciado con new */; imprimir("Regla 12\n" + yyval.sval + "\n");}
 break;
-case 14:
+case 13:
 //#line 38 "input.y"
 {yyval = new ParserVal("[" + val_peek(1).sval + "]"); imprimir("Regla 13\n" + yyval.sval + "\n");}
 break;
-case 15:
+case 14:
 //#line 40 "input.y"
 {yyval = new ParserVal(val_peek(0).sval); listaAux = new ArrayList<String>(); listaAux.add(val_peek(0).sval) /* Vamos agregando los valores en una lista para usarlos mas arriba */; imprimir("Regla 14\n" + yyval.sval + "\n");}
 break;
-case 16:
+case 15:
 //#line 41 "input.y"
 {yyval = new ParserVal(val_peek(2).sval + "," + val_peek(0).sval); listaAux.add(val_peek(0).sval) /*Esta regla siempre se ejecuta despues que la de arriba, por eso el ArrayList ya fue instanciado con new */; imprimir("Regla 15\n" + yyval.sval + "\n");}
 break;
-case 17:
+case 16:
 //#line 43 "input.y"
 {yyval = new ParserVal("DEFVAR\n" + val_peek(1).sval + "\nENDDEF"); imprimir("Regla 16\n" + yyval.sval + "\n");}
 break;
-case 18:
+case 17:
 //#line 45 "input.y"
 {yyval = new ParserVal(val_peek(3).sval + ":" + val_peek(1).sval + ";"); TS.setTipos(listaAux,val_peek(1).sval) /* Tomamos la Tabla de símbolos y en el campo Tipo de los IDs recibidos en la lista, le seteamos el tipo */; imprimir("Regla 17\n" + yyval.sval + "\n");}
 break;
-case 19:
+case 18:
 //#line 46 "input.y"
 {yyval = new ParserVal(val_peek(4).sval + "\n" + val_peek(3).sval + ":" + val_peek(1).sval + ";"); TS.setTipos(listaAux,val_peek(1).sval) /* Tomamos la Tabla de símbolos y en el campo Tipo de los IDs recibidos en la lista, le seteamos el tipo */; imprimir("Regla 18\n" + yyval.sval + "\n");}
 break;
-case 20:
+case 19:
 //#line 48 "input.y"
 {yyval = new ParserVal(val_peek(0).sval); listaAux = new ArrayList<String>(); listaAux.add(val_peek(0).sval) /* Vamos agregando los IDs en una lista para usarlos mas arriba */; imprimir("Regla 19\n" + yyval.sval + "\n");}
 break;
-case 21:
+case 20:
 //#line 49 "input.y"
 {yyval = new ParserVal(val_peek(2).sval + "," + val_peek(0).sval); listaAux.add(val_peek(0).sval) /*Esta regla siempre se ejecuta despues que la de arriba, por eso el ArrayList ya fue instanciado con new */; imprimir("Regla 20\n" + yyval.sval + "\n");}
 break;
-case 22:
+case 21:
 //#line 57 "input.y"
 {yyval = new ParserVal(TablaDeSimbolos.TIPO_FLOAT); imprimir("Regla 21\n" + yyval.sval + "\n");}
 break;
-case 23:
+case 22:
 //#line 58 "input.y"
 {yyval = new ParserVal(TablaDeSimbolos.TIPO_STRING); imprimir("Regla 22\n" + yyval.sval + "\n");}
 break;
-case 24:
+case 23:
 //#line 59 "input.y"
 {yyval = new ParserVal(TablaDeSimbolos.TIPO_POINTER); imprimir("Regla 23\n" + yyval.sval + "\n");}
 break;
-case 25:
+case 24:
 //#line 60 "input.y"
 {yyval = new ParserVal(val_peek(0).sval); TS.verificarTipoValido(val_peek(0).sval); imprimir("Regla 24\n" + yyval.sval + "\n");}
 break;
-case 26:
+case 25:
 //#line 62 "input.y"
 {yyval = new ParserVal("BEGIN\n" + val_peek(1).sval + "\nEND"); imprimir("Regla 25\n" + yyval.sval + "\n");}
 break;
-case 27:
+case 26:
 //#line 63 "input.y"
 {yyval = new ParserVal("BEGIN\nEND"); imprimir("Regla 26\n" + yyval.sval + "\n");}
 break;
-case 28:
+case 27:
 //#line 65 "input.y"
 {yyval = new ParserVal(val_peek(0).sval); imprimir("Regla 27\n" + yyval.sval + "\n");}
 break;
-case 29:
+case 28:
 //#line 66 "input.y"
 {yyval = new ParserVal(val_peek(1).sval + "\n" + val_peek(0).sval); imprimir("Regla 28\n" + yyval.sval + "\n");}
 break;
-case 30:
+case 29:
 //#line 68 "input.y"
 {yyval = new ParserVal(val_peek(0).sval); imprimir("Regla 29\n" + yyval.sval + "\n");}
 break;
-case 31:
+case 30:
 //#line 69 "input.y"
 {yyval = new ParserVal(val_peek(0).sval); imprimir("Regla 30\n" + yyval.sval + "\n");}
 break;
-case 32:
+case 31:
 //#line 70 "input.y"
 {yyval = new ParserVal(val_peek(0).sval); imprimir("Regla 31\n" + yyval.sval + "\n");}
 break;
-case 33:
+case 32:
 //#line 71 "input.y"
 {yyval = new ParserVal(val_peek(0).sval); imprimir("Regla 32\n" + yyval.sval + "\n");}
 break;
-case 34:
+case 33:
 //#line 81 "input.y"
-{yyval = new ParserVal(val_peek(3).sval + " " + val_peek(1).sval + " = " + ";"); TS.verificarDeclaracion(val_peek(3).sval); TS.verificarAsignacion(val_peek(3).sval, (ArrayList<String>)val_peek(1).obj); imprimir("Regla 33\n" + yyval.sval + "\n"); vector.agregar(new EntradaVectorPolaca(val_peek(3).sval, TS.getEntrada(val_peek(3).sval).getTipo())); vector.moverLista(listaAuxPolaca);vector.agregar(new EntradaVectorPolaca("="));vector.agregar(new EntradaVectorPolaca(";"));}
+{yyval = new ParserVal(val_peek(3).sval + " " + val_peek(1).sval + " = " + ";"); TS.verificarDeclaracion(val_peek(3).sval); TS.inicializarVariable(val_peek(3).sval); TS.verificarAsignacion(val_peek(3).sval, (ArrayList<String>)val_peek(1).obj); imprimir("Regla 33\n" + yyval.sval + "\n"); vector.agregar(new EntradaVectorPolaca(val_peek(3).sval, TS.getTipoNativo(TS.getEntrada(val_peek(3).sval).getTipo()))); vector.moverLista(listaAuxPolaca);vector.agregar(new EntradaVectorPolaca("="));vector.agregar(new EntradaVectorPolaca(";"));}
+break;
+case 34:
+//#line 86 "input.y"
+{yyval = new ParserVal(val_peek(3).sval + " " + val_peek(1).sval + " = " + ";"); TS.verificarDeclaracion(val_peek(3).sval); TS.inicializarVariable(val_peek(3).sval); listaAux = new ArrayList<String>(); listaAux.add(val_peek(1).sval); TS.verificarAsignacion(val_peek(3).sval, listaAux); imprimir("Regla 33\n" + yyval.sval + "\n"); vector.agregar(new EntradaVectorPolaca(val_peek(3).sval, TS.getTipoNativo(TS.getEntrada(val_peek(3).sval).getTipo()))); vector.agregar(new EntradaVectorPolaca(val_peek(1).sval, TS.getEntrada(val_peek(1).sval).getTipo())); vector.agregar(new EntradaVectorPolaca("="));vector.agregar(new EntradaVectorPolaca(";"));}
 break;
 case 35:
-//#line 86 "input.y"
-{yyval = new ParserVal(val_peek(3).sval + " " + val_peek(1).sval + " = " + ";"); TS.verificarDeclaracion(val_peek(3).sval); listaAux = new ArrayList<String>(); listaAux.add(val_peek(1).sval); TS.verificarAsignacion(val_peek(3).sval, listaAux); imprimir("Regla 33\n" + yyval.sval + "\n"); vector.agregar(new EntradaVectorPolaca(val_peek(3).sval, TS.getEntrada(val_peek(3).sval).getTipo())); vector.agregar(new EntradaVectorPolaca(val_peek(1).sval, TS.getEntrada(val_peek(1).sval).getTipo())); vector.agregar(new EntradaVectorPolaca("="));vector.agregar(new EntradaVectorPolaca(";"));}
-break;
-case 36:
 //#line 88 "input.y"
 {yyval = new ParserVal(val_peek(0).sval); yyval.obj = val_peek(0).obj; imprimir("Regla 34\n" + yyval.sval + "\n");}
 break;
-case 37:
+case 36:
 //#line 89 "input.y"
 {yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " +"); yyval.obj = val_peek(2).obj; ((ArrayList<String>)yyval.obj).addAll((Collection)val_peek(0).obj); imprimir("Regla 35\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("+"));}
 break;
-case 38:
+case 37:
 //#line 90 "input.y"
 {yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " -"); yyval.obj = val_peek(2).obj; ((ArrayList<String>)yyval.obj).addAll((Collection)val_peek(0).obj); imprimir("Regla 36\n" + yyval.sval + "\n");listaAuxPolaca.add(new EntradaVectorPolaca("-"));}
 break;
-case 39:
+case 38:
 //#line 92 "input.y"
 {yyval = new ParserVal(val_peek(0).sval); yyval.obj = new ArrayList<String>(); ((ArrayList<String>)yyval.obj).addAll((Collection)val_peek(0).obj); imprimir("Regla 37\n" + yyval.sval + "\n");}
 break;
-case 40:
+case 39:
 //#line 93 "input.y"
 {yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " *"); yyval.obj = val_peek(2).obj; ((ArrayList<String>)yyval.obj).addAll((Collection)val_peek(0).obj); imprimir("Regla 38\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("*"));}
 break;
-case 41:
+case 40:
 //#line 94 "input.y"
 {yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " /"); yyval.obj = val_peek(2).obj; ((ArrayList<String>)yyval.obj).addAll((Collection)val_peek(0).obj); imprimir("Regla 39\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("/"));}
 break;
-case 42:
+case 41:
 //#line 102 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); TS.verificarDeclaracion(val_peek(0).sval); yyval.obj = new ArrayList<String>(); ((ArrayList<String>)yyval.obj).add(val_peek(0).sval); imprimir("Regla 40\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(val_peek(0).sval, TS.getEntrada(val_peek(0).sval).getTipo()));}
+{yyval = new ParserVal(val_peek(0).sval); TS.verificarDeclaracion(val_peek(0).sval); TS.verificarInicializacionVariable(val_peek(0).sval); yyval.obj = new ArrayList<String>(); ((ArrayList<String>)yyval.obj).add(val_peek(0).sval); imprimir("Regla 40\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(val_peek(0).sval, TS.getEntrada(val_peek(0).sval).getTipo()));}
 break;
-case 43:
+case 42:
 //#line 103 "input.y"
 {yyval = new ParserVal(val_peek(0).sval); yyval.obj = new ArrayList<String>(); ((ArrayList<String>)yyval.obj).add(val_peek(0).sval); imprimir("Regla 41\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(TS.getEntrada(val_peek(0).sval).getValor(), TS.getEntrada(val_peek(0).sval).getTipo()));}
 break;
-case 44:
+case 43:
 //#line 104 "input.y"
 {yyval = new ParserVal(val_peek(1).sval); yyval.obj = val_peek(1).obj; imprimir("Regla 42\n" + yyval.sval + "\n");}
 break;
-case 45:
+case 44:
 //#line 105 "input.y"
 {yyval = new ParserVal(val_peek(0).sval); yyval.obj = new ArrayList<String>(); ((ArrayList<String>)yyval.obj).addAll(listaAux) /* Agregamos todas las CTES que ya trae el average para hacer validacion de tipos despues */; imprimir("Regla 43\n" + yyval.sval + "\n");}
 break;
-case 46:
+case 45:
 //#line 107 "input.y"
 {vector.agregar(new EntradaVectorPolaca("@IF")); vector.moverCondicionIF(listaAuxPolaca); vector.agregar(new EntradaVectorPolaca("@THEN"));}
 break;
-case 47:
+case 46:
 //#line 107 "input.y"
 {yyval = new ParserVal("IF(" + val_peek(4).sval + ")\n" + val_peek(1).sval + "\nENDIF"); imprimir("Reglas 44 y 45\n" + yyval.sval + "\n");vector.agregar(new EntradaVectorPolaca("@ENDIF"));}
 break;
-case 48:
+case 47:
 //#line 109 "input.y"
 {yyval = new ParserVal(val_peek(0).sval); vector.resolverSaltos(vector.getPosicionActual(), stack.pop()) /* Al final del THEN (el ENDIF) es donde van a saltar todas las condiciones de este IF que se encuentren en la pila. Si hay una o dos condiciones, eso lo sabemos por el valor que sacamos del stack y que fue puesto en 'moverCondicionIF()'*/;}
 break;
-case 49:
+case 48:
 //#line 110 "input.y"
 {vector.agregar(new EntradaVectorPolaca(VectorPolaca.SIEMPRE)); vector.resolverSaltos(vector.getPosicionActual() + 1, stack.pop());/* Al comienzo del ELSE (posicion actual del vector + 1 debido al casillero de direccion) es donde van a saltar todas las condiciones de este IF que se encuentren en la pila. Si hay una o dos condiciones, eso lo sabemos por el valor que sacamos del stack y que fue puesto en 'moverCondicionIF()'*/ ; stack.push(vector.getPosicionActual())/*Apilamos el casillero para direccion de salto que está al final de este bloque (THEN) */; vector.agregar(new EntradaVectorPolaca("DIRECCION")); vector.agregar(new EntradaVectorPolaca("@ELSE"));}
 break;
-case 50:
+case 49:
 //#line 110 "input.y"
 {yyval = new ParserVal(val_peek(3).sval + "\nELSE\n" + val_peek(0).sval); vector.agregar((new EntradaVectorPolaca(String.valueOf(vector.getPosicionActual()))), stack.pop()); /*En el casillero que está al final del THEN, le seteamos la direccion del ENDIF*/}
 break;
-case 51:
+case 50:
 //#line 112 "input.y"
 {yyval = new ParserVal(val_peek(0).sval); imprimir("Regla 46\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.SIMPLE)); /*Lo agregamos para mantener un estándar y que sea igual a los otros casos*/}
 break;
-case 52:
+case 51:
 //#line 113 "input.y"
 {yyval = new ParserVal(val_peek(1).sval + " _NEGACION"); imprimir("Regla 47\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.NEGACION));}
 break;
-case 53:
+case 52:
 //#line 114 "input.y"
 {yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _AND"); imprimir("Regla 48\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.AND));}
 break;
-case 54:
+case 53:
 //#line 115 "input.y"
 {yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _OR"); imprimir("Regla 49\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.OR));}
 break;
-case 55:
+case 54:
 //#line 117 "input.y"
 {yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _CMP " + VectorPolaca.DISTINTO + " DIRECCION"); imprimir("Regla 50\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.DISTINTO));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
 break;
-case 56:
+case 55:
 //#line 118 "input.y"
 {yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _CMP " + VectorPolaca.IGUAL + " DIRECCION"); imprimir("Regla 51\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.IGUAL));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
 break;
-case 57:
+case 56:
 //#line 119 "input.y"
 {yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _CMP " + VectorPolaca.MENOR_O_IGUAL + " DIRECCION"); imprimir("Regla 52\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.MENOR_O_IGUAL));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
 break;
-case 58:
+case 57:
 //#line 120 "input.y"
 {yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _CMP " + VectorPolaca.MAYOR_O_IGUAL + " DIRECCION"); imprimir("Regla 53\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.MAYOR_O_IGUAL));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
 break;
-case 59:
+case 58:
 //#line 121 "input.y"
 {yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _CMP " + VectorPolaca.MENOR + " DIRECCION"); imprimir("Regla 54\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.MENOR));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
 break;
-case 60:
+case 59:
 //#line 122 "input.y"
 {yyval = new ParserVal(val_peek(2).sval + " " + val_peek(0).sval + " _CMP " + VectorPolaca.MAYOR + " DIRECCION"); imprimir("Regla 55\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.MAYOR));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
 break;
-case 61:
+case 60:
 //#line 124 "input.y"
 {vector.agregar(new EntradaVectorPolaca("@REPEAT")); stack.push(vector.getPosicionActual()-1);}
 break;
-case 62:
+case 61:
 //#line 124 "input.y"
 {yyval = new ParserVal("REPEAT\n" + val_peek(5).sval + "\nUNTIL(" + val_peek(2).sval + ");"); imprimir("Regla 56\n" + yyval.sval + "\n"); vector.agregar(new EntradaVectorPolaca("@UNTIL")); vector.moverCondicionREPEAT(listaAuxPolaca); vector.agregar(new EntradaVectorPolaca("@END REPEAT-UNTIL"));}
 break;
-case 63:
+case 62:
 //#line 126 "input.y"
-{yyval = new ParserVal("DISPLAY(" + val_peek(2).sval + ");"); imprimir("Regla 57\n" + yyval.sval + "\n"); vector.agregar(new EntradaVectorPolaca("@DISPLAY")); vector.agregar(new EntradaVectorPolaca(TS.getEntrada(val_peek(2).sval).getValor())); vector.agregar(new EntradaVectorPolaca(";"));}
+{yyval = new ParserVal("DISPLAY(" + val_peek(2).sval + ");"); imprimir("Regla 57\n" + yyval.sval + "\n"); vector.agregar(new EntradaVectorPolaca("@DISPLAY")); vector.agregar(new EntradaVectorPolaca(TS.getEntrada(val_peek(2).sval).getNombre(),TS.getEntrada(val_peek(2).sval).getTipo())); vector.agregar(new EntradaVectorPolaca(";"));}
 break;
-case 64:
+case 63:
 //#line 128 "input.y"
 {yyval = new ParserVal("AVG(" + val_peek(1).sval + ")"); imprimir("Regla 58\n" + yyval.sval + "\n"); listaAuxPolaca.addAll(TS.convertirAverageEnPolaca(listaAux));}
 break;
-case 65:
+case 64:
 //#line 130 "input.y"
 {yyval = new ParserVal(TS.getNombre(yylval.ival)); imprimir("Regla 59\n" + yyval.sval + "\n");}
 break;
-case 66:
+case 65:
 //#line 132 "input.y"
 {yyval = new ParserVal(TS.getNombre(yylval.ival))/* Aca sí o sí necesitamos sacar el nombre y no el valor (aunque aparezcan con un "_"), sino las reglas de mas arriba nunca las van a encontrar en TS */; imprimir("Regla 60\n" + yyval.sval + "\n");}
 break;
-case 67:
+case 66:
 //#line 134 "input.y"
 {yyval = new ParserVal(TS.getNombre(yylval.ival))/* Aca sí o sí necesitamos sacar el nombre y no el valor (aunque aparezcan con un "_"), sino las reglas de mas arriba nunca las van a encontrar en TS */; imprimir("Regla 61\n" + yyval.sval + "\n");}
 break;
-//#line 825 "Parser.java"
+//#line 820 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####
