@@ -4,15 +4,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import compilador.parser.Parser;
 import compilador.sintaxis.EntradaVectorPolaca;
 
 public class TablaDeSimbolos {
 
-	//TODO consultar esta variable antes de continuar con el pasaje a Assembler
-	//TODO inicializar variables a 0 por default
-	private static boolean abortarCompilacion = false;
+	public static boolean abortarCompilacion = false;
 	
 	private java.util.ArrayList<EntradaTS> simbolos;
+
+	public static final int TAMANIO_MAXIMO_CTE_STRING = 30;
+	public static final int TAMANIO_MAXIMO_TOKEN = 15;
+	
+	public static final String VARIABLE_INICIALIZADA = "inicializada";
 	
 	
 	/*
@@ -94,12 +98,13 @@ public class TablaDeSimbolos {
 		simbolos.get(this.getPosicion(clave)).setTypedef(typedef);
 	}
 	
-	public void crearNuevoTipo(String clave) {
+	public void crearNuevoTipo(String clave, int tipo) {
 		EntradaTS entrada = simbolos.get(this.getPosicion(clave));
 		if(entrada.getTipo() != null) {
 			imprimirError("Tipo Duplicado: \"" + entrada.getNombre() + "\"");
 		} else {
 			entrada.setTipo(TIPO_TYPE);
+			entrada.setValor(tipo == Parser.CTE_NUM ? TIPO_FLOAT : TIPO_STRING);
 		}
 	}
 
@@ -282,6 +287,33 @@ public class TablaDeSimbolos {
 		return false;
 	}
 	
+	/**
+	 * Si el tipo de dato recibido fue definido con TYPE, se devuelve su
+	 * tipo real (Cte. String o numerica). Si no se encuentra en tabla de símbolos
+	 * se devuelve el mismo tipo recibido.
+	 */
+	public String getTipoNativo(String tipo) {
+		int posicion = getPosicion(tipo); 
+		if(posicion == -1) {
+			return tipo;
+		} else {
+			//si la entrada existía y era tipo TYPE, en el campo valor tendremos el tipo nativo
+			return getEntrada(posicion).getValor(); 
+		}
+	}
+	
+
+	public void inicializarVariable(String id) {
+		getEntrada(id).setValor(VARIABLE_INICIALIZADA);
+		
+	}
+
+	public void verificarInicializacionVariable(String id) {
+		if(getEntrada(id).getValor() != VARIABLE_INICIALIZADA){
+			imprimirError("Variable \"" + id +"\" no inicializada.");
+		}
+	}
+	
 	public String toString() {
 		String out = new String();
 		for (int posicion = 0; posicion < simbolos.size(); posicion++) {
@@ -291,6 +323,7 @@ public class TablaDeSimbolos {
 				"Tipo: " + actual.getTipo()       + "                   ".substring(actual.getTipo() != null ? actual.getTipo().length() : 4) +
 				"Typedef: " + actual.getTypedef() + "                   ".substring(actual.getTypedef() != null ? actual.getTypedef().length() : 4) +
 				"Valor: " + actual.getValor()     + "                   ".substring(actual.getValor() != null ? actual.getValor().length() : 4) +
+				"Longitud: "+actual.getLongitud() + "                   ".substring(actual.getLongitud() != null ? actual.getLongitud().length() : 4) +
 				"\n";
 		}
 		return out;
@@ -304,11 +337,21 @@ public class TablaDeSimbolos {
 	public String toASM() {
 		StringBuffer out = new StringBuffer();
 		out.append(".DATA\n\n");
-		for(int x =0; x < simbolos.size(); x++) {
-			
+		out.append("MAXTEXTSIZE\t equ \t " + TAMANIO_MAXIMO_CTE_STRING + "\n");
+		for(int x = 0; x < simbolos.size(); x++) {
+			EntradaTS entrada = simbolos.get(x); 
+			if(entrada.getTipo().equals(TIPO_CTE_REAL)) // No hacemos nada!
+				{} //out.append(entrada.getNombre() + "\t dd \t " + entrada.getValor() + " ;Constante Real\n");
+			else if(entrada.getTipo().equals(TIPO_FLOAT))
+				out.append("__" + entrada.getNombre() + "\t dd \t 0" + " ;Variable Real\n");
+			else if(entrada.getTipo().equals(TIPO_CTE_STRING))
+				out.append("_" + entrada.getNombre() + "\t db \t " + "\"" + entrada.getValor() + "\",\'$\', " + (TAMANIO_MAXIMO_CTE_STRING - Integer.parseInt(entrada.getLongitud())) + " dup (?)" + " ;Constante String\n" );
+			else if(entrada.getTipo().equals(TIPO_STRING))
+				out.append("__" + entrada.getNombre() + "\t db \t MAXTEXTSIZE dup (?),\'$\'" + " ;Variable String\n");
 		}
 		
 		return out.toString();
 	}
+
 	
 }

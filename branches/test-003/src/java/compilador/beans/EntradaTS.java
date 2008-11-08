@@ -6,16 +6,14 @@ public class EntradaTS {
 	private String tipo;
 	private String valor;
 	private String typedef;
-	private String ren;
 	private String longitud;
 
 	public EntradaTS(String nombre, String tipo, String valor,
-			String typedef, String ren, String longitud) {
+			String typedef, String longitud) {
 		this.nombre = nombre;
 		this.tipo = tipo;
 		this.valor = valor;
 		this.typedef = typedef;
-		this.ren = ren;
 		this.longitud = longitud;
 	}
 
@@ -51,14 +49,6 @@ public class EntradaTS {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-	public String getRen() {
-		return ren;
-	}
-
-	public void setRen(String ren) {
-		this.ren = ren;
 	}
 
 	public String getTipo() {
