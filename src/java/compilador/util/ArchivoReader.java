@@ -35,6 +35,7 @@ public class ArchivoReader {
 
 		   } catch (FileNotFoundException e) {
 				System.out.println("Archivo no encontrado");
+				System.exit(-1);
 		   }
 	   }
 	   
