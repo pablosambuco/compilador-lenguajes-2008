@@ -339,14 +339,14 @@ public class TablaDeSimbolos {
 		out.append(".DATA\n\n");
 		out.append("MAXTEXTSIZE\t equ \t " + TAMANIO_MAXIMO_CTE_STRING + "\n");
 		for(int x = 0; x < simbolos.size(); x++) {
-			EntradaTS entrada = simbolos.get(x); 
+			EntradaTS entrada = simbolos.get(x);
 			if(entrada.getTipo().equals(TIPO_CTE_REAL)) // No hacemos nada!
-				{} //out.append(entrada.getNombre() + "\t dd \t " + entrada.getValor() + " ;Constante Real\n");
-			else if(entrada.getTipo().equals(TIPO_FLOAT))
-				out.append("__" + entrada.getNombre() + "\t dd \t 0" + " ;Variable Real\n");
+				out.append("__" + entrada.getNombre().replace(".","_") + "\t dd \t " + entrada.getValor() + " ;Constante Real\n");
+			else if(getTipoNativo(entrada.getTipo()).equals(TIPO_FLOAT))
+				out.append("__" + entrada.getNombre() + "\t dd \t ?" + " ;Variable Real\n");
 			else if(entrada.getTipo().equals(TIPO_CTE_STRING))
 				out.append("_" + entrada.getNombre() + "\t db \t " + "\"" + entrada.getValor() + "\",\'$\', " + (TAMANIO_MAXIMO_CTE_STRING - Integer.parseInt(entrada.getLongitud())) + " dup (?)" + " ;Constante String\n" );
-			else if(entrada.getTipo().equals(TIPO_STRING))
+			else if(getTipoNativo(entrada.getTipo()).equals(TIPO_STRING))
 				out.append("__" + entrada.getNombre() + "\t db \t MAXTEXTSIZE dup (?),\'$\'" + " ;Variable String\n");
 		}
 		
