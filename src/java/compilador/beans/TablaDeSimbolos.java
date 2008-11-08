@@ -302,8 +302,13 @@ public class TablaDeSimbolos {
 	}
 
 	public String toASM() {
-		String out = new String();
-		return out;
+		StringBuffer out = new StringBuffer();
+		out.append(".DATA\n\n");
+		for(int x =0; x < simbolos.size(); x++) {
+			
+		}
+		
+		return out.toString();
 	}
 	
 }

@@ -6,7 +6,7 @@ DEFVAR
 	changuito: frutas;
 ENDDEF
 BEGIN 
-	#%
+	
 	#%Comiezo de IFs simples%#
 	
 	IF(a == b)	
@@ -138,7 +138,12 @@ BEGIN
 		
 		constantes = 5 + 8 + 3.9;		
 	UNTIL(a == b || c == d);
-	%#
+		
+	IF(a == b)
+		IF(c == d)		
+			probando = then; 
+		ENDIF
+	ENDIF
 	
 	probando = 3 + AVG([234,443.1,22,768]) / AVG([43, 23, 85]);
 END
