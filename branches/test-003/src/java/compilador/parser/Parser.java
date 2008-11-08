@@ -467,7 +467,7 @@ final static String yyrule[] = {
 		System.out.println("\n\nTABLA DE SIMBOLOS\n\n" + TS.toString());
 		System.out.println("\n\nVECTOR POLACA\n\n" + vector.toString());
 		//System.out.println("VECTOR POLACA\n"); vector.imprimirVector();
-		//System.out.println("\n\nSALIDA ASSEMBLER\n\n" + vector.toASM());
+		System.out.println("\n\nSALIDA ASSEMBLER\n\n" + vector.toASM());
 	}
 //#line 409 "Parser.java"
 //###############################################################
@@ -864,7 +864,7 @@ case 60:
 break;
 case 61:
 //#line 124 "input.y"
-{vector.agregar(new EntradaVectorPolaca("@REPEAT")); stack.push(vector.getPosicionActual());}
+{vector.agregar(new EntradaVectorPolaca("@REPEAT")); stack.push(vector.getPosicionActual()-1);}
 break;
 case 62:
 //#line 124 "input.y"

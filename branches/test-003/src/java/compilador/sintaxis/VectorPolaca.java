@@ -17,13 +17,13 @@ public class VectorPolaca {
 	public static String SIMPLE = "_SIMPLE";
 	
 	//Constantes para expresiones
-	public static String DISTINTO = "BNE";
-	public static String IGUAL = "BEQ";
-	public static String MENOR = "BLT";
-	public static String MAYOR = "BGT";
-	public static String MENOR_O_IGUAL = "BLE";
-	public static String MAYOR_O_IGUAL = "BGE";
-	public static String SIEMPRE = "BI";
+	public static String DISTINTO = "JNE";
+	public static String IGUAL = "JE";
+	public static String MENOR = "JB";
+	public static String MAYOR = "JA";
+	public static String MENOR_O_IGUAL = "JBE";
+	public static String MAYOR_O_IGUAL = "JAE";
+	public static String SIEMPRE = "JMP";
 
 	private static VectorPolaca instance;
 	public static VectorPolaca getInstance() {
@@ -318,7 +318,7 @@ public class VectorPolaca {
 				else if(nombre == "@ENDIF")
 					out = out + "_etiqueta_" + posicion + ": (ENDIF)\n";
 				else if(nombre == "@REPEAT")
-					out = out + "_etiqueta_" + (posicion+1) + ": (REPEAT)\n"; //XXX Por qué se adelanta?
+					out = out + "_etiqueta_" + posicion + ": (REPEAT)\n";
 				else if(nombre == "@UNTIL")
 					{} //No hace falta etiquetar el UNTIL
 				else if(nombre == "@END REPEAT-UNTIL") 
