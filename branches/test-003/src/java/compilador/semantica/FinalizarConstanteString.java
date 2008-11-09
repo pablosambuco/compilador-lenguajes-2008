@@ -1,9 +1,8 @@
 package compilador.semantica;
 
-import compilador.parser.ParserVal;
-import compilador.parser.Parser;
-import compilador.beans.EntradaTS;
 import compilador.beans.TablaDeSimbolos;
+import compilador.parser.Parser;
+import compilador.parser.ParserVal;
 
 public class FinalizarConstanteString implements IRutinaSemantica {
 
@@ -15,13 +14,7 @@ public class FinalizarConstanteString implements IRutinaSemantica {
 			return Parser.ERROR_LEXICO;
 		}
 		
-		//creamos una entrada en la tabla de simbolos y le seteamos ciertos atributos
-		EntradaTS entrada = new EntradaTS("@"+token.toString());
-		entrada.setTipo(TablaDeSimbolos.TIPO_CTE_STRING);
-		entrada.setValor(token.toString());
-		entrada.setLongitud(String.valueOf(token.length()));
-		
-		yylval.ival = TablaDeSimbolos.getInstance().agregar(entrada);
+		yylval.ival = TablaDeSimbolos.getInstance().agregarCadena(token.toString());
 		token.delete(0,token.length());
 		token.append("CTE_STR");
 		return Parser.CTE_STR;

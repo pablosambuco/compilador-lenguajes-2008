@@ -365,6 +365,9 @@ public class VectorPolaca {
 						
 						out.append("\t mov \t DX, OFFSET _" + cadena + " \n" +
 								 	"\t mov \t AH, 9 ;Impresion por pantalla \n" +
+								 	"\t int \t 21h \n" +
+								 	"\t mov \t DX, 13\n" +
+								 	"\t mov \t AH, 9 ;Salto de Linea\n" +
 								 	"\t int \t 21h \n");
 					}
 			}

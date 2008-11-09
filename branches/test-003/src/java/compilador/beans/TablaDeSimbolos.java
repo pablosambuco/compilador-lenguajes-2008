@@ -59,6 +59,35 @@ public class TablaDeSimbolos {
 
 		return posicion;
 	}
+
+	/**
+	 * Se agrega una cadena a la tabla de símbolos verificando que no existiera ya una con el mismo valor.
+	 * A diferencia de los métodos anteriores, no se compara por nombre, ya que el mismo no se corresponde
+	 * con el valor de la cadena
+	 */
+	public int agregarCadena(String valorCadena) {
+		
+		int posicionActual = 0;
+		Iterator<EntradaTS> iter = simbolos.iterator();
+		while(iter.hasNext()) {
+			EntradaTS entradaAux = iter.next();
+			if(entradaAux.getTipo() == TIPO_CTE_STRING && entradaAux.getValor().equals(valorCadena)){
+				return posicionActual;
+			}
+			posicionActual++;
+		}
+		
+		//creamos una entrada en la tabla de simbolos y le seteamos ciertos atributos (ya sabemos que es un STRING)
+		EntradaTS entradaNueva = new EntradaTS("@cadena"+posicionActual);
+		entradaNueva.setTipo(TablaDeSimbolos.TIPO_CTE_STRING);
+		entradaNueva.setValor(valorCadena);
+		entradaNueva.setLongitud(String.valueOf(valorCadena.length()));
+		
+		simbolos.add(entradaNueva);
+		return posicionActual;
+
+	}
+	
 	
 	public int agregar(String token) {
 		EntradaTS aux = new EntradaTS(token.toString());
@@ -354,6 +383,9 @@ public class TablaDeSimbolos {
 		StringBuffer out = new StringBuffer();
 		out.append(".DATA\n\n");
 		out.append("MAXTEXTSIZE\t equ \t " + TAMANIO_MAXIMO_CTE_STRING + "\n");
+		out.append("CARRIAGE_RETURN\t equ \t 13\n");
+		out.append("LINE_FEED\t equ \t 10\n");
+		out.append("SALTO_LINEA db\t CARRIAGE_RETURN, LINE_FEED, \'$\' \n");
 		for(int x = 0; x < simbolos.size(); x++) {
 			EntradaTS entrada = simbolos.get(x);
 			if(entrada.getTipo().equals(TIPO_CTE_REAL)) // No hacemos nada!
@@ -361,7 +393,7 @@ public class TablaDeSimbolos {
 			else if(getTipoNativo(entrada.getTipo()).equals(TIPO_FLOAT))
 				out.append("__" + entrada.getNombre() + "\t dd \t ?" + " ;Variable Real\n");
 			else if(entrada.getTipo().equals(TIPO_CTE_STRING))
-				out.append("_" + entrada.getNombre() + "\t db \t " + "\"" + entrada.getValor() + "\", " +(TAMANIO_MAXIMO_CTE_STRING - Integer.parseInt(entrada.getLongitud())) + " dup (?), \'$\' ;Constante String\n" );
+				out.append("_" + entrada.getNombre() + "\t db \t " + "\"" + entrada.getValor() + "\", \'$\', " +(TAMANIO_MAXIMO_CTE_STRING - Integer.parseInt(entrada.getLongitud())) + " dup (?) ;Constante String\n" );
 			else if(getTipoNativo(entrada.getTipo()).equals(TIPO_STRING))
 				out.append("__" + entrada.getNombre() + "\t db \t MAXTEXTSIZE dup (?),\'$\'" + " ;Variable String\n");
 			else if(getTipoNativo(entrada.getTipo()).equals(TIPO_POINTER))
