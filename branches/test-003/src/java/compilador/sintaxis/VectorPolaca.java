@@ -358,9 +358,17 @@ public class VectorPolaca {
 					{} //No hace falta etiquetar el final del REPEAT
 				
 				/* Otros */
-					else if(nombre == "@DISPLAY")
-						out.append("    ***Aca hay un display() y no se como se trata***\n");
+					else if(nombre == "@DISPLAY") {
+						
+						posicion++;
+						String cadena= vector.get(posicion).getNombre();
+						
+						out.append("\t mov \t DX, OFFSET _" + cadena + " \n" +
+								 	"\t mov \t AH, 9 ;Impresion por pantalla \n" +
+								 	"\t int \t 21h \n");
+					}
 			}
+			
 			out.append("\t mov\t ax,4C00h\t ;Termina la ejecución\n");
 			out.append("\t int\t 21h\n");
 			out.append("END\n");
@@ -428,7 +436,6 @@ public class VectorPolaca {
 		return new EntradaVectorPolaca(String.valueOf(resultado),TablaDeSimbolos.TIPO_CTE_REAL);
 	}*/
 	
-
 	private String asignar(EntradaVectorPolaca operandoLadoDerecho, EntradaVectorPolaca operandoLadoIzquierdo){
 		StringBuffer out = new StringBuffer();
 		String tipoLadoIzq = operandoLadoIzquierdo.getTipo();

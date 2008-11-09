@@ -10,6 +10,9 @@ DEFVAR
 ENDDEF
 BEGIN
 
+	DISPLAY("@DATA");
+	
+	#%
 	carrito = 12;
 	bolsa = "manzana";
 	probando = "mandioca";
@@ -18,7 +21,6 @@ BEGIN
 	gato = carrito;
 	gato = perro;
 
-	#%
 	carrito = 12;
 	b = carrito * 3;
 	
