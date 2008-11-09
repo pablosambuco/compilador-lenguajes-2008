@@ -10,14 +10,35 @@ DEFVAR
 ENDDEF
 BEGIN
 
-    DISPLAY("MIRA COMO SE ROMPE");
+    a=4;
+    b=2;
+    c=3;
+    d=4;
+    
+	IF (a>b)
+       DISPLAY("A > B VERDADERO");
+       IF(c==d)
+          DISPLAY("C = D VERDADERO");
+       ELSE
+          DISPLAY("C = D FALSO");
+       ENDIF
+    ELSE
+       DISPLAY("A > B FALSO");
+       IF(a!=d)
+          DISPLAY("A != D VERDADERO");
+       ELSE
+          DISPLAY("A != D FALSO");
+       ENDIF       
+    ENDIF
+ 
+    #%
     DISPLAY("MIRA NO ANDA");
     DISPLAY("MIRA@NO@ANDA");
     DISPLAY("MIRANOANDA");
     DISPLAY("MIRA$NO$ANDA");
     DISPLAY("MIRA_NO_ANDA");
     DISPLAY("MIRA.NO.ANDA");
-
+    %#
     #%
 	probando = "manzana";
 	perro = probando;
