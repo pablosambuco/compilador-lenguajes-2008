@@ -258,24 +258,20 @@ public class TablaDeSimbolos {
 		if(tipoIdLadoIzquierdo == null || tipoLadoDerecho == null)
 			return false;
 		
+		//cualquier caso en que los tipos sean iguales, es válido
+		if(tipoIdLadoIzquierdo.equals(tipoLadoDerecho)) {
+			return true;
+		}
+		
+		//Hay casos donde los tipos no son iguales, pero la asignación es válida
 		if(tipoIdLadoIzquierdo.equals(TIPO_STRING)) {
-			if(tipoLadoDerecho.equals(TIPO_STRING))
-				return true;
 			if(tipoLadoDerecho.equals(TIPO_CTE_STRING))
 				return true;
 			//default (no es lo mismo que ponerlo abajo de todo, porque de esta forma nos evitamos comprobaciones innecesarias)
 			return false;
 		}
 		
-		if(tipoIdLadoIzquierdo.equals(TIPO_POINTER)) {
-			if(tipoLadoDerecho.equals(TIPO_POINTER))
-				return true;
-			return false;
-		}
-		
 		if(tipoIdLadoIzquierdo.equals(TIPO_FLOAT)) {
-			if(tipoLadoDerecho.equals(TIPO_FLOAT))
-				return true;
 			if(tipoLadoDerecho.equals(TIPO_CTE_REAL))
 				return true;
 			return false;
@@ -284,6 +280,7 @@ public class TablaDeSimbolos {
 		//Si no es ninguno de los tipos listados arriba, puede ser de un tipo definido por TYPE
 		if(entradaLadoDerecho.getTypedef() != null && entradaLadoDerecho.getTypedef().equals(tipoIdLadoIzquierdo))
 			return true;
+		
 		return false;
 	}
 	
@@ -345,7 +342,7 @@ public class TablaDeSimbolos {
 			else if(getTipoNativo(entrada.getTipo()).equals(TIPO_FLOAT))
 				out.append("__" + entrada.getNombre() + "\t dd \t ?" + " ;Variable Real\n");
 			else if(entrada.getTipo().equals(TIPO_CTE_STRING))
-				out.append("_" + entrada.getNombre() + "\t db \t " + "\"" + entrada.getValor() + "\",\'$\', " + (TAMANIO_MAXIMO_CTE_STRING - Integer.parseInt(entrada.getLongitud())) + " dup (?)" + " ;Constante String\n" );
+				out.append("_" + entrada.getNombre() + "\t db \t " + "\"" + entrada.getValor() + "\", " +(TAMANIO_MAXIMO_CTE_STRING - Integer.parseInt(entrada.getLongitud())) + " dup (?), \'$\' ;Constante String\n" );
 			else if(getTipoNativo(entrada.getTipo()).equals(TIPO_STRING))
 				out.append("__" + entrada.getNombre() + "\t db \t MAXTEXTSIZE dup (?),\'$\'" + " ;Variable String\n");
 		}

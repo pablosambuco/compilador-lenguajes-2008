@@ -4,18 +4,29 @@ TYPE frutals AS ["manzalna"];
 DEFVAR
 	a, b, c, d, constantes, mucho: FLOAT;
 	probando, then, else, repeat: STRING;
-	changuito: frutas;
+	changuito, bolsa: frutas;
 	carrito: valores;
+	perro: POINTER;
 ENDDEF
 BEGIN
-	b = 8; 
+	b = 8.1;
+	repeat = "lalal";
+	IF(repeat + 8 == b)	#% REVISAR POR QUE FUNCIONAAA!!! %#
+		DISPLAY("FUNCIONA");
+	ENDIF
+	
+	#%changuito = "manzana";
+	bolsa = changuito;
+	probando = "pepe";
+	then = probando;
+	b = 8.2; 
 	a = b;
-	a = 8 / 2 - 2 * 2.5 + 7 + b;
+	a = 8.4 / 2.9 - 2.7 * 2.5 + 7.1 + b;
 	DISPLAY("mandioca");
 	repeat = "_mandioca";
 	repeat = "_repeat";
 	changuito = "manzana";
-	carrito = 12.3;
+	carrito = 12.3;%#
 	#%
 	#%Comiezo de IFs simples%#
 	
