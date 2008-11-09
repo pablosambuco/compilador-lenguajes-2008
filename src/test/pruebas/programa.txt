@@ -10,8 +10,13 @@ DEFVAR
 ENDDEF
 BEGIN
 
-	probando = "manzana";
+	carrito = 12;
+	bolsa = "manzana";
+	probando = "mandioca";
 	perro = probando;
+	gato = bolsa;
+	gato = carrito;
+	gato = perro;
 
 	#%
 	carrito = 12;
