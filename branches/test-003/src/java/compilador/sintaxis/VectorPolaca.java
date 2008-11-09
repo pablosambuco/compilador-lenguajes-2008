@@ -441,9 +441,19 @@ public class VectorPolaca {
 			out.append("\t mov \t eax," + "__" + operandoLadoDerecho.getNombre().replace(".","_") + "\n" +
 					   "\t mov \t __" + operandoLadoIzquierdo.getNombre() + ", eax \n");
 		} else if(tipoLadoDer == TablaDeSimbolos.TIPO_STRING){
-			out.append("\t xxx" + "\n");
+			out.append("\t mov ax,@DATA \n" +
+					   "\t mov ds,ax \n" +
+					   "\t mov es,ax \n" +
+					   "\t mov si,OFFSET __" + operandoLadoDerecho.getNombre() +" \n" +		//origen
+					   "\t mov di,OFFSET __" + operandoLadoIzquierdo.getNombre() +" \n" +	//destino
+					   "\t call COPIAR \n");
 		} else if(tipoLadoDer == TablaDeSimbolos.TIPO_CTE_STRING){
-			out.append("\t xxx" + "\n");
+			out.append("\t mov ax,@DATA \n" +
+					   "\t mov ds,ax \n" +
+					   "\t mov es,ax \n" +
+					   "\t mov si,OFFSET _" + operandoLadoDerecho.getNombre() +" \n" +		//origen
+					   "\t mov di,OFFSET __" + operandoLadoIzquierdo.getNombre() +" \n" +	//destino
+					   "\t call COPIAR \n");
 		} else if(tipoLadoDer == TablaDeSimbolos.TIPO_POINTER){
 			//TODO arreglar por todos lados
 		} else if(tipoLadoDer == RESULTADO_EN_FPU){

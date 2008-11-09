@@ -783,7 +783,7 @@ case 40:
 break;
 case 41:
 //#line 102 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); TS.verificarDeclaracion(val_peek(0).sval); TS.verificarInicializacionVariable(val_peek(0).sval); yyval.obj = new ArrayList<String>(); ((ArrayList<String>)yyval.obj).add(val_peek(0).sval); imprimir("Regla 40\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(val_peek(0).sval, TS.getEntrada(val_peek(0).sval).getTipo()));}
+{yyval = new ParserVal(val_peek(0).sval); TS.verificarDeclaracion(val_peek(0).sval); TS.verificarInicializacionVariable(val_peek(0).sval); yyval.obj = new ArrayList<String>(); ((ArrayList<String>)yyval.obj).add(val_peek(0).sval); imprimir("Regla 40\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(val_peek(0).sval, TS.getTipoNativo(TS.getEntrada(val_peek(0).sval).getTipo())));}
 break;
 case 42:
 //#line 103 "input.y"
