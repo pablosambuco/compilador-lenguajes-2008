@@ -202,8 +202,8 @@ public class TablaDeSimbolos {
 			Iterator<String> iter = valoresLadoDerecho.iterator();
 			while (iter.hasNext()) {
 				String aux = iter.next(); //contiene un ID o una Cte Numerica
-				String tipoValorLadoDerecho = getEntrada(aux).getTipo();
-				if(tipoValorLadoDerecho == null || (!tipoValorLadoDerecho.equals(TIPO_FLOAT) && !tipoValorLadoDerecho.equals(TIPO_CTE_REAL))) {
+				String tipoNativoLadoDerecho = getTipoNativo(getEntrada(aux).getTipo());
+				if(tipoNativoLadoDerecho == null || (!tipoNativoLadoDerecho.equals(TIPO_FLOAT) && !tipoNativoLadoDerecho.equals(TIPO_CTE_REAL))) {
 					imprimirError("Error en expresión: sólo se permite utilizar tipos numéricos");
 					break; //cortamos porque sino tira siempre el mismo error
 				}

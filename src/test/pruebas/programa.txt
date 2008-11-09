@@ -9,6 +9,10 @@ DEFVAR
 	perro: POINTER;
 ENDDEF
 BEGIN
+
+	carrito = 12.3;
+	b = carrito * 3;
+	
 	b = 8.1;
 	repeat = "lalal";
 	IF(repeat + 8 == b)	#% REVISAR POR QUE FUNCIONAAA!!! %#
