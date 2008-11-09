@@ -185,12 +185,18 @@ cte_str: CTE_STR {$$ = new ParserVal(TS.getNombre(yylval.ival))/* Aca sí o sí ne
 		archivoIntermedio.write("\n\nVECTOR POLACA\n\n" + vector.toString());
 		archivoIntermedio.cerrarArhivo();
 		
-		//Creamos un archivo con la salida en assembler
-		ArchivoWriter archivoAssembler = new ArchivoWriter("final.asm");
-		archivoAssembler.write(vector.toASM());
-		archivoAssembler.cerrarArhivo();
+		if(!TablaDeSimbolos.abortarCompilacion) {
+			//Creamos un archivo con la salida en assembler
+			ArchivoWriter archivoAssembler = new ArchivoWriter("final.asm");
+			archivoAssembler.write(vector.toASM());
+			archivoAssembler.cerrarArhivo();
+
+		} else {
+			System.err.println("\n\nSe ha producido un error en la generación de código intermedio. Abortando compilación...");
+			System.exit(-1);
+		}
 		
-		System.out.println("\n\nTABLA DE SIMBOLOS\n\n" + TS.toString());
-		System.out.println("\n\nVECTOR POLACA\n\n" + vector.toString());
-		System.out.println("\n\nSALIDA ASSEMBLER\n\n" + vector.toASM());
+		//System.out.println("\n\nTABLA DE SIMBOLOS\n\n" + TS.toString());
+		//System.out.println("\n\nVECTOR POLACA\n\n" + vector.toString());
+		//System.out.println("\n\nSALIDA ASSEMBLER\n\n" + vector.toASM());
 	}
