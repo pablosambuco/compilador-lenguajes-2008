@@ -5,8 +5,6 @@ import java.util.Iterator;
 import java.util.Stack;
 import java.util.Vector;
 
-import sun.misc.FpUtils;
-
 import compilador.beans.TablaDeSimbolos;
 
 public class VectorPolaca {
