@@ -10,6 +10,10 @@ DEFVAR
 ENDDEF
 BEGIN
 
+	probando = "manzana";
+	perro = probando;
+
+	#%
 	carrito = 12;
 	b = carrito * 3;
 	
@@ -19,7 +23,6 @@ BEGIN
 	
 	changuito = bolsa;
 	
-	probando = "manzana";
 	
 	b = 8.1;
 	repeat = "lalal";
@@ -27,7 +30,7 @@ BEGIN
 		DISPLAY("FUNCIONA");
 	ENDIF
 	
-	#%changuito = "manzana";
+	changuito = "manzana";
 	bolsa = changuito;
 	probando = "pepe";
 	then = probando;

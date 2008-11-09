@@ -289,6 +289,13 @@ public class TablaDeSimbolos {
 			return false;
 		}
 		
+		//los POINTERS permiten apuntar a Variables String, Float o a un tipo definido por el usuario (TYPE)
+		if(tipoIdLadoIzquierdo.equals(TIPO_POINTER)) {
+			if(getTipoNativo(tipoLadoDerecho).equals(TIPO_FLOAT) || getTipoNativo(tipoLadoDerecho).equals(TIPO_STRING))
+				return true;
+			return false;
+		}
+		
 		//Si no es ninguno de los tipos listados arriba, puede ser de un tipo definido por TYPE
 		if(entradaLadoDerecho.getTypedef() != null && entradaLadoDerecho.getTypedef().equals(tipoIdLadoIzquierdo))
 			return true;
@@ -357,6 +364,8 @@ public class TablaDeSimbolos {
 				out.append("_" + entrada.getNombre() + "\t db \t " + "\"" + entrada.getValor() + "\", " +(TAMANIO_MAXIMO_CTE_STRING - Integer.parseInt(entrada.getLongitud())) + " dup (?), \'$\' ;Constante String\n" );
 			else if(getTipoNativo(entrada.getTipo()).equals(TIPO_STRING))
 				out.append("__" + entrada.getNombre() + "\t db \t MAXTEXTSIZE dup (?),\'$\'" + " ;Variable String\n");
+			else if(getTipoNativo(entrada.getTipo()).equals(TIPO_POINTER))
+			out.append("__" + entrada.getNombre() + "\t dw \t ?" + " ;Variable Pointer (16 bits)\n");
 		}
 		
 		return out.toString();
