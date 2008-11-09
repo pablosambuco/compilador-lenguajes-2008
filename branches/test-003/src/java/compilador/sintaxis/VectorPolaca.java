@@ -468,8 +468,8 @@ public class VectorPolaca {
 		
 		if(tipoLadoIzq.equals(TablaDeSimbolos.TIPO_POINTER)){
 			if(tipoLadoDer == TablaDeSimbolos.TIPO_POINTER){
-				out.append("\t mov \t eax, __" + operandoLadoDerecho.getNombre() + "\n" +
-						   "\t mov \t __" + operandoLadoIzquierdo.getNombre() + ", eax \n");
+				out.append("\t mov \t ax, __" + operandoLadoDerecho.getNombre() + "\n" +
+						   "\t mov \t __" + operandoLadoIzquierdo.getNombre() + ", ax \n");
 			} else if(tipoLadoDer == TablaDeSimbolos.TIPO_FLOAT || tipoLadoDer == TablaDeSimbolos.TIPO_STRING) {
 				out.append("\t mov \t ax, OFFSET __" + operandoLadoDerecho.getNombre() + "\n" +
 						   "\t mov \t __" + operandoLadoIzquierdo.getNombre() + ", ax \n");
