@@ -360,18 +360,19 @@ public class TablaDeSimbolos {
 	}
 	
 	public String toString() {
-		String out = new String();
+		StringBuffer out = new StringBuffer();
 		for (int posicion = 0; posicion < simbolos.size(); posicion++) {
 			EntradaTS actual = simbolos.get(posicion);
-			out = out + "Posicion: " + posicion +
-				"\tNombre: " + actual.getNombre() + "                   ".substring(actual.getNombre() != null ? actual.getNombre().length() : 4) +
+			out.append(
+				"Posicion: " + posicion           + 		  "         ".substring(String.valueOf(posicion).length()) +
+				"Nombre: " + actual.getNombre()   + "                   ".substring(actual.getNombre() != null ? actual.getNombre().length() : 4) +
 				"Tipo: " + actual.getTipo()       + "                   ".substring(actual.getTipo() != null ? actual.getTipo().length() : 4) +
 				"Typedef: " + actual.getTypedef() + "                   ".substring(actual.getTypedef() != null ? actual.getTypedef().length() : 4) +
 				"Valor: " + actual.getValor()     + "                   ".substring(actual.getValor() != null ? actual.getValor().length() : 4) +
 				"Longitud: "+actual.getLongitud() + "                   ".substring(actual.getLongitud() != null ? actual.getLongitud().length() : 4) +
-				"\n";
+				"\n");
 		}
-		return out;
+		return out.toString();
 	}
 	
 	private void imprimirError(String error) {

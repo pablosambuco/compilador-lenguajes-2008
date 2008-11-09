@@ -233,15 +233,16 @@ public class VectorPolaca {
 	}
 	
 	public String toString() {
-		String out = new String();
+		StringBuffer out = new StringBuffer();
 		for (int posicion = 0; posicion < vector.size(); posicion++) {
 			EntradaVectorPolaca actual = vector.get(posicion);
-			out = out + "Posicion: " + posicion +
-				"\tNombre: " + actual.getNombre() + "                   ".substring(actual.getNombre() != null ? actual.getNombre().length() : 4) +
+			out.append(
+				"Posicion: " + posicion           + 		  "         ".substring(String.valueOf(posicion).length()) +
+				"Nombre: " + actual.getNombre()   + "                   ".substring(actual.getNombre() != null ? actual.getNombre().length() : 4) +
 				"Tipo: " + actual.getTipo()       + "                   ".substring(actual.getTipo() != null ? actual.getTipo().length() : 4) +
-				"\n";
+				"\n");
 		}
-		return out;
+		return out.toString();
 	}
 	
 	
@@ -368,7 +369,7 @@ public class VectorPolaca {
 						out.append("\t mov \t DX, OFFSET _" + cadena + " \n" +
 								 	"\t mov \t AH, 9 ;Impresion por pantalla \n" +
 								 	"\t int \t 21h \n" +
-								 	"\t mov \t DX, 13\n" +
+								 	"\t mov \t DX, OFFSET SALTO_LINEA \n" +
 								 	"\t mov \t AH, 9 ;Salto de Linea\n" +
 								 	"\t int \t 21h \n");
 					}

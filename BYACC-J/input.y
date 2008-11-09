@@ -3,6 +3,7 @@
 import compilador.analizadorLexicografico.Automata;
 import compilador.beans.TablaDeSimbolos;
 import compilador.util.ArchivoReader;
+import compilador.util.ArchivoWriter;
 import compilador.sintaxis.VectorPolaca;
 import compilador.sintaxis.EntradaVectorPolaca;
 import compilador.sintaxis.StackAuxiliarPolaca;
@@ -167,16 +168,29 @@ cte_str: CTE_STR {$$ = new ParserVal(TS.getNombre(yylval.ival))/* Aca sí o sí ne
 
 	public static void main(String args[]) {
 		Parser par = new Parser();
+		
 		ArchivoReader archivo = ArchivoReader.getInstance();
 		archivo.abrirArhivo(args[0]);
 		par.yyparse();
 		archivo.cerrarArhivo();
+
 		if(par.yyerrflag != 0) {
 			System.err.println("Se ha producido un error en el Parser. Abortando compilación...");
 			System.exit(-1);
 		}
+		
+		//Creamos un archivo con la salida de la Tabla de Símbolos y el Vector Polaca
+		ArchivoWriter archivoIntermedio = new ArchivoWriter("intermedio.txt");
+		archivoIntermedio.write("TABLA DE SIMBOLOS\n\n" + TS.toString());
+		archivoIntermedio.write("\n\nVECTOR POLACA\n\n" + vector.toString());
+		archivoIntermedio.cerrarArhivo();
+		
+		//Creamos un archivo con la salida en assembler
+		ArchivoWriter archivoAssembler = new ArchivoWriter("final.asm");
+		archivoAssembler.write(vector.toASM());
+		archivoAssembler.cerrarArhivo();
+		
 		System.out.println("\n\nTABLA DE SIMBOLOS\n\n" + TS.toString());
 		System.out.println("\n\nVECTOR POLACA\n\n" + vector.toString());
-		//System.out.println("VECTOR POLACA\n"); vector.imprimirVector();
 		System.out.println("\n\nSALIDA ASSEMBLER\n\n" + vector.toASM());
 	}
