@@ -10,17 +10,18 @@ DEFVAR
 ENDDEF
 BEGIN
 
-	DISPLAY("@DATA");
-	
-	#%
-	carrito = 12;
-	bolsa = "manzana";
-	probando = "mandioca";
-	perro = probando;
-	gato = bolsa;
-	gato = carrito;
-	gato = perro;
+    DISPLAY("MIRA COMO SE ROMPE");
+    DISPLAY("MIRA NO ANDA");
+    DISPLAY("MIRA@NO@ANDA");
+    DISPLAY("MIRANOANDA");
+    DISPLAY("MIRA$NO$ANDA");
+    DISPLAY("MIRA_NO_ANDA");
+    DISPLAY("MIRA.NO.ANDA");
 
+    #%
+	probando = "manzana";
+	perro = probando;
+	
 	carrito = 12;
 	b = carrito * 3;
 	
@@ -48,7 +49,7 @@ BEGIN
 	repeat = "_mandioca";
 	repeat = "_repeat";
 	changuito = "manzana";
-	carrito = 12.3;%#
+    %#
 	#%
 	#%Comiezo de IFs simples%#
 	
