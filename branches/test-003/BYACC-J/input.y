@@ -114,12 +114,12 @@ condicion: comparacion {$$ = new ParserVal($1.sval); imprimir("Regla 46\n" + $$.
          | comparacion AND comparacion {$$ = new ParserVal($1.sval + " " + $3.sval + " _AND"); imprimir("Regla 48\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.AND));}
          | comparacion OR comparacion {$$ = new ParserVal($1.sval + " " + $3.sval + " _OR"); imprimir("Regla 49\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.OR));}
 ;
-comparacion: expresion OP_IGUAL expresion {$$ = new ParserVal($1.sval + " " + $3.sval + " _CMP " + VectorPolaca.DISTINTO + " DIRECCION"); imprimir("Regla 50\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.DISTINTO));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
-           | expresion OP_DISTINTO expresion {$$ = new ParserVal($1.sval + " " + $3.sval + " _CMP " + VectorPolaca.IGUAL + " DIRECCION"); imprimir("Regla 51\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.IGUAL));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
-           | expresion OP_MAYOR expresion {$$ = new ParserVal($1.sval + " " + $3.sval + " _CMP " + VectorPolaca.MENOR_O_IGUAL + " DIRECCION"); imprimir("Regla 52\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.MENOR_O_IGUAL));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
-           | expresion OP_MENOR expresion {$$ = new ParserVal($1.sval + " " + $3.sval + " _CMP " + VectorPolaca.MAYOR_O_IGUAL + " DIRECCION"); imprimir("Regla 53\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.MAYOR_O_IGUAL));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
-           | expresion OP_MAYOR_IGUAL expresion {$$ = new ParserVal($1.sval + " " + $3.sval + " _CMP " + VectorPolaca.MENOR + " DIRECCION"); imprimir("Regla 54\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.MENOR));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
-           | expresion OP_MENOR_IGUAL expresion {$$ = new ParserVal($1.sval + " " + $3.sval + " _CMP " + VectorPolaca.MAYOR + " DIRECCION"); imprimir("Regla 55\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.MAYOR));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
+comparacion: expresion OP_IGUAL expresion {$$ = new ParserVal($1.sval + " " + $3.sval + " _CMP " + VectorPolaca.DISTINTO + " DIRECCION"); TS.verificarComparacion((ArrayList<String>)$1.obj, (ArrayList<String>)$3.obj); imprimir("Regla 50\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.DISTINTO));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
+           | expresion OP_DISTINTO expresion {$$ = new ParserVal($1.sval + " " + $3.sval + " _CMP " + VectorPolaca.IGUAL + " DIRECCION"); TS.verificarComparacion((ArrayList<String>)$1.obj, (ArrayList<String>)$3.obj); imprimir("Regla 51\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.IGUAL));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
+           | expresion OP_MAYOR expresion {$$ = new ParserVal($1.sval + " " + $3.sval + " _CMP " + VectorPolaca.MENOR_O_IGUAL + " DIRECCION"); TS.verificarComparacion((ArrayList<String>)$1.obj, (ArrayList<String>)$3.obj); imprimir("Regla 52\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.MENOR_O_IGUAL));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
+           | expresion OP_MENOR expresion {$$ = new ParserVal($1.sval + " " + $3.sval + " _CMP " + VectorPolaca.MAYOR_O_IGUAL + " DIRECCION"); TS.verificarComparacion((ArrayList<String>)$1.obj, (ArrayList<String>)$3.obj); imprimir("Regla 53\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.MAYOR_O_IGUAL));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
+           | expresion OP_MAYOR_IGUAL expresion {$$ = new ParserVal($1.sval + " " + $3.sval + " _CMP " + VectorPolaca.MENOR + " DIRECCION"); TS.verificarComparacion((ArrayList<String>)$1.obj, (ArrayList<String>)$3.obj); imprimir("Regla 54\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.MENOR));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
+           | expresion OP_MENOR_IGUAL expresion {$$ = new ParserVal($1.sval + " " + $3.sval + " _CMP " + VectorPolaca.MAYOR + " DIRECCION"); TS.verificarComparacion((ArrayList<String>)$1.obj, (ArrayList<String>)$3.obj); imprimir("Regla 55\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("_CMP"));listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.MAYOR));listaAuxPolaca.add(new EntradaVectorPolaca("DIRECCION"));}
 ;
 bucle: REPEAT {vector.agregar(new EntradaVectorPolaca("@REPEAT")); stack.push(vector.getPosicionActual()-1);} sentencias UNTIL PAR_ABRE condicion PAR_CIERRA PUNTO_Y_COMA {$$ = new ParserVal("REPEAT\n" + $3.sval + "\nUNTIL(" + $6.sval + ");"); imprimir("Regla 56\n" + $$.sval + "\n"); vector.agregar(new EntradaVectorPolaca("@UNTIL")); vector.moverCondicionREPEAT(listaAuxPolaca); vector.agregar(new EntradaVectorPolaca("@END REPEAT-UNTIL"));}
 ;
@@ -162,7 +162,7 @@ cte_str: CTE_STR {$$ = new ParserVal(TS.getNombre(yylval.ival))/* Aca sí o sí ne
 	}
 
 	void yyerror(String mensaje) {
-		System.out.println("Error: " + mensaje);
+		System.err.println("Error en Parser: " + mensaje);
 	}
 
 	public static void main(String args[]) {
@@ -171,6 +171,10 @@ cte_str: CTE_STR {$$ = new ParserVal(TS.getNombre(yylval.ival))/* Aca sí o sí ne
 		archivo.abrirArhivo(args[0]);
 		par.yyparse();
 		archivo.cerrarArhivo();
+		if(par.yyerrflag != 0) {
+			System.err.println("Se ha producido un error en el Parser. Abortando compilación...");
+			System.exit(-1);
+		}
 		System.out.println("\n\nTABLA DE SIMBOLOS\n\n" + TS.toString());
 		System.out.println("\n\nVECTOR POLACA\n\n" + vector.toString());
 		//System.out.println("VECTOR POLACA\n"); vector.imprimirVector();

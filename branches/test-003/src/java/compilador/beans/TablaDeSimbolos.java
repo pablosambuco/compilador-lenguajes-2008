@@ -199,16 +199,28 @@ public class TablaDeSimbolos {
 				imprimirError("Error en asignación a la variable \"" + idLadoIzquierdo + "\": incompatibilidad de tipos");
 			}
 			
-			Iterator<String> iter = valoresLadoDerecho.iterator();
-			while (iter.hasNext()) {
-				String aux = iter.next(); //contiene un ID o una Cte Numerica
-				String tipoNativoLadoDerecho = getTipoNativo(getEntrada(aux).getTipo());
-				if(tipoNativoLadoDerecho == null || (!tipoNativoLadoDerecho.equals(TIPO_FLOAT) && !tipoNativoLadoDerecho.equals(TIPO_CTE_REAL))) {
-					imprimirError("Error en expresión: sólo se permite utilizar tipos numéricos");
-					break; //cortamos porque sino tira siempre el mismo error
-				}
+			if(!esExpresionValida(valoresLadoDerecho)){
+				imprimirError("Error en asignación de expresión: sólo se permite utilizar tipos numéricos");
 			}
 		}		
+	}
+	
+	public void verificarComparacion(ArrayList<String> valoresLadoIzquierdo, ArrayList<String> valoresLadoDerecho) {
+		if(!esExpresionValida(valoresLadoIzquierdo) || !esExpresionValida(valoresLadoDerecho)) {
+			imprimirError("Error en comparación de expresiones: sólo se permite utilizar tipos numéricos");
+		}
+	}
+	
+	public boolean esExpresionValida(ArrayList<String> valoresExpresion) {
+		Iterator<String> iter = valoresExpresion.iterator();
+		while (iter.hasNext()) {
+			String aux = iter.next(); //contiene un ID o una Cte Numerica
+			String tipoNativoLadoDerecho = getTipoNativo(getEntrada(aux).getTipo());
+			if(tipoNativoLadoDerecho == null || (!tipoNativoLadoDerecho.equals(TIPO_FLOAT) && !tipoNativoLadoDerecho.equals(TIPO_CTE_REAL))) {
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	public ArrayList<EntradaVectorPolaca> convertirAverageEnPolaca(ArrayList<String> listaDeNombres){
@@ -258,8 +270,8 @@ public class TablaDeSimbolos {
 		if(tipoIdLadoIzquierdo == null || tipoLadoDerecho == null)
 			return false;
 		
-		//cualquier caso en que los tipos sean iguales, es válido
-		if(tipoIdLadoIzquierdo.equals(tipoLadoDerecho)) {
+		//cualquier caso en que los tipos sean iguales, es válido. También es válido cuando el tipo nativo del lado derecho coincide con el izquierdo (NUNCA al revés sino se permitirian asignaciones erroneas)
+		if(tipoIdLadoIzquierdo.equals(tipoLadoDerecho) || tipoIdLadoIzquierdo.equals(getTipoNativo(tipoLadoDerecho))) {
 			return true;
 		}
 		
