@@ -276,7 +276,7 @@ public class TablaDeSimbolos {
 		if(agregarDivision) {
 
 			//el valor por el cual vamos a dividir, debe estar en tabla de simbolos porque es una constante más
-			EntradaTS entrada = new EntradaTS("_"+String.valueOf(listaDeNombres.size()));
+			EntradaTS entrada = new EntradaTS(String.valueOf(listaDeNombres.size()));
 			entrada.setTipo(TablaDeSimbolos.TIPO_CTE_REAL);
 			entrada.setValor(String.valueOf(listaDeNombres.size()));
 			TablaDeSimbolos.getInstance().agregar(entrada); //si la cte ya existia, este metodo simplemente no la agrega

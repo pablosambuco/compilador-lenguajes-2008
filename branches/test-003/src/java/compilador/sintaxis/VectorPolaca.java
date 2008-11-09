@@ -18,13 +18,13 @@ public class VectorPolaca {
 	public static String SIMPLE = "_SIMPLE";
 	
 	//Constantes para expresiones
-	public static String DISTINTO = "JNE";
-	public static String IGUAL = "JE";
-	public static String MENOR = "JB";
-	public static String MAYOR = "JA";
-	public static String MENOR_O_IGUAL = "JBE";
-	public static String MAYOR_O_IGUAL = "JAE";
-	public static String SIEMPRE = "JMP";
+	public static String DISTINTO = "jne";
+	public static String IGUAL = "je";
+	public static String MENOR = "jb";
+	public static String MAYOR = "ja";
+	public static String MENOR_O_IGUAL = "jbe";
+	public static String MAYOR_O_IGUAL = "jae";
+	public static String SIEMPRE = "jmp";
 	
 	//Este objeto se utiliza al pasar a assembler. Cuando el resultado esta en FPU, ponemos este objeto en nuestra pila polaca 
 	public static String RESULTADO_EN_FPU = "RESULTADO_EN_FPU";
@@ -321,37 +321,39 @@ public class VectorPolaca {
 						posicion++; //Salto
 						String salto = vector.get(posicion).getNombre();
 						
-						out.append("    Desapilo 2 de PilaPolaca y genero ASM de comparacion por ");
-						if(condicion == DISTINTO)
-							out.append("DISTINTO");
-						else if(condicion == IGUAL)
-							out.append("IGUAL");
-						else if(condicion == MAYOR)
-							out.append("MAYOR");
-						else if(condicion == MAYOR_O_IGUAL)
-							out.append("MAYOR_O_IGUAL");
-						else if(condicion == MENOR)
-							out.append("MENOR");
-						else if(condicion == MENOR_O_IGUAL)
-							out.append("MENOR_O_IGUAL");
-						out.append(" con un salto a \"_etiqueta_" + salto + "\"\n");
+						/* 
+						 * Por ahora solo se puede comparar FLOATS
+						 */
+						EntradaVectorPolaca operandoLadoDerecho = pilaPolaca.pop();
+						EntradaVectorPolaca operandoLadoIzquierdo = pilaPolaca.pop();
+
+						if(operandoLadoDerecho != resultadoEnFPU)
+							out.append("\t fld \t " + "__" + (operandoLadoDerecho.getTipo() == TablaDeSimbolos.TIPO_FLOAT ? operandoLadoDerecho.getNombre() : operandoLadoDerecho.getNombre().replace(".", "_")) + "\n");
+						if(operandoLadoIzquierdo != resultadoEnFPU)
+							out.append("\t fld \t " + "__" + (operandoLadoIzquierdo.getTipo() == TablaDeSimbolos.TIPO_FLOAT ? operandoLadoIzquierdo.getNombre() : operandoLadoIzquierdo.getNombre().replace(".", "_")) + "\n");
+						
+						out.append("\t fcompp ;Comparacion en FPU \n");
+						out.append("\t fstsw \t AX ;Guardamos el estado de la comparacion en AX \n");
+						out.append("\t fwait \n");
+						out.append("\t sahf ;Cargamos el CPU para hacer el salto \n");
+						out.append("\t " + condicion + " \t " + "etiqueta_" + salto + "\n");
 					}
 					else if(nombre == SIEMPRE)
-					{	posicion++; //Salto
-					String salto = vector.get(posicion).getNombre();
-					out.append("    Salto sin condicion a \"_etiqueta_" + salto + "\"\n");
+					{	posicion++; //Salto incondicional
+						String salto = vector.get(posicion).getNombre();
+						out.append(" \t jmp \t etiqueta_" + salto + "\n");
 					}
 				
 					else if(nombre == "@IF")
 					{} //No hace falta etiquetar el IF
 					else if(nombre == "@THEN") 
-						out.append("etiqueta_" + posicion + ": (THEN)\n"); 
+						out.append("etiqueta_" + posicion + ": ;THEN\n"); 
 					else if(nombre == "@ELSE")
-						out.append("etiqueta_" + posicion + ": (ELSE)\n"); 
+						out.append("etiqueta_" + posicion + ": ;ELSE\n"); 
 					else if(nombre == "@ENDIF")
-						out.append("etiqueta_" + posicion + ": (ENDIF)\n");
+						out.append("etiqueta_" + posicion + ": ;ENDIF\n");
 					else if(nombre == "@REPEAT")
-						out.append("etiqueta_" + posicion + ": (REPEAT)\n");
+						out.append("etiqueta_" + posicion + ": ;REPEAT\n");
 					else if(nombre == "@UNTIL")
 					{} //No hace falta etiquetar el UNTIL
 					else if(nombre == "@END REPEAT-UNTIL") 
