@@ -10,6 +10,8 @@ DEFVAR
 ENDDEF
 BEGIN
 
+	probando = "123...";
+
     a=4;
     b=2;
     c=3;

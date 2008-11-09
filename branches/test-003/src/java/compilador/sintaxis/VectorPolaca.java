@@ -255,132 +255,134 @@ public class VectorPolaca {
 		StringBuffer out = new StringBuffer();
 		Stack<EntradaVectorPolaca> pilaPolaca = new Stack<EntradaVectorPolaca>();
 				
-		if (!TablaDeSimbolos.abortarCompilacion) {
-
-			out.append(".MODEL LARGE\n");
-			out.append(".386\n");
-			out.append(".STACK 200h\n\n");
-			
-			out.append(TablaDeSimbolos.getInstance().toASM());
-			
-			out.append("\n\n");
-			
-			out.append(".CODE\n");
-			
-			out.append("\t mov\t AX,@DATA\t ;Comienzo de la zona de Código\n");
-			out.append("\t mov\t DS,AX\n");
+		out.append(".MODEL LARGE\n");
+		out.append(".386\n");
+		out.append(".STACK 200h\n\n");
 		
-			for (int posicion = 0; posicion < vector.size(); posicion++) {
-				EntradaVectorPolaca actual = vector.get(posicion);
-				String tipo = actual.getTipo();
-				String nombre = actual.getNombre();
-				/* Variables y Constantes */
-				if( tipo == TablaDeSimbolos.TIPO_CTE_REAL ||
+		out.append(TablaDeSimbolos.getInstance().toASM());
+		
+		out.append("\n\n");
+		
+		out.append(".CODE\n");
+		
+		out.append("\tJMP\t INICIO\n\n");
+		
+		out.append("include lib.asm ;Funciones de biblioteca\n\n");
+		
+		out.append("INICIO:\n");
+		
+		out.append("\t mov\t AX,@DATA\t ;Comienzo de la zona de Código\n");
+		out.append("\t mov\t DS,AX\n");
+		
+		for (int posicion = 0; posicion < vector.size(); posicion++) {
+			EntradaVectorPolaca actual = vector.get(posicion);
+			String tipo = actual.getTipo();
+			String nombre = actual.getNombre();
+			/* Variables y Constantes */
+			if( tipo == TablaDeSimbolos.TIPO_CTE_REAL ||
 					tipo == TablaDeSimbolos.TIPO_FLOAT ||
 					tipo == TablaDeSimbolos.TIPO_CTE_STRING ||
 					tipo == TablaDeSimbolos.TIPO_STRING ||
 					tipo == TablaDeSimbolos.TIPO_POINTER) {
-						pilaPolaca.push(actual);
-				}
-				else
-					/* Operaciones */
-					if( nombre == "+" ||
+				pilaPolaca.push(actual);
+			}
+			else
+				/* Operaciones */
+				if( nombre == "+" ||
 						nombre == "-" ||
 						nombre == "/" ||
 						nombre == "*") {
-						EntradaVectorPolaca operandoLadoDerecho = pilaPolaca.pop();
-						EntradaVectorPolaca operandoLadoIzquierdo = pilaPolaca.pop();
-						
-						out.append(operacionFPU(operandoLadoDerecho, operandoLadoIzquierdo,nombre.charAt(0)));
-						//despues de operar, el resultado queda en FPU y apilamos este "PlaceHolder"
-						pilaPolaca.push(resultadoEnFPU);
-						
-						//FIXME NOS esta trayendo problemas la optimizacion Si son constantes, optimizo
-						/*if(aux1.getTipo() == TablaDeSimbolos.TIPO_CTE_REAL && aux2.getTipo() == TablaDeSimbolos.TIPO_CTE_REAL) {
+					EntradaVectorPolaca operandoLadoDerecho = pilaPolaca.pop();
+					EntradaVectorPolaca operandoLadoIzquierdo = pilaPolaca.pop();
+					
+					out.append(operacionFPU(operandoLadoDerecho, operandoLadoIzquierdo,nombre.charAt(0)));
+					//despues de operar, el resultado queda en FPU y apilamos este "PlaceHolder"
+					pilaPolaca.push(resultadoEnFPU);
+					
+					//FIXME NOS esta trayendo problemas la optimizacion Si son constantes, optimizo
+					/*if(aux1.getTipo() == TablaDeSimbolos.TIPO_CTE_REAL && aux2.getTipo() == TablaDeSimbolos.TIPO_CTE_REAL) {
 							pilaPolaca.push(optimizar(aux1, aux2, nombre.charAt(0)));
 						} else {
 							out.append(operacionFPU(aux1,aux2,nombre.charAt(0)));
 							//despues de operar, el resultado queda en FPU y apilamos este "PlaceHolder"
 							pilaPolaca.push(resultadoEnFPU);
 						}*/	
-					}
-				
-				/* Asignacion */
-					else if(nombre == "=") {
-						EntradaVectorPolaca operandoLadoDerecho = pilaPolaca.pop();
-						EntradaVectorPolaca operandoLadoIzquierdo = pilaPolaca.pop();
-						out.append(asignar(operandoLadoDerecho,operandoLadoIzquierdo));
-					}
-				
-				
-				/* Comparaciones */
-					else if(nombre == "_CMP")
-					{	
-						posicion++; //Condicion
-						String condicion = vector.get(posicion).getNombre();
-						
-						posicion++; //Salto
-						String salto = vector.get(posicion).getNombre();
-						
-						/* 
-						 * Por ahora solo se puede comparar FLOATS
-						 */
-						EntradaVectorPolaca operandoLadoDerecho = pilaPolaca.pop();
-						EntradaVectorPolaca operandoLadoIzquierdo = pilaPolaca.pop();
-
-						if(operandoLadoDerecho != resultadoEnFPU)
-							out.append("\t fld \t " + "__" + (operandoLadoDerecho.getTipo() == TablaDeSimbolos.TIPO_FLOAT ? operandoLadoDerecho.getNombre() : operandoLadoDerecho.getNombre().replace(".", "_")) + "\n");
-						if(operandoLadoIzquierdo != resultadoEnFPU)
-							out.append("\t fld \t " + "__" + (operandoLadoIzquierdo.getTipo() == TablaDeSimbolos.TIPO_FLOAT ? operandoLadoIzquierdo.getNombre() : operandoLadoIzquierdo.getNombre().replace(".", "_")) + "\n");
-						
-						out.append("\t fcompp ;Comparacion en FPU \n");
-						out.append("\t fstsw \t AX ;Guardamos el estado de la comparacion en AX \n");
-						out.append("\t fwait \n");
-						out.append("\t sahf ;Cargamos el CPU para hacer el salto \n");
-						out.append("\t " + condicion + " \t " + "etiqueta_" + salto + "\n");
-					}
-					else if(nombre == SIEMPRE)
-					{	posicion++; //Salto incondicional
-						String salto = vector.get(posicion).getNombre();
-						out.append(" \t jmp \t etiqueta_" + salto + "\n");
-					}
-				
-					else if(nombre == "@IF")
-					{} //No hace falta etiquetar el IF
-					else if(nombre == "@THEN") 
-						out.append("etiqueta_" + posicion + ": ;THEN\n"); 
-					else if(nombre == "@ELSE")
-						out.append("etiqueta_" + posicion + ": ;ELSE\n"); 
-					else if(nombre == "@ENDIF")
-						out.append("etiqueta_" + posicion + ": ;ENDIF\n");
-					else if(nombre == "@REPEAT")
-						out.append("etiqueta_" + posicion + ": ;REPEAT\n");
-					else if(nombre == "@UNTIL")
-					{} //No hace falta etiquetar el UNTIL
-					else if(nombre == "@END REPEAT-UNTIL") 
-					{} //No hace falta etiquetar el final del REPEAT
-				
-				/* Otros */
-					else if(nombre == "@DISPLAY") {
-						
-						posicion++;
-						String cadena= vector.get(posicion).getNombre();
-						
-						out.append("\t mov \t DX, OFFSET _" + cadena + " \n" +
-								 	"\t mov \t AH, 9 ;Impresion por pantalla \n" +
-								 	"\t int \t 21h \n" +
-								 	"\t mov \t DX, OFFSET SALTO_LINEA \n" +
-								 	"\t mov \t AH, 9 ;Salto de Linea\n" +
-								 	"\t int \t 21h \n");
-					}
-			}
+				}
 			
-			out.append("\t mov\t ax,4C00h\t ;Termina la ejecución\n");
-			out.append("\t int\t 21h\n");
-			out.append("END\n");
-		} else {
-			out.append("Verificar salida de error\n");
+			/* Asignacion */
+				else if(nombre == "=") {
+					EntradaVectorPolaca operandoLadoDerecho = pilaPolaca.pop();
+					EntradaVectorPolaca operandoLadoIzquierdo = pilaPolaca.pop();
+					out.append(asignar(operandoLadoDerecho,operandoLadoIzquierdo));
+				}
+			
+			
+			/* Comparaciones */
+				else if(nombre == "_CMP")
+				{	
+					posicion++; //Condicion
+					String condicion = vector.get(posicion).getNombre();
+					
+					posicion++; //Salto
+					String salto = vector.get(posicion).getNombre();
+					
+					/* 
+					 * Por ahora solo se puede comparar FLOATS
+					 */
+					EntradaVectorPolaca operandoLadoDerecho = pilaPolaca.pop();
+					EntradaVectorPolaca operandoLadoIzquierdo = pilaPolaca.pop();
+					
+					if(operandoLadoDerecho != resultadoEnFPU)
+						out.append("\t fld \t " + "__" + (operandoLadoDerecho.getTipo() == TablaDeSimbolos.TIPO_FLOAT ? operandoLadoDerecho.getNombre() : operandoLadoDerecho.getNombre().replace(".", "_")) + "\n");
+					if(operandoLadoIzquierdo != resultadoEnFPU)
+						out.append("\t fld \t " + "__" + (operandoLadoIzquierdo.getTipo() == TablaDeSimbolos.TIPO_FLOAT ? operandoLadoIzquierdo.getNombre() : operandoLadoIzquierdo.getNombre().replace(".", "_")) + "\n");
+					
+					out.append("\t fcompp ;Comparacion en FPU \n");
+					out.append("\t fstsw \t AX ;Guardamos el estado de la comparacion en AX \n");
+					out.append("\t fwait \n");
+					out.append("\t sahf ;Cargamos el CPU para hacer el salto \n");
+					out.append("\t " + condicion + " \t " + "etiqueta_" + salto + "\n");
+				}
+				else if(nombre == SIEMPRE)
+				{	posicion++; //Salto incondicional
+				String salto = vector.get(posicion).getNombre();
+				out.append(" \t jmp \t etiqueta_" + salto + "\n");
+				}
+			
+				else if(nombre == "@IF")
+				{} //No hace falta etiquetar el IF
+				else if(nombre == "@THEN") 
+					out.append("etiqueta_" + posicion + ": ;THEN\n"); 
+				else if(nombre == "@ELSE")
+					out.append("etiqueta_" + posicion + ": ;ELSE\n"); 
+				else if(nombre == "@ENDIF")
+					out.append("etiqueta_" + posicion + ": ;ENDIF\n");
+				else if(nombre == "@REPEAT")
+					out.append("etiqueta_" + posicion + ": ;REPEAT\n");
+				else if(nombre == "@UNTIL")
+				{} //No hace falta etiquetar el UNTIL
+				else if(nombre == "@END REPEAT-UNTIL") 
+				{} //No hace falta etiquetar el final del REPEAT
+			
+			/* Otros */
+				else if(nombre == "@DISPLAY") {
+					
+					posicion++;
+					String cadena= vector.get(posicion).getNombre();
+					
+					out.append("\t mov \t DX, OFFSET _" + cadena + " \n" +
+							"\t mov \t AH, 9 ;Impresion por pantalla \n" +
+							"\t int \t 21h \n" +
+							"\t mov \t DX, OFFSET SALTO_LINEA \n" +
+							"\t mov \t AH, 9 ;Salto de Linea\n" +
+					"\t int \t 21h \n");
+				}
 		}
+		
+		out.append("\t mov\t ax,4C00h\t ;Termina la ejecución\n");
+		out.append("\t int\t 21h\n");
+		out.append("END\n");
+
 		return out.toString();
 	}
 
