@@ -277,7 +277,8 @@ public class VectorPolaca {
 				if( tipo == TablaDeSimbolos.TIPO_CTE_REAL ||
 					tipo == TablaDeSimbolos.TIPO_FLOAT ||
 					tipo == TablaDeSimbolos.TIPO_CTE_STRING ||
-					tipo == TablaDeSimbolos.TIPO_STRING) {
+					tipo == TablaDeSimbolos.TIPO_STRING ||
+					tipo == TablaDeSimbolos.TIPO_POINTER) {
 						pilaPolaca.push(actual);
 				}
 				else
@@ -305,9 +306,9 @@ public class VectorPolaca {
 				
 				/* Asignacion */
 					else if(nombre == "=") {
-						EntradaVectorPolaca aux1 = pilaPolaca.pop();
-						EntradaVectorPolaca aux2 = pilaPolaca.pop();
-						out.append(asignar(aux1,aux2));
+						EntradaVectorPolaca operandoLadoDerecho = pilaPolaca.pop();
+						EntradaVectorPolaca operandoLadoIzquierdo = pilaPolaca.pop();
+						out.append(asignar(operandoLadoDerecho,operandoLadoIzquierdo));
 					}
 				
 				
@@ -399,12 +400,12 @@ public class VectorPolaca {
 		return out;
 	}
 	
-	private EntradaVectorPolaca optimizar(EntradaVectorPolaca operandoLadoDerecho, EntradaVectorPolaca operandoLadoIzquierdo, char operador) {
+	/*private EntradaVectorPolaca optimizar(EntradaVectorPolaca operandoLadoDerecho, EntradaVectorPolaca operandoLadoIzquierdo, char operador) {
 	
-		/*
-		 * FIXME El problema al optimizar es que nos esta quedando un valor que no esta en el .DATA, y no se puede
-		 * cargar como valor inmediato a la pila del FPU
-		 */
+		
+		 // FIXME El problema al optimizar es que nos esta quedando un valor que no esta en el .DATA, y no se puede
+		 // cargar como valor inmediato a la pila del FPU
+		 
 		
 		float resultado = 0;
 		float operando1 = Float.parseFloat(operandoLadoIzquierdo.getNombre());
@@ -425,37 +426,60 @@ public class VectorPolaca {
 			break;			
 		}	
 		return new EntradaVectorPolaca(String.valueOf(resultado),TablaDeSimbolos.TIPO_CTE_REAL);
-	}
+	}*/
 	
 
 	private String asignar(EntradaVectorPolaca operandoLadoDerecho, EntradaVectorPolaca operandoLadoIzquierdo){
 		StringBuffer out = new StringBuffer();
+		String tipoLadoIzq = operandoLadoIzquierdo.getTipo();
 		String tipoLadoDer = operandoLadoDerecho.getTipo(); 
 		
-		if(tipoLadoDer == TablaDeSimbolos.TIPO_FLOAT){
-			out.append("\t mov \t eax, __" + operandoLadoDerecho.getNombre() + "\n" +
-					   "\t mov \t __" + operandoLadoIzquierdo.getNombre() + ", eax \n");
-		} else if(tipoLadoDer == TablaDeSimbolos.TIPO_CTE_REAL){
-			out.append("\t mov \t eax," + "__" + operandoLadoDerecho.getNombre().replace(".","_") + "\n" +
-					   "\t mov \t __" + operandoLadoIzquierdo.getNombre() + ", eax \n");
-		} else if(tipoLadoDer == TablaDeSimbolos.TIPO_STRING){
-			out.append("\t mov ax,@DATA \n" +
-					   "\t mov ds,ax \n" +
-					   "\t mov es,ax \n" +
-					   "\t mov si,OFFSET __" + operandoLadoDerecho.getNombre() +" \n" +		//origen
-					   "\t mov di,OFFSET __" + operandoLadoIzquierdo.getNombre() +" \n" +	//destino
-					   "\t call COPIAR \n");
-		} else if(tipoLadoDer == TablaDeSimbolos.TIPO_CTE_STRING){
-			out.append("\t mov ax,@DATA \n" +
-					   "\t mov ds,ax \n" +
-					   "\t mov es,ax \n" +
-					   "\t mov si,OFFSET _" + operandoLadoDerecho.getNombre() +" \n" +		//origen
-					   "\t mov di,OFFSET __" + operandoLadoIzquierdo.getNombre() +" \n" +	//destino
-					   "\t call COPIAR \n");
-		} else if(tipoLadoDer == TablaDeSimbolos.TIPO_POINTER){
-			//TODO arreglar por todos lados
-		} else if(tipoLadoDer == RESULTADO_EN_FPU){
-			out.append("\t fstp \t __" + operandoLadoIzquierdo.getNombre() + "\n");
+		if(tipoLadoIzq.equals(TablaDeSimbolos.TIPO_FLOAT)){
+			if(tipoLadoDer == TablaDeSimbolos.TIPO_FLOAT){
+				out.append("\t mov \t eax, __" + operandoLadoDerecho.getNombre() + "\n" +
+						   "\t mov \t __" + operandoLadoIzquierdo.getNombre() + ", eax \n");
+			} else if(tipoLadoDer == TablaDeSimbolos.TIPO_CTE_REAL){
+				out.append("\t mov \t eax," + "__" + operandoLadoDerecho.getNombre().replace(".","_") + "\n" +
+						   "\t mov \t __" + operandoLadoIzquierdo.getNombre() + ", eax \n");
+			} else if(tipoLadoDer == RESULTADO_EN_FPU){
+				out.append("\t fstp \t __" + operandoLadoIzquierdo.getNombre() + "\n");
+			}
+			
+		}
+		
+		if(tipoLadoIzq.equals(TablaDeSimbolos.TIPO_STRING)){
+			if(tipoLadoDer == TablaDeSimbolos.TIPO_STRING){
+				out.append("\t mov ax,@DATA \n" +
+						   "\t mov ds,ax \n" +
+						   "\t mov es,ax \n" +
+						   "\t mov si,OFFSET __" + operandoLadoDerecho.getNombre() +" \n" +		//origen
+						   "\t mov di,OFFSET __" + operandoLadoIzquierdo.getNombre() +" \n" +	//destino
+						   "\t call COPIAR \n");
+			} else if(tipoLadoDer == TablaDeSimbolos.TIPO_CTE_STRING){
+				out.append("\t mov ax,@DATA \n" +
+						   "\t mov ds,ax \n" +
+						   "\t mov es,ax \n" +
+						   "\t mov si,OFFSET _" + operandoLadoDerecho.getNombre() +" \n" +		//origen
+						   "\t mov di,OFFSET __" + operandoLadoIzquierdo.getNombre() +" \n" +	//destino
+						   "\t call COPIAR \n");
+			}
+			
+		}
+		
+		if(tipoLadoIzq.equals(TablaDeSimbolos.TIPO_POINTER)){
+			if(tipoLadoDer == TablaDeSimbolos.TIPO_POINTER){
+				out.append("\t mov \t eax, __" + operandoLadoDerecho.getNombre() + "\n" +
+						   "\t mov \t __" + operandoLadoIzquierdo.getNombre() + ", eax \n");
+			} else if(tipoLadoDer == TablaDeSimbolos.TIPO_FLOAT || tipoLadoDer == TablaDeSimbolos.TIPO_STRING) {
+				out.append("\t mov \t ax, OFFSET __" + operandoLadoDerecho.getNombre() + "\n" +
+						   "\t mov \t __" + operandoLadoIzquierdo.getNombre() + ", ax \n");
+			}
+			
+		}
+		
+		if(out.length() == 0) {
+			System.err.println("Se ha producido un error inesperado en la generación de código assembler.");
+			System.exit(-1);
 		}
 		
 		return out.toString();
