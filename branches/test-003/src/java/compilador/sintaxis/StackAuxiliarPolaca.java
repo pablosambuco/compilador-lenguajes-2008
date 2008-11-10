@@ -21,7 +21,7 @@ public class StackAuxiliarPolaca {
 	}
 	
 	public int pop() {
-		return stack.pop().intValue(); //si la pila está vacía esto revienta (lo cual está bien, porque se considera incorrecto devolver algun otro valor ya que eso limitaría lo que la pila en sí puede almacenar)
+		return stack.pop().intValue(); //si la pila esta vacia esto revienta (lo cual esta bien, porque se considera incorrecto devolver algun otro valor ya que eso limitaria lo que la pila en si puede almacenar)
 	}
 	
 	public int getTamanio() {

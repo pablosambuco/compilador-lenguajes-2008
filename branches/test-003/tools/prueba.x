@@ -10,11 +10,11 @@ DEFVAR
 ENDDEF
 BEGIN
 
-	probando = "123...";
+	  probando = "123...";
 
-    a=4;
+    a=4; #%Si no esta inicializada, no compila%#
     b=2;
-    c=3;
+    c=4;
     d=4;
 
     REPEAT

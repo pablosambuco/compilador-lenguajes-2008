@@ -42,14 +42,14 @@ public class VectorPolaca {
 	}
 	
 	public void agregar(EntradaVectorPolaca entrada) {
-		vector.add(entrada); //agrega al final del último elemento del vector
+		vector.add(entrada); //agrega al final del ultimo elemento del vector
 	}
 	
 	public void agregar(EntradaVectorPolaca entrada, int posicion) {
-		/* Si se esta intentando insertar un elemento dejando huecos vacíos en el vector,
-		 * el mismo arrojará un error; por eso debemos llenar los espacios intermedios con "null"
-		 * (incluso si se lo quiere insertar en el primer hueco vacìo, ese también debe contener "null"
-		 * ya que el metodo "setElement" solo inserta en un casillero donde ya había algo */
+		/* Si se esta intentando insertar un elemento dejando huecos vacios en el vector,
+		 * el mismo arrojara un error; por eso debemos llenar los espacios intermedios con "null"
+		 * (incluso si se lo quiere insertar en el primer hueco vacìo, ese tambien debe contener "null"
+		 * ya que el metodo "setElement" solo inserta en un casillero donde ya habia algo */
 		 
 		if(posicion >= vector.size()) {
 			for(int x = posicion-vector.size(); x>=0; x--) {
@@ -64,7 +64,7 @@ public class VectorPolaca {
 		vector.addAll(lista);
 	}
 	
-	//Toma una collection y le setea al vector todos sus elementos eliminándolos de la misma
+	//Toma una collection y le setea al vector todos sus elementos eliminandolos de la misma
 	public void moverLista(ArrayList<EntradaVectorPolaca> lista) {
 		while(lista.size() > 0) {
 			vector.add(lista.remove(0)); //los va eliminando en el orden que entraron
@@ -86,7 +86,7 @@ public class VectorPolaca {
 					x++;
 					EntradaVectorPolaca comparacion = lista.get(x);
 					
-					//avanzamos la x una posicion más para obtener el casillero para direcciones
+					//avanzamos la x una posicion mas para obtener el casillero para direcciones
 					x++;
 					//Apilamos la dirección de dicho casillero (ya guardamos su posición futura dentro del vector,
 					// y NO su posición dentro de la lista en la que se encuentra, la cual es temporal)
@@ -100,10 +100,10 @@ public class VectorPolaca {
 						comparacion.setNombre(negarCondicion(comparacion.getNombre()));
 						/*
 						 * El OR en su primer condicion es el unico que salta al THEN (y no al ELSE) en caso
-						 * de que evalúe por verdad. Por eso completamos la direccion de salto directamente acá.
-						 * Esto es así porque aca mismo ya contamos con dicha direccion (viene inmediatamente despues
+						 * de que evalue por verdad. Por eso completamos la direccion de salto directamente aca.
+						 * Esto es asi porque aca mismo ya contamos con dicha direccion (viene inmediatamente despues
 						 * de la condicion); mientras que la direccion del comienzo del ELSE solo la sabemos en
-						 * YACC y debemos completarla ahí.
+						 * YACC y debemos completarla ahi.
 						 */
 						 EntradaVectorPolaca direccionSalto = lista.get(x);
 						 direccionSalto.setNombre(String.valueOf(vector.size() + lista.size()));
@@ -119,7 +119,7 @@ public class VectorPolaca {
 			/*
 			 * Ponemos en el stack la cantidad de casilleros que se deben completar en el paso siguiente.
 			 * Hacemos esto para que llegado al final del THEN, Yacc tome este valor y sepa si tiene que
-			 * decrementar la pila 1 o 2 posiciones más (esta es la única forma de saberlo, ya que la pila
+			 * decrementar la pila 1 o 2 posiciones mas (esta es la unica forma de saberlo, ya que la pila
 			 * puede contener otros valores que no pertenecen a la condicion del IF).
 			 */
 			
@@ -154,7 +154,7 @@ public class VectorPolaca {
 					x++;
 					EntradaVectorPolaca comparacion = lista.get(x);
 					
-					//avanzamos la x una posicion más para obtener el casillero para direcciones
+					//avanzamos la x una posicion mas para obtener el casillero para direcciones
 					x++;
 					EntradaVectorPolaca direccionSalto = lista.get(x);
 
@@ -169,7 +169,7 @@ public class VectorPolaca {
 						direccionSalto.setNombre(String.valueOf(posicionComienzoSentencias));
 					}
 					
-					//este es el unico caso que salta al final cuando evalúa por verdadero
+					//este es el unico caso que salta al final cuando evalua por verdadero
 					if(tipoCondicion.equals(AND) && primerCondicion) {
 						direccionSalto.setNombre(String.valueOf(vector.size() + lista.size()));
 					}
@@ -222,7 +222,7 @@ public class VectorPolaca {
 			return MAYOR;
 		}
 		
-		return condicionActual; //nunca debería salir por aca
+		return condicionActual; //nunca deberia salir por aca
 	}
 	
 	public void imprimirVector() {
@@ -494,7 +494,7 @@ public class VectorPolaca {
 		
 		if(out.length() == 0) {
 			System.err.println("Se ha producido un error inesperado en la generación de código assembler.");
-			System.exit(-1);
+			System.exit(1);
 		}
 		
 		return out.toString();

@@ -22,7 +22,7 @@ public class ArchivoWriter {
 			   buffer = new BufferedWriter(outputWrite);
 		   } catch (IOException e) {
 				System.out.println("Error al crear archivo: " + this.nombre);
-				System.exit(-1);
+				System.exit(1);
 		   }
 	   }
 	   
@@ -32,7 +32,7 @@ public class ArchivoWriter {
 				buffer.flush();
 			} catch (IOException e) {
 				System.out.println("Error al escribir en el archivo: " + this.nombre);
-				System.exit(-1);
+				System.exit(1);
 			}
 	   }
 	   

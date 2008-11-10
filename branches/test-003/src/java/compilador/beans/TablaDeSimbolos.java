@@ -20,8 +20,8 @@ public class TablaDeSimbolos {
 	
 	
 	/*
-	 * Los valores que van en el campo tipo deben contener alguna caracter inválido así
-	 * no pueden ser definidos como un nuevo tipo usando TYPE y así evitar problemas
+	 * Los valores que van en el campo tipo deben contener alguna caracter invalido asi
+	 * no pueden ser definidos como un nuevo tipo usando TYPE y asi evitar problemas
 	 */
 	public static final String TIPO_FLOAT = "_Real";
 	public static final String TIPO_POINTER = "_Pointer";
@@ -43,8 +43,8 @@ public class TablaDeSimbolos {
 	}
 
 	/**
-	 * Sólo agrega una entrada si la misma no existía.
-	 * Sino simplemente devuelve la posición. 
+	 * Solo agrega una entrada si la misma no existia.
+	 * Sino simplemente devuelve la posicion. 
 	 */
 	
 	public int agregar(EntradaTS entrada) {
@@ -61,8 +61,8 @@ public class TablaDeSimbolos {
 	}
 
 	/**
-	 * Se agrega una cadena a la tabla de símbolos verificando que no existiera ya una con el mismo valor.
-	 * A diferencia de los métodos anteriores, no se compara por nombre, ya que el mismo no se corresponde
+	 * Se agrega una cadena a la tabla de simbolos verificando que no existiera ya una con el mismo valor.
+	 * A diferencia de los metodos anteriores, no se compara por nombre, ya que el mismo no se corresponde
 	 * con el valor de la cadena
 	 */
 	public int agregarCadena(String valorCadena) {
@@ -138,8 +138,8 @@ public class TablaDeSimbolos {
 	}
 
 	/**
-	 * Toma una lista de constantes (String o Numéricas) y le setea en el campo TYPEDEF
-	 * de la tabla el valor recibido en el parámetro 'tipo'. Verifica antes que no hubiera
+	 * Toma una lista de constantes (String o Numericas) y le setea en el campo TYPEDEF
+	 * de la tabla el valor recibido en el parametro 'tipo'. Verifica antes que no hubiera
 	 * sido seteado ya.
 	 */
 	public void setTypedefs(Collection<String> listaDeConstantes, String tipo) {
@@ -148,8 +148,8 @@ public class TablaDeSimbolos {
 		while(iter.hasNext()) {
 			EntradaTS entrada = simbolos.get(this.getPosicion(iter.next()));
 			if(entrada.getTypedef() != null) {
-				//FIXME Esto es feo, ya que sí podrian repetirse dentro de distintos tipos creados por el usuario, pero la TS solo admite una entrada con el mismo nombre :-s
-				imprimirError("La constante \"" + entrada.getValor() + "\" ya fue utilizada en una declaración de tipos.");
+				//FIXME Esto es feo, ya que si podrian repetirse dentro de distintos tipos creados por el usuario, pero la TS solo admite una entrada con el mismo nombre :-s
+				imprimirError("La constante \"" + entrada.getValor() + "\" ya fue utilizada en una declaracion de tipos.");
 			} else {
 				entrada.setTypedef(tipo);
 			}
@@ -158,7 +158,7 @@ public class TablaDeSimbolos {
 	
 	/**
 	 * Toma una lista de IDs y le setea en el campo TIPO
-	 * de la TS el valor recibido en el parámetro 'tipo'
+	 * de la TS el valor recibido en el parametro 'tipo'
 	 * Verifica antes que no hubiera sido seteado ya.
 	 */
 	public void setTipos(Collection<String> listaDeIDs, String tipo) {
@@ -184,7 +184,7 @@ public class TablaDeSimbolos {
 	public void verificarTipoValido(String clave) {
 		EntradaTS entrada = this.getEntrada(clave); 
 		if( entrada.getTipo() == null || !entrada.getTipo().equals(TIPO_TYPE)) {
-			imprimirError("Tipo Inválido: \"" + clave + "\"");
+			imprimirError("Tipo Invalido: \"" + clave + "\"");
 		}
 	}
 	
@@ -214,29 +214,29 @@ public class TablaDeSimbolos {
 			String valorLadoDerecho = valoresLadoDerecho.get(0);
 			//Nos fijamos la compatibilidad mirando la TS
 			if(!sonTiposCompatibles(entradaLadoIzquierdo, getEntrada(valorLadoDerecho))) {
-				imprimirError("Error en asignación a la variable \"" + idLadoIzquierdo + "\": incompatibilidad de tipos");
+				imprimirError("Error en asignacion a la variable \"" + idLadoIzquierdo + "\": incompatibilidad de tipos");
 			}
 		} else {
 		/*
-		 * Cuando en el lado derecho tengo más de un elemento, significa que es una expresión
-		 * y las expresiones sólo permiten operaciones entre variables FLOAT y Ctes Numéricas.
-		 * Por eso no sólo debo verificar que todas se adecuén a alguno de esos tipos, sino
-		 * que también debo validar que el id del lado izquierdo también sea FLOAT.
+		 * Cuando en el lado derecho tengo mas de un elemento, significa que es una expresion
+		 * y las expresiones solo permiten operaciones entre variables FLOAT y Ctes Numericas.
+		 * Por eso no solo debo verificar que todas se adecuen a alguno de esos tipos, sino
+		 * que tambien debo validar que el id del lado izquierdo tambien sea FLOAT.
 		 */
 					
 			if(entradaLadoIzquierdo.getTipo() == null || !entradaLadoIzquierdo.getTipo().equals(TIPO_FLOAT)) {
-				imprimirError("Error en asignación a la variable \"" + idLadoIzquierdo + "\": incompatibilidad de tipos");
+				imprimirError("Error en asignacion a la variable \"" + idLadoIzquierdo + "\": incompatibilidad de tipos");
 			}
 			
 			if(!esExpresionValida(valoresLadoDerecho)){
-				imprimirError("Error en asignación de expresión: sólo se permite utilizar tipos numéricos");
+				imprimirError("Error en asignacion de expresión: sólo se permite utilizar tipos numericos");
 			}
 		}		
 	}
 	
 	public void verificarComparacion(ArrayList<String> valoresLadoIzquierdo, ArrayList<String> valoresLadoDerecho) {
 		if(!esExpresionValida(valoresLadoIzquierdo) || !esExpresionValida(valoresLadoDerecho)) {
-			imprimirError("Error en comparación de expresiones: sólo se permite utilizar tipos numéricos");
+			imprimirError("Error en comparacion de expresiones: sólo se permite utilizar tipos numericos");
 		}
 	}
 	
@@ -247,6 +247,10 @@ public class TablaDeSimbolos {
 			String tipoNativoLadoDerecho = getTipoNativo(getEntrada(aux).getTipo());
 			if(tipoNativoLadoDerecho == null || (!tipoNativoLadoDerecho.equals(TIPO_FLOAT) && !tipoNativoLadoDerecho.equals(TIPO_CTE_REAL))) {
 				return false;
+			}
+			//Si es un ID se verifica que este inicializado
+			if(tipoNativoLadoDerecho.equals(TIPO_FLOAT)) {
+				verificarInicializacionVariable(aux);
 			}
 		}
 		return true;
@@ -272,10 +276,10 @@ public class TablaDeSimbolos {
 			agregarDivision = true;
 		}
 		
-		//solo agregamos la division al final si la lista tenía más de un elemento
+		//solo agregamos la division al final si la lista tenia mas de un elemento
 		if(agregarDivision) {
 
-			//el valor por el cual vamos a dividir, debe estar en tabla de simbolos porque es una constante más
+			//el valor por el cual vamos a dividir, debe estar en tabla de simbolos porque es una constante mas
 			EntradaTS entrada = new EntradaTS(String.valueOf(listaDeNombres.size()));
 			entrada.setTipo(TablaDeSimbolos.TIPO_CTE_REAL);
 			entrada.setValor(String.valueOf(listaDeNombres.size()));
@@ -299,12 +303,12 @@ public class TablaDeSimbolos {
 		if(tipoIdLadoIzquierdo == null || tipoLadoDerecho == null)
 			return false;
 		
-		//cualquier caso en que los tipos sean iguales, es válido. También es válido cuando el tipo nativo del lado derecho coincide con el izquierdo (NUNCA al revés sino se permitirian asignaciones erroneas)
+		//cualquier caso en que los tipos sean iguales, es valido. Tambien es valido cuando el tipo nativo del lado derecho coincide con el izquierdo (NUNCA al reves sino se permitirian asignaciones erroneas)
 		if(tipoIdLadoIzquierdo.equals(tipoLadoDerecho) || tipoIdLadoIzquierdo.equals(getTipoNativo(tipoLadoDerecho))) {
 			return true;
 		}
 		
-		//Hay casos donde los tipos no son iguales, pero la asignación es válida
+		//Hay casos donde los tipos no son iguales, pero la asignacion es valida
 		if(tipoIdLadoIzquierdo.equals(TIPO_STRING)) {
 			if(tipoLadoDerecho.equals(TIPO_CTE_STRING))
 				return true;
@@ -334,7 +338,7 @@ public class TablaDeSimbolos {
 	
 	/**
 	 * Si el tipo de dato recibido fue definido con TYPE, se devuelve su
-	 * tipo real (Cte. String o numerica). Si no se encuentra en tabla de símbolos
+	 * tipo real (Cte. String o numerica). Si no se encuentra en tabla de simbolos
 	 * se devuelve el mismo tipo recibido.
 	 */
 	public String getTipoNativo(String tipo) {
@@ -342,7 +346,7 @@ public class TablaDeSimbolos {
 		if(posicion == -1) {
 			return tipo;
 		} else {
-			//si la entrada existía y era tipo TYPE, en el campo valor tendremos el tipo nativo
+			//si la entrada existia y era tipo TYPE, en el campo valor tendremos el tipo nativo
 			return getEntrada(posicion).getValor(); 
 		}
 	}

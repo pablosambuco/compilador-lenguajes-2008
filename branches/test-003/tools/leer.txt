@@ -22,6 +22,6 @@ Para borrar todos los archivos generados, ejecutar:
 > clean NOMBRE (sin .X)
 
 Nota: Los procedimientos assembler necesarios para compilar
-      están en el archivo "lib.asm"   
+      estan en el archivo "lib.asm"   
 
  
