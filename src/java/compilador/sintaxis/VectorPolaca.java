@@ -158,20 +158,21 @@ public class VectorPolaca {
 					x++;
 					EntradaVectorPolaca direccionSalto = lista.get(x);
 
-					//En todos estos casos negamos la condicion (en el caso del OR la 1era y la 2da) y saltamos al inicio
-					if(tipoCondicion.equals(SIMPLE) || tipoCondicion.equals(OR) || (tipoCondicion.equals(AND) && !primerCondicion)) {
+					//En todos estos casos saltamos al inicio
+					if(tipoCondicion.equals(SIMPLE) || tipoCondicion.equals(AND) || (tipoCondicion.equals(OR) && !primerCondicion)) {
+						direccionSalto.setNombre(String.valueOf(posicionComienzoSentencias));
+					}
+					
+					//En este caso negamos y saltamos al final
+					if(tipoCondicion.equals(OR) && primerCondicion) {
+						comparacion.setNombre(negarCondicion(comparacion.getNombre()));
+						direccionSalto.setNombre(String.valueOf(vector.size() + lista.size()));
+					}
+					
+					//En este caso negamos y saltamos al inicio
+					if(tipoCondicion.equals(NEGACION)) {
 						comparacion.setNombre(negarCondicion(comparacion.getNombre()));
 						direccionSalto.setNombre(String.valueOf(posicionComienzoSentencias));
-					}
-					
-					//Aca no negamos, solo saltamos al inicio
-					if(tipoCondicion.equals(NEGACION)) {
-						direccionSalto.setNombre(String.valueOf(posicionComienzoSentencias));
-					}
-					
-					//este es el unico caso que salta al final cuando evalua por verdadero
-					if(tipoCondicion.equals(AND) && primerCondicion) {
-						direccionSalto.setNombre(String.valueOf(vector.size() + lista.size()));
 					}
 					
 					primerCondicion = false;
