@@ -14,13 +14,10 @@ public class FinalizarConstante implements IRutinaSemantica {
 			System.out.println("ERROR: Tamanio de Constante fuera de rango");
 			return Parser.ERROR_LEXICO;
 		}
+
+/* Se modifican cosas... cualquier problema volver a la rev 98 */
 		
-		//creamos una entrada en la tabla de simbolos y le seteamos ciertos atributos
-		EntradaTS entrada = new EntradaTS(token.toString());
-		entrada.setTipo(TablaDeSimbolos.TIPO_CTE_REAL);
-		entrada.setValor(token.toString());
-		
-		yylval.ival = TablaDeSimbolos.getInstance().agregar(entrada);
+		yylval.ival = TablaDeSimbolos.getInstance().agregarConstante(token.toString());
 		token.delete(0,token.length());
 		token.append("CTE_NUM");
 		return Parser.CTE_NUM;

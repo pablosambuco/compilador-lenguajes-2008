@@ -811,7 +811,7 @@ case 41:
 break;
 case 42:
 //#line 104 "input.y"
-{yyval = new ParserVal(val_peek(0).sval); yyval.obj = new ArrayList<String>(); ((ArrayList<String>)yyval.obj).add(val_peek(0).sval); imprimir("Regla 41\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(TS.getEntrada(val_peek(0).sval).getValor(), TS.getEntrada(val_peek(0).sval).getTipo()));}
+{yyval = new ParserVal(val_peek(0).sval); yyval.obj = new ArrayList<String>(); ((ArrayList<String>)yyval.obj).add(val_peek(0).sval); imprimir("Regla 41\n" + yyval.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(val_peek(0).sval, TS.getEntrada(val_peek(0).sval).getTipo()));}
 break;
 case 43:
 //#line 105 "input.y"
