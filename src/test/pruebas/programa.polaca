@@ -1,0 +1,132 @@
+TABLA DE SIMBOLOS
+
+Posicion: 0        Nombre: frutas             Tipo: _Type              Typedef: null               Valor: _String            Longitud: null               
+Posicion: 1        Nombre: @cadena1           Tipo: _CteString         Typedef: frutas             Valor: manzana            Longitud: 7                  
+Posicion: 2        Nombre: valores            Tipo: _Type              Typedef: null               Valor: _Real              Longitud: null               
+Posicion: 3        Nombre: 12                 Tipo: _CteReal           Typedef: valores            Valor: 12                 Longitud: null               
+Posicion: 4        Nombre: frutals            Tipo: _Type              Typedef: null               Valor: _String            Longitud: null               
+Posicion: 5        Nombre: @cadena5           Tipo: _CteString         Typedef: frutals            Valor: manzalna           Longitud: 8                  
+Posicion: 6        Nombre: a                  Tipo: _Real              Typedef: null               Valor: inicializada       Longitud: null               
+Posicion: 7        Nombre: b                  Tipo: _Real              Typedef: null               Valor: inicializada       Longitud: null               
+Posicion: 8        Nombre: c                  Tipo: _Real              Typedef: null               Valor: inicializada       Longitud: null               
+Posicion: 9        Nombre: d                  Tipo: _Real              Typedef: null               Valor: inicializada       Longitud: null               
+Posicion: 10       Nombre: constantes         Tipo: _Real              Typedef: null               Valor: null               Longitud: null               
+Posicion: 11       Nombre: mucho              Tipo: _Real              Typedef: null               Valor: null               Longitud: null               
+Posicion: 12       Nombre: probando           Tipo: _String            Typedef: null               Valor: inicializada       Longitud: null               
+Posicion: 13       Nombre: then               Tipo: _String            Typedef: null               Valor: null               Longitud: null               
+Posicion: 14       Nombre: else               Tipo: _String            Typedef: null               Valor: null               Longitud: null               
+Posicion: 15       Nombre: repeat             Tipo: _String            Typedef: null               Valor: null               Longitud: null               
+Posicion: 16       Nombre: changuito          Tipo: frutas             Typedef: null               Valor: null               Longitud: null               
+Posicion: 17       Nombre: bolsa              Tipo: frutas             Typedef: null               Valor: null               Longitud: null               
+Posicion: 18       Nombre: carrito            Tipo: valores            Typedef: null               Valor: null               Longitud: null               
+Posicion: 19       Nombre: perro              Tipo: _Pointer           Typedef: null               Valor: null               Longitud: null               
+Posicion: 20       Nombre: gato               Tipo: _Pointer           Typedef: null               Valor: null               Longitud: null               
+Posicion: 21       Nombre: @cadena21          Tipo: _CteString         Typedef: null               Valor: 123...             Longitud: 6                  
+Posicion: 22       Nombre: 4                  Tipo: _CteReal           Typedef: null               Valor: 4                  Longitud: null               
+Posicion: 23       Nombre: 2                  Tipo: _CteReal           Typedef: null               Valor: 2                  Longitud: null               
+Posicion: 24       Nombre: 3                  Tipo: _CteReal           Typedef: null               Valor: 3                  Longitud: null               
+Posicion: 25       Nombre: @cadena25          Tipo: _CteString         Typedef: null               Valor: A > B VERDADERO    Longitud: 15                 
+Posicion: 26       Nombre: @cadena26          Tipo: _CteString         Typedef: null               Valor: C = D VERDADERO    Longitud: 15                 
+Posicion: 27       Nombre: @cadena27          Tipo: _CteString         Typedef: null               Valor: C = D FALSO        Longitud: 11                 
+Posicion: 28       Nombre: @cadena28          Tipo: _CteString         Typedef: null               Valor: A > B FALSO        Longitud: 11                 
+Posicion: 29       Nombre: @cadena29          Tipo: _CteString         Typedef: null               Valor: A != D VERDADERO   Longitud: 16                 
+Posicion: 30       Nombre: @cadena30          Tipo: _CteString         Typedef: null               Valor: A != D FALSO       Longitud: 12                 
+Posicion: 31       Nombre: 1                  Tipo: _CteReal           Typedef: null               Valor: 1                  Longitud: null               
+Posicion: 32       Nombre: 0                  Tipo: _CteReal           Typedef: null               Valor: 0                  Longitud: null               
+
+
+VECTOR POLACA
+
+Posicion: 0        Nombre: probando           Tipo: _String            
+Posicion: 1        Nombre: @cadena21          Tipo: _CteString         
+Posicion: 2        Nombre: =                  Tipo: null               
+Posicion: 3        Nombre: ;                  Tipo: null               
+Posicion: 4        Nombre: a                  Tipo: _Real              
+Posicion: 5        Nombre: 4                  Tipo: _CteReal           
+Posicion: 6        Nombre: =                  Tipo: null               
+Posicion: 7        Nombre: ;                  Tipo: null               
+Posicion: 8        Nombre: b                  Tipo: _Real              
+Posicion: 9        Nombre: 2                  Tipo: _CteReal           
+Posicion: 10       Nombre: =                  Tipo: null               
+Posicion: 11       Nombre: ;                  Tipo: null               
+Posicion: 12       Nombre: c                  Tipo: _Real              
+Posicion: 13       Nombre: 3                  Tipo: _CteReal           
+Posicion: 14       Nombre: =                  Tipo: null               
+Posicion: 15       Nombre: ;                  Tipo: null               
+Posicion: 16       Nombre: d                  Tipo: _Real              
+Posicion: 17       Nombre: 4                  Tipo: _CteReal           
+Posicion: 18       Nombre: =                  Tipo: null               
+Posicion: 19       Nombre: ;                  Tipo: null               
+Posicion: 20       Nombre: @REPEAT            Tipo: null               
+Posicion: 21       Nombre: @IF                Tipo: null               
+Posicion: 22       Nombre: a                  Tipo: _Real              
+Posicion: 23       Nombre: b                  Tipo: _Real              
+Posicion: 24       Nombre: _CMP               Tipo: null               
+Posicion: 25       Nombre: jbe                Tipo: null               
+Posicion: 26       Nombre: 54                 Tipo: null               
+Posicion: 27       Nombre: @THEN              Tipo: null               
+Posicion: 28       Nombre: @DISPLAY           Tipo: null               
+Posicion: 29       Nombre: @cadena25          Tipo: _CteString         
+Posicion: 30       Nombre: ;                  Tipo: null               
+Posicion: 31       Nombre: @IF                Tipo: null               
+Posicion: 32       Nombre: c                  Tipo: _Real              
+Posicion: 33       Nombre: d                  Tipo: _Real              
+Posicion: 34       Nombre: _CMP               Tipo: null               
+Posicion: 35       Nombre: jne                Tipo: null               
+Posicion: 36       Nombre: 43                 Tipo: null               
+Posicion: 37       Nombre: @THEN              Tipo: null               
+Posicion: 38       Nombre: @DISPLAY           Tipo: null               
+Posicion: 39       Nombre: @cadena26          Tipo: _CteString         
+Posicion: 40       Nombre: ;                  Tipo: null               
+Posicion: 41       Nombre: jmp                Tipo: null               
+Posicion: 42       Nombre: 51                 Tipo: null               
+Posicion: 43       Nombre: @ELSE              Tipo: null               
+Posicion: 44       Nombre: @DISPLAY           Tipo: null               
+Posicion: 45       Nombre: @cadena27          Tipo: _CteString         
+Posicion: 46       Nombre: ;                  Tipo: null               
+Posicion: 47       Nombre: c                  Tipo: _Real              
+Posicion: 48       Nombre: d                  Tipo: _Real              
+Posicion: 49       Nombre: =                  Tipo: null               
+Posicion: 50       Nombre: ;                  Tipo: null               
+Posicion: 51       Nombre: @ENDIF             Tipo: null               
+Posicion: 52       Nombre: jmp                Tipo: null               
+Posicion: 53       Nombre: 79                 Tipo: null               
+Posicion: 54       Nombre: @ELSE              Tipo: null               
+Posicion: 55       Nombre: @DISPLAY           Tipo: null               
+Posicion: 56       Nombre: @cadena28          Tipo: _CteString         
+Posicion: 57       Nombre: ;                  Tipo: null               
+Posicion: 58       Nombre: @IF                Tipo: null               
+Posicion: 59       Nombre: a                  Tipo: _Real              
+Posicion: 60       Nombre: d                  Tipo: _Real              
+Posicion: 61       Nombre: _CMP               Tipo: null               
+Posicion: 62       Nombre: je                 Tipo: null               
+Posicion: 63       Nombre: 74                 Tipo: null               
+Posicion: 64       Nombre: @THEN              Tipo: null               
+Posicion: 65       Nombre: @DISPLAY           Tipo: null               
+Posicion: 66       Nombre: @cadena29          Tipo: _CteString         
+Posicion: 67       Nombre: ;                  Tipo: null               
+Posicion: 68       Nombre: d                  Tipo: _Real              
+Posicion: 69       Nombre: a                  Tipo: _Real              
+Posicion: 70       Nombre: =                  Tipo: null               
+Posicion: 71       Nombre: ;                  Tipo: null               
+Posicion: 72       Nombre: jmp                Tipo: null               
+Posicion: 73       Nombre: 78                 Tipo: null               
+Posicion: 74       Nombre: @ELSE              Tipo: null               
+Posicion: 75       Nombre: @DISPLAY           Tipo: null               
+Posicion: 76       Nombre: @cadena30          Tipo: _CteString         
+Posicion: 77       Nombre: ;                  Tipo: null               
+Posicion: 78       Nombre: @ENDIF             Tipo: null               
+Posicion: 79       Nombre: @ENDIF             Tipo: null               
+Posicion: 80       Nombre: a                  Tipo: _Real              
+Posicion: 81       Nombre: a                  Tipo: _Real              
+Posicion: 82       Nombre: 1                  Tipo: _CteReal           
+Posicion: 83       Nombre: -                  Tipo: null               
+Posicion: 84       Nombre: =                  Tipo: null               
+Posicion: 85       Nombre: ;                  Tipo: null               
+Posicion: 86       Nombre: @UNTIL             Tipo: null               
+Posicion: 87       Nombre: a                  Tipo: _Real              
+Posicion: 88       Nombre: 0                  Tipo: _CteReal           
+Posicion: 89       Nombre: _CMP               Tipo: null               
+Posicion: 90       Nombre: ja                 Tipo: null               
+Posicion: 91       Nombre: 20                 Tipo: null               
+Posicion: 92       Nombre: @END REPEAT-UNTIL  Tipo: null               
