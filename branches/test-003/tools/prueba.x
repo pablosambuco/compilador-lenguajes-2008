@@ -1,7 +1,5 @@
 TYPE frutas1 AS ["manzana"];
-TYPE frutas2 AS ["manzana"];
 TYPE valores1 AS [12,13,14];
-TYPE valores2 AS [12,13,14];
 DEFVAR
 	a, b, c, d, constantes, mucho: FLOAT;
 	probando, then, else, repeat: STRING;

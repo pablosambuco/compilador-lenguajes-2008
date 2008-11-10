@@ -11,6 +11,6 @@ BEGIN
 	a=1;
 	REPEAT
 		a = a + 1;
-		DISPLAY("TENESQUELOOPEAR!!");
+		DISPLAY("tenes que loopear!!!");
 	UNTIL( a == 1 );
 END
