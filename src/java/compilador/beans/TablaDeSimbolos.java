@@ -67,9 +67,17 @@ public class TablaDeSimbolos {
 	 */
 	public int agregarCadena(String valorCadena) {
 		
-		int posicionActual = simbolos.size();
+		int posicionActual = 0;
+		Iterator<EntradaTS> iter = simbolos.iterator();
+		while(iter.hasNext()) {
+			EntradaTS entradaAux = iter.next();
+			if(entradaAux.getTipo() == TIPO_CTE_STRING && entradaAux.getValor().equals(valorCadena)){
+				return posicionActual;
+			}
+			posicionActual++;
+		}
 		
-		//creamos una entrada en la tabla de simbolos y le seteamos ciertos atributos (ya sabemos que es un STRING)
+		//creamos una entrada en la tabla de simbolos y le seteamos ciertos atributos (ya sabemos que es una CTE STRING)
 		EntradaTS entradaNueva = new EntradaTS("@cadena"+posicionActual);
 		entradaNueva.setTipo(TablaDeSimbolos.TIPO_CTE_STRING);
 		entradaNueva.setValor(valorCadena);
@@ -77,22 +85,37 @@ public class TablaDeSimbolos {
 		
 		simbolos.add(entradaNueva);
 		return posicionActual;
+
 	}
 	
-		/**
-	 * Se agrega una constante numerica a la tabla de simbolos (cualquier problema volver a la rev 98)
+	/**
+	 * Se agrega una constante a la tabla de simbolos verificando que no existiera ya una con el mismo valor.
+	 * A diferencia de los metodos anteriores, no se compara por nombre, ya que el mismo no se corresponde
+	 * con el valor de la constante
 	 */
 	public int agregarConstante(String valorConstante) {
 		
-		int posicionActual = simbolos.size();
+		int posicionActual = 0;
+		Iterator<EntradaTS> iter = simbolos.iterator();
+		while(iter.hasNext()) {
+			EntradaTS entradaAux = iter.next();
+			if(entradaAux.getTipo() == TIPO_CTE_REAL && entradaAux.getValor().equals(valorConstante)){
+				return posicionActual;
+			}
+			posicionActual++;
+		}
 		
-		//creamos una entrada en la tabla de simbolos y le seteamos ciertos atributos (ya sabemos que es un STRING)
+		//creamos una entrada en la tabla de simbolos y le seteamos ciertos atributos (ya sabemos que es una CTE REAL)
 		EntradaTS entradaNueva = new EntradaTS("@real"+posicionActual);
 		entradaNueva.setTipo(TablaDeSimbolos.TIPO_CTE_REAL);
 		entradaNueva.setValor(valorConstante);
+		entradaNueva.setLongitud(String.valueOf(valorConstante.length()));
+		
 		simbolos.add(entradaNueva);
 		return posicionActual;
+
 	}
+	
 	
 	public int agregar(String token) {
 		EntradaTS aux = new EntradaTS(token.toString());
@@ -268,14 +291,14 @@ public class TablaDeSimbolos {
 		//metemos el primer elemento en la nueva lista
 		if(iter.hasNext()) {
 			EntradaTS entradaTS = this.getEntrada(iter.next()); 
-			nuevaLista.add(new EntradaVectorPolaca(entradaTS.getValor(), entradaTS.getTipo()));
+			nuevaLista.add(new EntradaVectorPolaca(entradaTS.getNombre(), entradaTS.getTipo()));
 		}
 		
 		boolean agregarDivision = false;
 		//si hay mas elementos, los vamos agregando con un '+' al final
 		while(iter.hasNext()) {
 			EntradaTS entradaTS = this.getEntrada(iter.next()); 
-			nuevaLista.add(new EntradaVectorPolaca(entradaTS.getValor(), entradaTS.getTipo()));
+			nuevaLista.add(new EntradaVectorPolaca(entradaTS.getNombre(), entradaTS.getTipo()));
 			
 			nuevaLista.add(new EntradaVectorPolaca("+"));
 			agregarDivision = true;
@@ -285,12 +308,10 @@ public class TablaDeSimbolos {
 		if(agregarDivision) {
 
 			//el valor por el cual vamos a dividir, debe estar en tabla de simbolos porque es una constante mas
-			EntradaTS entrada = new EntradaTS(String.valueOf(listaDeNombres.size()));
-			entrada.setTipo(TablaDeSimbolos.TIPO_CTE_REAL);
-			entrada.setValor(String.valueOf(listaDeNombres.size()));
-			TablaDeSimbolos.getInstance().agregar(entrada); //si la cte ya existia, este metodo simplemente no la agrega
+			int posicion = TablaDeSimbolos.getInstance().agregarConstante(String.valueOf(listaDeNombres.size())); //si la cte ya existia, este metodo simplemente no la agrega
+			EntradaTS entradaNueva = getEntrada(posicion);
 			
-			nuevaLista.add(new EntradaVectorPolaca(entrada.getValor(), entrada.getTipo()));
+			nuevaLista.add(new EntradaVectorPolaca(entradaNueva.getNombre(), entradaNueva.getTipo()));
 			nuevaLista.add(new EntradaVectorPolaca("/"));
 		}
 		
@@ -398,16 +419,16 @@ public class TablaDeSimbolos {
 		out.append("SALTO_LINEA db\t CARRIAGE_RETURN, LINE_FEED, \'$\' \n");
 		for(int x = 0; x < simbolos.size(); x++) {
 			EntradaTS entrada = simbolos.get(x);
-			if(entrada.getTipo().equals(TIPO_CTE_REAL)) // No hacemos nada!
-				out.append("__" + entrada.getNombre().replace(".","_") + "\t dd \t " + Float.parseFloat(entrada.getValor()) + " ;Constante Real\n");
+			if(entrada.getTipo().equals(TIPO_CTE_REAL))
+				out.append(entrada.getNombre() + "\t dd \t " + Float.parseFloat(entrada.getValor()) + " ;Constante Real\n");
 			else if(getTipoNativo(entrada.getTipo()).equals(TIPO_FLOAT))
-				out.append("__" + entrada.getNombre() + "\t dd \t ?" + " ;Variable Real\n");
+				out.append("_" + entrada.getNombre() + "\t dd \t ?" + " ;Variable Real\n");
 			else if(entrada.getTipo().equals(TIPO_CTE_STRING))
-				out.append("_" + entrada.getNombre() + "\t db \t " + "\"" + entrada.getValor() + "\", \'$\', " +(TAMANIO_MAXIMO_CTE_STRING - Integer.parseInt(entrada.getLongitud())) + " dup (?) ;Constante String\n" );
+				out.append(entrada.getNombre() + "\t db \t " + "\"" + entrada.getValor() + "\", \'$\', " +(TAMANIO_MAXIMO_CTE_STRING - Integer.parseInt(entrada.getLongitud())) + " dup (?) ;Constante String\n" );
 			else if(getTipoNativo(entrada.getTipo()).equals(TIPO_STRING))
-				out.append("__" + entrada.getNombre() + "\t db \t MAXTEXTSIZE dup (?),\'$\'" + " ;Variable String\n");
+				out.append("_" + entrada.getNombre() + "\t db \t MAXTEXTSIZE dup (?),\'$\'" + " ;Variable String\n");
 			else if(getTipoNativo(entrada.getTipo()).equals(TIPO_POINTER))
-			out.append("__" + entrada.getNombre() + "\t dw \t ?" + " ;Variable Pointer (16 bits)\n");
+			out.append("_" + entrada.getNombre() + "\t dw \t ?" + " ;Variable Pointer (16 bits)\n");
 		}
 		
 		return out.toString();
