@@ -423,8 +423,10 @@ public class TablaDeSimbolos {
 				out.append(entrada.getNombre() + "\t dd \t " + Float.parseFloat(entrada.getValor()) + " ;Constante Real\n");
 			else if(getTipoNativo(entrada.getTipo()).equals(TIPO_FLOAT))
 				out.append("_" + entrada.getNombre() + "\t dd \t ?" + " ;Variable Real\n");
-			else if(entrada.getTipo().equals(TIPO_CTE_STRING))
-				out.append(entrada.getNombre() + "\t db \t " + "\"" + entrada.getValor() + "\", \'$\', " +(TAMANIO_MAXIMO_CTE_STRING - Integer.parseInt(entrada.getLongitud())) + " dup (?) ;Constante String\n" );
+			else if(entrada.getTipo().equals(TIPO_CTE_STRING)) {
+				int espacioVacio = TAMANIO_MAXIMO_CTE_STRING - Integer.parseInt(entrada.getLongitud());
+				out.append(entrada.getNombre() + "\t db \t " + "\"" + entrada.getValor() + "\", \'$\'" +( espacioVacio > 0 ? ", " + espacioVacio + " dup (?) ":"" ) + ";Constante String\n" );
+			}
 			else if(getTipoNativo(entrada.getTipo()).equals(TIPO_STRING))
 				out.append("_" + entrada.getNombre() + "\t db \t MAXTEXTSIZE dup (?),\'$\'" + " ;Variable String\n");
 			else if(getTipoNativo(entrada.getTipo()).equals(TIPO_POINTER))

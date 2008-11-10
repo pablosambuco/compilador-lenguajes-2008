@@ -2,7 +2,7 @@
 type %1.x 1>NUL 2>NUL
 IF ERRORLEVEL 1 GOTO ARCH_NO_ENCONTRADO
 cd ..\src\java 
-java compilador.parser.Parser ..\..\tools\%1 1>NUL 2>..\..\tools\%1.err
+java compilador.parser.Parser ..\..\tools\%1 2>..\..\tools\%1.err
 IF ERRORLEVEL 1 GOTO ERROR_AL_COMPILAR
 cd ..\..\tools
 
