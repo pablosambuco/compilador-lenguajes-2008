@@ -1,9 +1,8 @@
 package compilador.semantica;
 
-import compilador.parser.ParserVal;
-import compilador.parser.Parser;
-import compilador.beans.EntradaTS;
 import compilador.beans.TablaDeSimbolos;
+import compilador.parser.Parser;
+import compilador.parser.ParserVal;
 
 public class FinalizarConstante implements IRutinaSemantica {
 
@@ -14,8 +13,6 @@ public class FinalizarConstante implements IRutinaSemantica {
 			System.out.println("ERROR: Tamanio de Constante fuera de rango");
 			return Parser.ERROR_LEXICO;
 		}
-
-/* Se modifican cosas... cualquier problema volver a la rev 98 */
 		
 		yylval.ival = TablaDeSimbolos.getInstance().agregarConstante(token.toString());
 		token.delete(0,token.length());

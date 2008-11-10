@@ -299,7 +299,8 @@ public class VectorPolaca {
 					//despues de operar, el resultado queda en FPU y apilamos este "PlaceHolder"
 					pilaPolaca.push(resultadoEnFPU);
 					
-					//FIXME NOS esta trayendo problemas la optimizacion Si son constantes, optimizo
+					//FIXME NOS esta trayendo problemas la optimizacion
+					//Si son constantes, optimizo
 					/*if(aux1.getTipo() == TablaDeSimbolos.TIPO_CTE_REAL && aux2.getTipo() == TablaDeSimbolos.TIPO_CTE_REAL) {
 							pilaPolaca.push(optimizar(aux1, aux2, nombre.charAt(0)));
 						} else {
@@ -333,9 +334,9 @@ public class VectorPolaca {
 					EntradaVectorPolaca operandoLadoIzquierdo = pilaPolaca.pop();
 					
 					if(operandoLadoDerecho != resultadoEnFPU)
-						out.append("\t fld \t " + "__" + (operandoLadoDerecho.getTipo() == TablaDeSimbolos.TIPO_FLOAT ? operandoLadoDerecho.getNombre() : operandoLadoDerecho.getNombre().replace(".", "_")) + "\n");
+						out.append("\t fld \t " + (operandoLadoDerecho.getTipo() == TablaDeSimbolos.TIPO_FLOAT ? "_" + operandoLadoDerecho.getNombre() : operandoLadoDerecho.getNombre()) + "\n");
 					if(operandoLadoIzquierdo != resultadoEnFPU)
-						out.append("\t fld \t " + "__" + (operandoLadoIzquierdo.getTipo() == TablaDeSimbolos.TIPO_FLOAT ? operandoLadoIzquierdo.getNombre() : operandoLadoIzquierdo.getNombre().replace(".", "_")) + "\n");
+						out.append("\t fld \t " + (operandoLadoIzquierdo.getTipo() == TablaDeSimbolos.TIPO_FLOAT ? "_" + operandoLadoIzquierdo.getNombre() : operandoLadoIzquierdo.getNombre()) + "\n");
 					
 					out.append("\t fcompp ;Comparacion en FPU \n");
 					out.append("\t fstsw \t AX ;Guardamos el estado de la comparacion en AX \n");
@@ -362,7 +363,7 @@ public class VectorPolaca {
 				else if(nombre == "@UNTIL")
 				{} //No hace falta etiquetar el UNTIL
 				else if(nombre == "@END REPEAT-UNTIL") 
-				{} //No hace falta etiquetar el final del REPEAT
+					out.append("etiqueta_" + posicion + ": ;END REPEAT-UNTIL\n");
 			
 			/* Otros */
 				else if(nombre == "@DISPLAY") {
@@ -370,7 +371,7 @@ public class VectorPolaca {
 					posicion++;
 					String cadena= vector.get(posicion).getNombre();
 					
-					out.append("\t mov \t DX, OFFSET _" + cadena + " \n" +
+					out.append("\t mov \t DX, OFFSET " + cadena + " \n" +
 							"\t mov \t AH, 9 ;Impresion por pantalla \n" +
 							"\t int \t 21h \n" +
 							"\t mov \t DX, OFFSET SALTO_LINEA \n" +
@@ -391,11 +392,11 @@ public class VectorPolaca {
 		String out = new String();
 		//si operando izquierdo no esta en FPU lo cargo
 		if(operandoLadoIzquierdo != resultadoEnFPU) {
-			out = out + "\t fld \t " + "__" + (operandoLadoIzquierdo.getTipo() == TablaDeSimbolos.TIPO_FLOAT ? operandoLadoIzquierdo.getNombre() : operandoLadoIzquierdo.getNombre().replace(".", "_")) + "\n";
+			out = out + "\t fld \t " + (operandoLadoIzquierdo.getTipo() == TablaDeSimbolos.TIPO_FLOAT ? "_" + operandoLadoIzquierdo.getNombre() : operandoLadoIzquierdo.getNombre()) + "\n";
 		}
 		//si operando derecho no esta en FPU lo cargo
 		if(operandoLadoDerecho != resultadoEnFPU) {
-			out = out + "\t fld \t " + "__" + (operandoLadoDerecho.getTipo() == TablaDeSimbolos.TIPO_FLOAT ? operandoLadoDerecho.getNombre() : operandoLadoDerecho.getNombre().replace(".", "_")) + "\n";
+			out = out + "\t fld \t " + (operandoLadoDerecho.getTipo() == TablaDeSimbolos.TIPO_FLOAT ? "_" + operandoLadoDerecho.getNombre() : operandoLadoDerecho.getNombre()) + "\n";
 		}
 
 		//Opero
@@ -451,13 +452,13 @@ public class VectorPolaca {
 		
 		if(tipoLadoIzq.equals(TablaDeSimbolos.TIPO_FLOAT)){
 			if(tipoLadoDer == TablaDeSimbolos.TIPO_FLOAT){
-				out.append("\t mov \t eax, __" + operandoLadoDerecho.getNombre() + "\n" +
-						   "\t mov \t __" + operandoLadoIzquierdo.getNombre() + ", eax \n");
+				out.append("\t mov \t eax, _" + operandoLadoDerecho.getNombre() + "\n" +
+						   "\t mov \t _" + operandoLadoIzquierdo.getNombre() + ", eax \n");
 			} else if(tipoLadoDer == TablaDeSimbolos.TIPO_CTE_REAL){
-				out.append("\t mov \t eax," + "__" + operandoLadoDerecho.getNombre().replace(".","_") + "\n" +
-						   "\t mov \t __" + operandoLadoIzquierdo.getNombre() + ", eax \n");
+				out.append("\t mov \t eax, " + operandoLadoDerecho.getNombre() + "\n" +
+						   "\t mov \t _" + operandoLadoIzquierdo.getNombre() + ", eax \n");
 			} else if(tipoLadoDer == RESULTADO_EN_FPU){
-				out.append("\t fstp \t __" + operandoLadoIzquierdo.getNombre() + "\n");
+				out.append("\t fstp \t _" + operandoLadoIzquierdo.getNombre() + "\n");
 			}
 			
 		}
@@ -467,15 +468,15 @@ public class VectorPolaca {
 				out.append("\t mov ax,@DATA \n" +
 						   "\t mov ds,ax \n" +
 						   "\t mov es,ax \n" +
-						   "\t mov si,OFFSET __" + operandoLadoDerecho.getNombre() +" \n" +		//origen
-						   "\t mov di,OFFSET __" + operandoLadoIzquierdo.getNombre() +" \n" +	//destino
+						   "\t mov si,OFFSET _" + operandoLadoDerecho.getNombre() +" \n" +		//origen
+						   "\t mov di,OFFSET _" + operandoLadoIzquierdo.getNombre() +" \n" +	//destino
 						   "\t call COPIAR \n");
 			} else if(tipoLadoDer == TablaDeSimbolos.TIPO_CTE_STRING){
 				out.append("\t mov ax,@DATA \n" +
 						   "\t mov ds,ax \n" +
 						   "\t mov es,ax \n" +
-						   "\t mov si,OFFSET _" + operandoLadoDerecho.getNombre() +" \n" +		//origen
-						   "\t mov di,OFFSET __" + operandoLadoIzquierdo.getNombre() +" \n" +	//destino
+						   "\t mov si,OFFSET " + operandoLadoDerecho.getNombre() +" \n" +		//origen
+						   "\t mov di,OFFSET _" + operandoLadoIzquierdo.getNombre() +" \n" +	//destino
 						   "\t call COPIAR \n");
 			}
 			
@@ -483,11 +484,11 @@ public class VectorPolaca {
 		
 		if(tipoLadoIzq.equals(TablaDeSimbolos.TIPO_POINTER)){
 			if(tipoLadoDer == TablaDeSimbolos.TIPO_POINTER){
-				out.append("\t mov \t ax, __" + operandoLadoDerecho.getNombre() + "\n" +
-						   "\t mov \t __" + operandoLadoIzquierdo.getNombre() + ", ax \n");
+				out.append("\t mov \t ax, _" + operandoLadoDerecho.getNombre() + "\n" +
+						   "\t mov \t _" + operandoLadoIzquierdo.getNombre() + ", ax \n");
 			} else if(tipoLadoDer == TablaDeSimbolos.TIPO_FLOAT || tipoLadoDer == TablaDeSimbolos.TIPO_STRING) {
-				out.append("\t mov \t ax, OFFSET __" + operandoLadoDerecho.getNombre() + "\n" +
-						   "\t mov \t __" + operandoLadoIzquierdo.getNombre() + ", ax \n");
+				out.append("\t mov \t ax, OFFSET _" + operandoLadoDerecho.getNombre() + "\n" +
+						   "\t mov \t _" + operandoLadoIzquierdo.getNombre() + ", ax \n");
 			}
 			
 		}

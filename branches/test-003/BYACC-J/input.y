@@ -10,6 +10,7 @@ import compilador.sintaxis.StackAuxiliarPolaca;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.lang.String;
+@SuppressWarnings("unchecked")
 %}
 
 /* Definiciones */

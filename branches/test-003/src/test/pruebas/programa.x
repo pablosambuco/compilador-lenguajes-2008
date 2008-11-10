@@ -2,14 +2,16 @@ TYPE frutas AS ["manzana"];
 TYPE valores AS [12];
 TYPE frutals AS ["manzalna"];
 DEFVAR
-	a, b, c, d, constantes, mucho: FLOAT;
-	probando, then, else, repeat: STRING;
+	a, b, c, d, constantes: FLOAT;
+	probando, then, else, repeat, mucho: STRING;
 	changuito, bolsa: frutas;
 	carrito: valores;
 	perro, gato: POINTER;
 ENDDEF
 BEGIN
 
+	else = "oraleeee";
+	mucho = "que traes?";
 	probando = "123...";
 
     a=4;
@@ -38,15 +40,14 @@ BEGIN
 	    a = a - 1;
 	UNTIL(a > 0);    
  
-    #%
+   
     DISPLAY("MIRA NO ANDA");
     DISPLAY("MIRA@NO@ANDA");
     DISPLAY("MIRANOANDA");
     DISPLAY("MIRA$NO$ANDA");
     DISPLAY("MIRA_NO_ANDA");
     DISPLAY("MIRA.NO.ANDA");
-    %#
-    #%
+
 	probando = "manzana";
 	perro = probando;
 	
@@ -77,8 +78,7 @@ BEGIN
 	repeat = "_mandioca";
 	repeat = "_repeat";
 	changuito = "manzana";
-    %#
-	#%
+
 	#%Comiezo de IFs simples%#
 	
 	IF(a == b)	
@@ -217,5 +217,5 @@ BEGIN
 		ENDIF
 	ENDIF
 	
-	probando = 3 + AVG([234,443.1,22,768]) / AVG([43, 23, 85]);%#
+	constantes = 3 + AVG([234,443.1,22,768]) / AVG([43, 23, 85]);
 END
