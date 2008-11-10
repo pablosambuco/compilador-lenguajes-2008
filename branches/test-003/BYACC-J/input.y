@@ -170,7 +170,7 @@ cte_str: CTE_STR {$$ = new ParserVal(TS.getNombre(yylval.ival))/* Aca sí o sí ne
 		Parser par = new Parser();
 		
 		ArchivoReader archivo = ArchivoReader.getInstance();
-		archivo.abrirArhivo(args[0]);
+		archivo.abrirArhivo(args[0] + ".x");
 		par.yyparse();
 		archivo.cerrarArhivo();
 
@@ -180,14 +180,14 @@ cte_str: CTE_STR {$$ = new ParserVal(TS.getNombre(yylval.ival))/* Aca sí o sí ne
 		}
 		
 		//Creamos un archivo con la salida de la Tabla de Símbolos y el Vector Polaca
-		ArchivoWriter archivoIntermedio = new ArchivoWriter("intermedio.txt");
+		ArchivoWriter archivoIntermedio = new ArchivoWriter(args[0] + ".polaca");
 		archivoIntermedio.write("TABLA DE SIMBOLOS\n\n" + TS.toString());
 		archivoIntermedio.write("\n\nVECTOR POLACA\n\n" + vector.toString());
 		archivoIntermedio.cerrarArhivo();
 		
 		if(!TablaDeSimbolos.abortarCompilacion) {
 			//Creamos un archivo con la salida en assembler
-			ArchivoWriter archivoAssembler = new ArchivoWriter("final.asm");
+			ArchivoWriter archivoAssembler = new ArchivoWriter(args[0] + ".asm");
 			archivoAssembler.write(vector.toASM());
 			archivoAssembler.cerrarArhivo();
 

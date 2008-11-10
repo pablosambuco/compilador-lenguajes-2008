@@ -7,7 +7,7 @@ import compilador.parser.Parser;
 public class TestCompilador extends TestCase {
 
 	public void testCompilador(){
-		String []argumentos = {new String("src/test/pruebas/programa.txt")};
+		String []argumentos = {new String("src/test/pruebas/programa")};
 		Parser.main(argumentos);
 	}
 	

@@ -1,0 +1,27 @@
+En caso de que se haya modificado el archivo BYACC-J\input.y 
+hay que ejecutar "generarCompilador.bat".
+Esto ejecuta YACC y compila el codigo Java.
+
+Para compilar un archivo en nuestro lenguaje este debe 
+tener extension .X
+Para compilar un archivo en este lenguaje, ejecutar:   
+> compilar NOMBRE (sin .X)
+  
+Archivos de Salida:
+ - Notacion intermedia (Polaca Inversa) 
+    => NOMBRE.polaca
+ - Salida assembler
+    => NOMBRE.asm
+ - Salidas del ensamblador y linker
+    => NOMBRE.LST
+    => NOMBRE.MAP
+    => NOMBRE.OBJ
+    => NOMBRE.EXE (ejecutable)
+
+Para borrar todos los archivos generados, ejecutar:
+> clean NOMBRE (sin .X)
+
+Nota: Los procedimientos assembler necesarios para compilar
+      están en el archivo "lib.asm"   
+
+ 
