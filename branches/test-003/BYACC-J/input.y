@@ -101,7 +101,7 @@ de mas arriba la tome y pueda ir armando una lista de las mismas que finalmente 
 Se utiliza un ArrayList y no simplemente un String, porque las reglas 42 y 43 ya vienen con varios elementos en vez de uno solo.
 */
 factor: id {$$ = new ParserVal($1.sval); TS.verificarDeclaracion($1.sval); TS.verificarInicializacionVariable($1.sval); $$.obj = new ArrayList<String>(); ((ArrayList<String>)$$.obj).add($1.sval); imprimir("Regla 40\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca($1.sval, TS.getTipoNativo(TS.getEntrada($1.sval).getTipo())));}
-      | cte_num {$$ = new ParserVal($1.sval); $$.obj = new ArrayList<String>(); ((ArrayList<String>)$$.obj).add($1.sval); imprimir("Regla 41\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(TS.getEntrada($1.sval).getValor(), TS.getEntrada($1.sval).getTipo()));}
+      | cte_num {$$ = new ParserVal($1.sval); $$.obj = new ArrayList<String>(); ((ArrayList<String>)$$.obj).add($1.sval); imprimir("Regla 41\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca($1.sval, TS.getEntrada($1.sval).getTipo()));}
       | PAR_ABRE expresion PAR_CIERRA {$$ = new ParserVal($2.sval); $$.obj = $2.obj; imprimir("Regla 42\n" + $$.sval + "\n");}
       | average {$$ = new ParserVal($1.sval); $$.obj = new ArrayList<String>(); ((ArrayList<String>)$$.obj).addAll(listaAux) /* Agregamos todas las CTES que ya trae el average para hacer validacion de tipos despues */; imprimir("Regla 43\n" + $$.sval + "\n");}
 ;

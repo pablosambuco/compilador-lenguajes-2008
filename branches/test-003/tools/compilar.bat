@@ -6,11 +6,11 @@ java compilador.parser.Parser ..\..\tools\%1 1>NUL 2>..\..\tools\%1.err
 IF ERRORLEVEL 1 GOTO ERROR_AL_COMPILAR
 cd ..\..\tools
 
-tasm /la /zi %1.asm  1>NUL 2>%1.err
+tasm /la /zi %1.asm 1>%1.err 2>NUL
 
 IF ERRORLEVEL 1 GOTO ERROR_AL_ENSAMBLAR
 
-tlink /v %1  1>NUL 2>%1.err
+tlink /v %1 1>%1.err 2>NUL
 
 IF ERRORLEVEL 1 GOTO ERROR_AL_LINKEDITAR
 
@@ -27,12 +27,12 @@ type %1.err
 exit /b 1
 
 :ERROR_AL_ENSAMBLAR
-echo Error al compilar
+echo Error al ensamblar
 type %1.err
 exit /b 1
 
 :ERROR_AL_LINKEDITAR
-echo Error al compilar
+echo Error al linkeditar
 type %1.err
 exit /b 1
 

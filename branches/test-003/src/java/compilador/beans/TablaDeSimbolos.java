@@ -67,15 +67,7 @@ public class TablaDeSimbolos {
 	 */
 	public int agregarCadena(String valorCadena) {
 		
-		int posicionActual = 0;
-		Iterator<EntradaTS> iter = simbolos.iterator();
-		while(iter.hasNext()) {
-			EntradaTS entradaAux = iter.next();
-			if(entradaAux.getTipo() == TIPO_CTE_STRING && entradaAux.getValor().equals(valorCadena)){
-				return posicionActual;
-			}
-			posicionActual++;
-		}
+		int posicionActual = simbolos.size();
 		
 		//creamos una entrada en la tabla de simbolos y le seteamos ciertos atributos (ya sabemos que es un STRING)
 		EntradaTS entradaNueva = new EntradaTS("@cadena"+posicionActual);
@@ -85,9 +77,22 @@ public class TablaDeSimbolos {
 		
 		simbolos.add(entradaNueva);
 		return posicionActual;
-
 	}
 	
+		/**
+	 * Se agrega una constante numerica a la tabla de simbolos (cualquier problema volver a la rev 98)
+	 */
+	public int agregarConstante(String valorConstante) {
+		
+		int posicionActual = simbolos.size();
+		
+		//creamos una entrada en la tabla de simbolos y le seteamos ciertos atributos (ya sabemos que es un STRING)
+		EntradaTS entradaNueva = new EntradaTS("@real"+posicionActual);
+		entradaNueva.setTipo(TablaDeSimbolos.TIPO_CTE_REAL);
+		entradaNueva.setValor(valorConstante);
+		simbolos.add(entradaNueva);
+		return posicionActual;
+	}
 	
 	public int agregar(String token) {
 		EntradaTS aux = new EntradaTS(token.toString());

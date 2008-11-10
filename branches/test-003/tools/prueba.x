@@ -1,24 +1,26 @@
-TYPE frutas AS ["manzana"];
-TYPE valores AS [12];
-TYPE frutals AS ["manzalna"];
+TYPE frutas1 AS ["manzana"];
+TYPE frutas2 AS ["manzana"];
+TYPE valores1 AS [12,13,14];
+TYPE valores2 AS [12,13,14];
 DEFVAR
 	a, b, c, d, constantes, mucho: FLOAT;
 	probando, then, else, repeat: STRING;
-	changuito, bolsa: frutas;
-	carrito: valores;
+	changuito, bolsa: frutas1;
+	carrito: valores1;
 	perro, gato: POINTER;
 ENDDEF
 BEGIN
 
 	  probando = "123...";
-
-    a=4; #%Si no esta inicializada, no compila%#
-    b=2;
-    c=4;
-    d=4;
+    
+    a = 1; 
+    a = 1 + 2 + a; 
+    b = a - 2;
+    c = b * 2;
+    d = b / 4 + 3;
 
     REPEAT
-		IF (a>b)
+		IF (a>b) #%Si no estan inicializadas, no compila%#
 	       DISPLAY("A > B VERDADERO");
 	       IF(c==d)
 	          DISPLAY("C = D VERDADERO");
