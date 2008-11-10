@@ -7,7 +7,7 @@ public class ContinuarConstante implements IRutinaSemantica {
 
 	public int execute(char c, StringBuffer token, ParserVal yylval) {
 		
-		//TODO - Revisar. Si tomamos numeros negativos conviene guardar el módulo.
+		//TODO - Revisar. Si tomamos numeros negativos conviene guardar el modulo.
 		float num = Float.parseFloat((token.toString()));
 		
 		if( (num < TAMANIO_MINIMO_CTE || num > TAMANIO_MAXIMO_CTE) && num != 0) {

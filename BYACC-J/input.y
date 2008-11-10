@@ -26,7 +26,7 @@ programa: def_tipos def_var ejecucion  {$$ = new ParserVal($1.sval + "\n" + $2.s
 def_tipos: def_tipo {$$ = new ParserVal($1.sval); imprimir("Regla 05\n" + $$.sval + "\n");}
          | def_tipos def_tipo {$$ = new ParserVal($1.sval + "\n" + $2.sval); imprimir("Regla 06\n" + $$.sval + "\n");}
 ;
-def_tipo: TYPE id AS lista PUNTO_Y_COMA {$$ = new ParserVal("TYPE " + $2.sval + " AS " + $4.sval + ";"); TS.crearNuevoTipo($2.sval, $4.ival); TS.setTypedefs(listaAux,$2.sval) /* Tomamos la Tabla de símbolos y en el campo TYPEDEF de las variables recibidas en la lista, le seteamos el tipo creado (verificando que no exista ya) */; imprimir("Regla 07\n" + $$.sval + "\n");}
+def_tipo: TYPE id AS lista PUNTO_Y_COMA {$$ = new ParserVal("TYPE " + $2.sval + " AS " + $4.sval + ";"); TS.crearNuevoTipo($2.sval, $4.ival); TS.setTypedefs(listaAux,$2.sval) /* Tomamos la Tabla de simbolos y en el campo TYPEDEF de las variables recibidas en la lista, le seteamos el tipo creado (verificando que no exista ya) */; imprimir("Regla 07\n" + $$.sval + "\n");}
 ;
 lista: lista_num {$$ = new ParserVal($1.sval); $$.ival = CTE_NUM; imprimir("Regla 08\n" + $$.sval + "\n");}
      | lista_str {$$ = new ParserVal($1.sval); $$.ival = CTE_STR; imprimir("Regla 09\n" + $$.sval + "\n");}
@@ -43,17 +43,17 @@ lis_str_c: cte_str {$$ = new ParserVal($1.sval); listaAux = new ArrayList<String
 ;
 def_var: DEFVAR lista_var ENDDEF {$$ = new ParserVal("DEFVAR\n" + $2.sval + "\nENDDEF"); imprimir("Regla 16\n" + $$.sval + "\n");}
 ;
-lista_var: lista_ids DOS_PUNTOS tipo PUNTO_Y_COMA {$$ = new ParserVal($1.sval + ":" + $3.sval + ";"); TS.setTipos(listaAux,$3.sval) /* Tomamos la Tabla de símbolos y en el campo Tipo de los IDs recibidos en la lista, le seteamos el tipo */; imprimir("Regla 17\n" + $$.sval + "\n");}
-         | lista_var lista_ids DOS_PUNTOS tipo PUNTO_Y_COMA {$$ = new ParserVal($1.sval + "\n" + $2.sval + ":" + $4.sval + ";"); TS.setTipos(listaAux,$4.sval) /* Tomamos la Tabla de símbolos y en el campo Tipo de los IDs recibidos en la lista, le seteamos el tipo */; imprimir("Regla 18\n" + $$.sval + "\n");}
+lista_var: lista_ids DOS_PUNTOS tipo PUNTO_Y_COMA {$$ = new ParserVal($1.sval + ":" + $3.sval + ";"); TS.setTipos(listaAux,$3.sval) /* Tomamos la Tabla de simbolos y en el campo Tipo de los IDs recibidos en la lista, le seteamos el tipo */; imprimir("Regla 17\n" + $$.sval + "\n");}
+         | lista_var lista_ids DOS_PUNTOS tipo PUNTO_Y_COMA {$$ = new ParserVal($1.sval + "\n" + $2.sval + ":" + $4.sval + ";"); TS.setTipos(listaAux,$4.sval) /* Tomamos la Tabla de simbolos y en el campo Tipo de los IDs recibidos en la lista, le seteamos el tipo */; imprimir("Regla 18\n" + $$.sval + "\n");}
 ;
 lista_ids: id {$$ = new ParserVal($1.sval); listaAux = new ArrayList<String>(); listaAux.add($1.sval) /* Vamos agregando los IDs en una lista para usarlos mas arriba */; imprimir("Regla 19\n" + $$.sval + "\n");}
          | lista_ids COMA id {$$ = new ParserVal($1.sval + "," + $3.sval); listaAux.add($3.sval) /*Esta regla siempre se ejecuta despues que la de arriba, por eso el ArrayList ya fue instanciado con new */; imprimir("Regla 20\n" + $$.sval + "\n");}
 ;
 
 /**
-En esta seccion se verifica que para instanciar variables sólo se puedan utilizar tipos que fueron previamente
-definidos haciendo uso de TYPE (además de los ya soportados por el lenguaje, pero eso es checkeado automáticamente
-por la gramática).
+En esta seccion se verifica que para instanciar variables solo se puedan utilizar tipos que fueron previamente
+definidos haciendo uso de TYPE (ademas de los ya soportados por el lenguaje, pero eso es checkeado automaticamente
+por la gramatica).
 */
 tipo: FLOAT {$$ = new ParserVal(TablaDeSimbolos.TIPO_FLOAT); imprimir("Regla 21\n" + $$.sval + "\n");}
     | STRING {$$ = new ParserVal(TablaDeSimbolos.TIPO_STRING); imprimir("Regla 22\n" + $$.sval + "\n");}
@@ -73,16 +73,16 @@ sentencia: asignacion {$$ = new ParserVal($1.sval); imprimir("Regla 29\n" + $$.s
 ;
 
 /**
-En esta sección se verifica que el ID del lado izquierdo haya sido declarado previamente y que los tipos en la asignacion coincidan.
-Para realizar esto último, se recibe una lista de Tokens que intervienen en la operacion (IDs, Ctes. Numericas y la sentencia AVG).
-Si la lista contiene solamente ID, entonces se verificará que el tipo izquierdo coincida con el derecho. Si hay más de un Token
-en la lista, debemos verificar que todos los IDs que aparezcan sean constantes FLOAT, ya que solo se permiten expresiones numéricas
+En esta seccion se verifica que el ID del lado izquierdo haya sido declarado previamente y que los tipos en la asignacion coincidan.
+Para realizar esto ultimo, se recibe una lista de Tokens que intervienen en la operacion (IDs, Ctes. Numericas y la sentencia AVG).
+Si la lista contiene solamente ID, entonces se verificara que el tipo izquierdo coincida con el derecho. Si hay mas de un Token
+en la lista, debemos verificar que todos los IDs que aparezcan sean constantes FLOAT, ya que solo se permiten expresiones numericas
 en el lenguaje.
 */
 asignacion: id OP_ASIG expresion PUNTO_Y_COMA {$$ = new ParserVal($1.sval + " " + $3.sval + " = " + ";"); TS.verificarDeclaracion($1.sval); TS.inicializarVariable($1.sval); TS.verificarAsignacion($1.sval, (ArrayList<String>)$3.obj); imprimir("Regla 33\n" + $$.sval + "\n"); vector.agregar(new EntradaVectorPolaca($1.sval, TS.getTipoNativo(TS.getEntrada($1.sval).getTipo()))); vector.moverLista(listaAuxPolaca);vector.agregar(new EntradaVectorPolaca("="));vector.agregar(new EntradaVectorPolaca(";"));}
 ;
 /**
-Este tipo de asignación a una Constante String existe para que se puedan realizar asignaciones a tipos definidos con TYPE. Ej: var1 = "EUR"; (donde var1 es del tipo "moneda" el cual tiene entre su lista de valores posibles la palabra "EUR")
+Este tipo de asignacion a una Constante String existe para que se puedan realizar asignaciones a tipos definidos con TYPE. Ej: var1 = "EUR"; (donde var1 es del tipo "moneda" el cual tiene entre su lista de valores posibles la palabra "EUR")
 */
 asignacion: id OP_ASIG cte_str PUNTO_Y_COMA {$$ = new ParserVal($1.sval + " " + $3.sval + " = " + ";"); TS.verificarDeclaracion($1.sval); TS.inicializarVariable($1.sval); listaAux = new ArrayList<String>(); listaAux.add($3.sval); TS.verificarAsignacion($1.sval, listaAux); imprimir("Regla 33\n" + $$.sval + "\n"); vector.agregar(new EntradaVectorPolaca($1.sval, TS.getTipoNativo(TS.getEntrada($1.sval).getTipo()))); vector.agregar(new EntradaVectorPolaca($3.sval, TS.getEntrada($3.sval).getTipo())); vector.agregar(new EntradaVectorPolaca("="));vector.agregar(new EntradaVectorPolaca(";"));}
 ;
@@ -95,9 +95,9 @@ termino: factor {$$ = new ParserVal($1.sval); $$.obj = new ArrayList<String>(); 
        | termino OP_DIV factor {$$ = new ParserVal($1.sval + " " + $3.sval + " /"); $$.obj = $1.obj; ((ArrayList<String>)$$.obj).addAll((Collection)$3.obj); imprimir("Regla 39\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca("/"));}
 ;
 /**
-En esta sección se verificará que cualquier ID que se use en una expresion haya sido instanciado antes
-Por otro lado, se seteará en el $$.obj un ArrayList de Strings con el ID o la constante utilizada, para que la regla
-de más arriba la tome y pueda ir armando una lista de las mismas que finalmente se evaluarán en la asignacion.
+En esta seccion se verificara que cualquier ID que se use en una expresion haya sido instanciado antes
+Por otro lado, se seteara en el $$.obj un ArrayList de Strings con el ID o la constante utilizada, para que la regla
+de mas arriba la tome y pueda ir armando una lista de las mismas que finalmente se evaluaran en la asignacion.
 Se utiliza un ArrayList y no simplemente un String, porque las reglas 42 y 43 ya vienen con varios elementos en vez de uno solo.
 */
 factor: id {$$ = new ParserVal($1.sval); TS.verificarDeclaracion($1.sval); TS.verificarInicializacionVariable($1.sval); $$.obj = new ArrayList<String>(); ((ArrayList<String>)$$.obj).add($1.sval); imprimir("Regla 40\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca($1.sval, TS.getTipoNativo(TS.getEntrada($1.sval).getTipo())));}
@@ -108,9 +108,9 @@ factor: id {$$ = new ParserVal($1.sval); TS.verificarDeclaracion($1.sval); TS.ve
 condicional: IF PAR_ABRE condicion PAR_CIERRA {vector.agregar(new EntradaVectorPolaca("@IF")); vector.moverCondicionIF(listaAuxPolaca); vector.agregar(new EntradaVectorPolaca("@THEN"));} sentenciasCondicional ENDIF {$$ = new ParserVal("IF(" + $3.sval + ")\n" + $6.sval + "\nENDIF"); imprimir("Reglas 44 y 45\n" + $$.sval + "\n");vector.agregar(new EntradaVectorPolaca("@ENDIF"));}
 ;
 sentenciasCondicional: sentencias {$$ = new ParserVal($1.sval); vector.resolverSaltos(vector.getPosicionActual(), stack.pop()) /* Al final del THEN (el ENDIF) es donde van a saltar todas las condiciones de este IF que se encuentren en la pila. Si hay una o dos condiciones, eso lo sabemos por el valor que sacamos del stack y que fue puesto en 'moverCondicionIF()'*/;}
-	 				 | sentencias {vector.agregar(new EntradaVectorPolaca(VectorPolaca.SIEMPRE)); vector.resolverSaltos(vector.getPosicionActual() + 1, stack.pop());/* Al comienzo del ELSE (posicion actual del vector + 1 debido al casillero de direccion) es donde van a saltar todas las condiciones de este IF que se encuentren en la pila. Si hay una o dos condiciones, eso lo sabemos por el valor que sacamos del stack y que fue puesto en 'moverCondicionIF()'*/ ; stack.push(vector.getPosicionActual())/*Apilamos el casillero para direccion de salto que está al final de este bloque (THEN) */; vector.agregar(new EntradaVectorPolaca("DIRECCION")); vector.agregar(new EntradaVectorPolaca("@ELSE"));} ELSE sentencias {$$ = new ParserVal($1.sval + "\nELSE\n" + $4.sval); vector.agregar((new EntradaVectorPolaca(String.valueOf(vector.getPosicionActual()))), stack.pop()); /*En el casillero que está al final del THEN, le seteamos la direccion del ENDIF*/}
+	 				 | sentencias {vector.agregar(new EntradaVectorPolaca(VectorPolaca.SIEMPRE)); vector.resolverSaltos(vector.getPosicionActual() + 1, stack.pop());/* Al comienzo del ELSE (posicion actual del vector + 1 debido al casillero de direccion) es donde van a saltar todas las condiciones de este IF que se encuentren en la pila. Si hay una o dos condiciones, eso lo sabemos por el valor que sacamos del stack y que fue puesto en 'moverCondicionIF()'*/ ; stack.push(vector.getPosicionActual())/*Apilamos el casillero para direccion de salto que esta al final de este bloque (THEN) */; vector.agregar(new EntradaVectorPolaca("DIRECCION")); vector.agregar(new EntradaVectorPolaca("@ELSE"));} ELSE sentencias {$$ = new ParserVal($1.sval + "\nELSE\n" + $4.sval); vector.agregar((new EntradaVectorPolaca(String.valueOf(vector.getPosicionActual()))), stack.pop()); /*En el casillero que esta al final del THEN, le seteamos la direccion del ENDIF*/}
 ;
-condicion: comparacion {$$ = new ParserVal($1.sval); imprimir("Regla 46\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.SIMPLE)); /*Lo agregamos para mantener un estándar y que sea igual a los otros casos*/}
+condicion: comparacion {$$ = new ParserVal($1.sval); imprimir("Regla 46\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.SIMPLE)); /*Lo agregamos para mantener un estandar y que sea igual a los otros casos*/}
          | OP_NEGACION PAR_ABRE comparacion PAR_CIERRA {$$ = new ParserVal($3.sval + " _NEGACION"); imprimir("Regla 47\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.NEGACION));}
          | comparacion AND comparacion {$$ = new ParserVal($1.sval + " " + $3.sval + " _AND"); imprimir("Regla 48\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.AND));}
          | comparacion OR comparacion {$$ = new ParserVal($1.sval + " " + $3.sval + " _OR"); imprimir("Regla 49\n" + $$.sval + "\n"); listaAuxPolaca.add(new EntradaVectorPolaca(VectorPolaca.OR));}
@@ -130,9 +130,9 @@ average: AVG PAR_ABRE lista_num PAR_CIERRA {$$ = new ParserVal("AVG(" + $3.sval 
 ;
 id: ID {$$ = new ParserVal(TS.getNombre(yylval.ival)); imprimir("Regla 59\n" + $$.sval + "\n");}
 ;
-cte_num: CTE_NUM {$$ = new ParserVal(TS.getNombre(yylval.ival))/* Aca sí o sí necesitamos sacar el nombre y no el valor (aunque aparezcan con un "_"), sino las reglas de mas arriba nunca las van a encontrar en TS */; imprimir("Regla 60\n" + $$.sval + "\n");}
+cte_num: CTE_NUM {$$ = new ParserVal(TS.getNombre(yylval.ival))/* Aca si o si necesitamos sacar el nombre y no el valor (aunque aparezcan con un "_"), sino las reglas de mas arriba nunca las van a encontrar en TS */; imprimir("Regla 60\n" + $$.sval + "\n");}
 ;
-cte_str: CTE_STR {$$ = new ParserVal(TS.getNombre(yylval.ival))/* Aca sí o sí necesitamos sacar el nombre y no el valor (aunque aparezcan con un "_"), sino las reglas de mas arriba nunca las van a encontrar en TS */; imprimir("Regla 61\n" + $$.sval + "\n");}
+cte_str: CTE_STR {$$ = new ParserVal(TS.getNombre(yylval.ival))/* Aca si o si necesitamos sacar el nombre y no el valor (aunque aparezcan con un "_"), sino las reglas de mas arriba nunca las van a encontrar en TS */; imprimir("Regla 61\n" + $$.sval + "\n");}
 ;
 
 %%
@@ -149,7 +149,7 @@ cte_str: CTE_STR {$$ = new ParserVal(TS.getNombre(yylval.ival))/* Aca sí o sí ne
 	
 	public static ArrayList<String> listaAux = null;
 
-	//Esta lista ya está instanciada y cada elemento que se agrega es luego tomado por la regla correspondiente, por ende nunca contiene basura
+	//Esta lista ya esta instanciada y cada elemento que se agrega es luego tomado por la regla correspondiente, por ende nunca contiene basura
 	public static ArrayList<EntradaVectorPolaca> listaAuxPolaca = new ArrayList<EntradaVectorPolaca>();
 
 	//lo habilitamos o deshabilitamos para debuggear
@@ -175,11 +175,11 @@ cte_str: CTE_STR {$$ = new ParserVal(TS.getNombre(yylval.ival))/* Aca sí o sí ne
 		archivo.cerrarArhivo();
 
 		if(par.yyerrflag != 0) {
-			System.err.println("Se ha producido un error en el Parser. Abortando compilación...");
-			System.exit(-1);
+			System.err.println("Se ha producido un error en el Parser. Abortando compilacion...");
+			System.exit(1);
 		}
 		
-		//Creamos un archivo con la salida de la Tabla de Símbolos y el Vector Polaca
+		//Creamos un archivo con la salida de la Tabla de Simbolos y el Vector Polaca
 		ArchivoWriter archivoIntermedio = new ArchivoWriter(args[0] + ".polaca");
 		archivoIntermedio.write("TABLA DE SIMBOLOS\n\n" + TS.toString());
 		archivoIntermedio.write("\n\nVECTOR POLACA\n\n" + vector.toString());
@@ -192,8 +192,8 @@ cte_str: CTE_STR {$$ = new ParserVal(TS.getNombre(yylval.ival))/* Aca sí o sí ne
 			archivoAssembler.cerrarArhivo();
 
 		} else {
-			System.err.println("\n\nSe ha producido un error en la generación de código intermedio. Abortando compilación...");
-			System.exit(-1);
+			System.err.println("\n\nSe ha producido un error en la generacion de codigo intermedio. Abortando compilacion...");
+			System.exit(1);
 		}
 		
 		//System.out.println("\n\nTABLA DE SIMBOLOS\n\n" + TS.toString());

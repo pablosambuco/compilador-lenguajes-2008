@@ -5,4 +5,4 @@ Los archivos generados, tirarlos en /src/java/compilador/parser
 
 
 Modificando el input.y se puede hacer que ejecute alguna sentencia (semantica) 
-Por ahora sólo comenta más o menos qué es lo que estamos haciendo
+Por ahora solo comenta mas o menos que es lo que estamos haciendo

@@ -2,15 +2,15 @@
 type %1.x 1>NUL 2>NUL
 IF ERRORLEVEL 1 GOTO ARCH_NO_ENCONTRADO
 cd ..\src\java 
-java compilador.parser.Parser ..\..\tools\%1
-cd ..\..\tools
+java compilador.parser.Parser ..\..\tools\%1 1>NUL 2>..\..\tools\%1.err
 IF ERRORLEVEL 1 GOTO ERROR_AL_COMPILAR
+cd ..\..\tools
 
-tasm /la /zi %1.asm
+tasm /la /zi %1.asm  1>NUL 2>%1.err
 
 IF ERRORLEVEL 1 GOTO ERROR_AL_ENSAMBLAR
 
-tlink /v %1
+tlink /v %1  1>NUL 2>%1.err
 
 IF ERRORLEVEL 1 GOTO ERROR_AL_LINKEDITAR
 
@@ -21,18 +21,23 @@ echo No se pudo encontrar el archivo %1.x
 exit /b 1
 
 :ERROR_AL_COMPILAR
-echo Error al compilar
+cd ..\..\tools
+echo Error al compilar.
+type %1.err
 exit /b 1
 
 :ERROR_AL_ENSAMBLAR
 echo Error al compilar
+type %1.err
 exit /b 1
 
 :ERROR_AL_LINKEDITAR
 echo Error al compilar
+type %1.err
 exit /b 1
 
 :COMPILA_OK
 echo Compilacion exitosa. 
 echo Ejecutar el programa con %1.exe
+del %1.err
 exit /b 0
