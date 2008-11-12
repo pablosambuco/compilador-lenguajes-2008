@@ -398,9 +398,8 @@ public class TablaDeSimbolos {
 				"Nombre: " + actual.getNombre()   + "                    ".substring(actual.getNombre() != null ? actual.getNombre().length() : 4) +
 				"Tipo: " + actual.getTipo()       + "                    ".substring(actual.getTipo() != null ? actual.getTipo().length() : 4) +
 				"Typedef: " + actual.getTypedef() + "                    ".substring(actual.getTypedef() != null ? actual.getTypedef().length() : 4) +
-				"Valor: " + actual.getValor()     + "                               ".substring(actual.getValor() != null ? actual.getValor().length() : 4) +
 				"Longitud: "+actual.getLongitud() + "                    ".substring(actual.getLongitud() != null ? actual.getLongitud().length() : 4) +
-				"\n");
+				"Valor: " + actual.getValor()     + "\n");
 		}
 		return out.toString();
 	}
